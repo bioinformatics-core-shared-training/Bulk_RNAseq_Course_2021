@@ -72,12 +72,12 @@ Note that the output directory must already exist, FastQC will not create it.
 >    `mkdir QC`
 >
 > 4. Run fastqc on one of the fastqs:  
->    `fastqc -t 7 fastq/SRR7657883.sra_1.fastq.gz`
+>    `fastqc fastq/SRR7657883.sra_1.fastq.gz`
 >
 > 5. The previous command has written the report to the **fastq** directory -
 >    the default behaviour for fastqc. We want it in the **QC** directory. 
 >       a) Use the `rm` (remove) command to delete the report:   
->          `rm fastq/SRR7657883.sra_1.fastq.gz`  
+>          `rm SRR7657883.sra_1_fastqc.html`  
 >       b) Also delete the associated zip file (this contains all the figures
 >       and data tables for the report)
 >
