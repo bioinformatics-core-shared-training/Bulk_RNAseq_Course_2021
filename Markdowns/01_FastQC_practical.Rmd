@@ -1,6 +1,5 @@
 ---
 title: "RNA-seq analysis in R"
-author: "Stephane Ballereau, Dominique-Laurent Couturier, Abbi Edwards, Ashley Sawle"
 subtitle: QC of raw reads with FastQC
 ---
 
@@ -30,11 +29,11 @@ The **Usage** is:
            [-c contaminant file] seqfile1 .. seqfileN
 ```
 
-The simplest way to use it is just to type `fastqc` followed by all the sequence files
-that you wish to QC. It will then run through as many files as you provide generaing
-a report for each one.
+The simplest way to use it is just to type `fastqc` followed by all the sequence 
+files that you wish to QC. It will then run through as many files as you provide 
+generating a report for each one.
 
-There are many additional options that you can provide to modify the behavoiour
+There are many additional options that you can provide to modify the behaviour
 of the programme. The most common one is `-o output_directory`. By default the
 report is written to the same directory as the fastqc file, however, if you
 would like to gather the QC in a different directory, you can specify this
@@ -65,23 +64,29 @@ Note that the output directory must already exist, FastQC will not create it.
 >    called **fastq**    
 >       b) Use `ls` to list the contents of the **fastq** directory:  
 >    `ls fastq`
+>          You should see two fastq files. These are the files for read 1 and 
+>          read 2 of one of the samples we will be working with.
 >
 > 3. Create a new directory for the QC results called **QC** using the `mkdir`
 >    command:  
-> `mkdir QC`
+>    `mkdir QC`
 >
-> 4. Run fastqc on one of our samples:  
-> `fastqc fastq/MCL1.DL.fastq.gz`
+> 4. Run fastqc on one of the fastqs:  
+>    `fastqc fastq/SRR7657883.sra_1.fastq.gz`
 >
 > 5. The previous command has written the report to the **fastq** directory -
 >    the default behaviour for fastqc. We want it in the **QC** directory. 
 >       a) Use the `rm` (remove) command to delete the report:   
->          `rm fastq/MCL1.DL_fastqc.html`  
+>          `rm SRR7657883.sra_1_fastqc.html`  
 >       b) Also delete the associated zip file (this contains all the figures
 >       and data tables for the report)
 >
-> 6. Run the FastQC again, but this time try to use the `-o` option to have
->    the report written to the **QC** directory.
+> 6. Run the FastQC again, but this time:
+>       a) have fastqc analyses both at the same time. You will need to add 
+>          `-t 2` before the sequence file names. See `fastqc --help` to find 
+           out about this option.
+>       b) try to use the `-o` option to have the reports written to the **QC** 
+>          directory.
 >  
 > 7. Open the html report in a browser and see if you can answer these questions:  
 >           A) What is the read length?  
