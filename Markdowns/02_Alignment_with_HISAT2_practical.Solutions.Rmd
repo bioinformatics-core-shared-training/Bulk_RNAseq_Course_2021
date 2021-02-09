@@ -66,8 +66,8 @@ So in this case we have `mmu.GRCm38.1.ht2` to `mmu.GRCm38.8.ht2`.
 >
 > ```
 > hisat2 -x references/hisat2_index/mmu.GRCm38 \
->        -m1 fastq/SRR7657883.sra_1.fastq.gz \
->        -m2 fastq/SRR7657883.sra_2.fastq.gz \
+>        -1 fastq/SRR7657883.sra_1.fastq.gz \
+>        -2 fastq/SRR7657883.sra_2.fastq.gz \
 >        -S bam/SRR7657883.sam \
 >        -p 7 \
 >        -t
