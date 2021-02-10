@@ -79,3 +79,18 @@ We have generated salmon quantification results for all samples in `salmon`.
 ```
 multiqc -z -n Salmon_quantification_report -o salmon salmon
 ```
+
+
+## Exercise 4 - Make transcript to gene table
+
+We need this to summarise the quantification to gene level when loading into R
+
+```
+echo -e "TxID\tGeneID" > salmon_output/tx2gene.tsv
+zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz | 
+  grep "^>" |
+  tr ' ' '\t' |
+  cut -f 1,4 |
+  sed -e 's/^>//' -e 's/gene://' -e 's/\.[0-9]*$//' \
+  >> salmon_output/tx2gene.tsv
+```
