@@ -1,0 +1,81 @@
+---
+title: "RNA-seq analysis in R"
+subtitle: "Quantification of Gene Expression with Salmon"
+output: html_document
+---
+
+# Build Index
+
+https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/
+to create full decoy index.
+
+This takes too long with the full transcriptome so we have transcriptome for 
+just genes on Chromosome 1. We also need to include the genomic reference as 
+decoy, so we also have this with only Chr 1.
+
+Full transcriptome downloaded from ensembl:
+
+```
+ensURL=ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus
+wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz
+```
+
+## Exercise 1 - Create Salmon index
+
+chr1 files:
+* references/Mus_musculus.GRCm38.cdna.chr1.fa.gz
+* references/Mus_musculus.GRCm38.dna_sm.chr1.fa.gz
+
+> 1. Create decoy sequence list from the genomic fasta
+```
+zcat references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz | 
+    grep "^>" |
+    cut -f 1 -d ' ' | 
+    sed 's/>//g' \
+    > references/decoys.txt
+```
+> Check the contents
+```
+cat references/decoys.txt 
+```
+> 2. Create concatenated trancriptome/genome reference file
+```
+cat references/Mus_musculus.GRCm38.cdna.chr14.fa.gz \
+    references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz \
+    > references/gentrome.chr14.fa.gz
+```
+> 3. Create index - need to mention the kmer, but default is fine here
+```
+salmon index \
+    -t references/gentrome.chr14.fa.gz \
+    -d references/decoys.txt \
+    -p 7 \
+    -i references/salmon_index_chr14
+```
+
+## Exercise 2 - Quantify with Salmon
+
+We can use the full index here. Just one sample - we'll provide results for all 
+samples.
+
+> 1. Run quantification on the fastq
+```
+mkdir salmon_output
+salmon quant \
+    -p 7 \
+    -i references/salmon_index \
+    --gcBias \
+    -l A \
+    -1 fastq/SRR7657883.sra_1.fastq.gz \
+    -2 fastq/SRR7657883.sra_2.fastq.gz \
+    -o salmon_output/SRR7657883
+```
+
+## Exercise 3 - Run multiqc
+
+We have generated salmon quantification results for all samples in `salmon`.
+
+> 1. Run multiqc
+```
+multiqc -z -n Salmon_quantification_report -o salmon salmon
+```
