@@ -120,6 +120,35 @@ genomic reference.
 >     * REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa
 >
 
+### 2.2 Insert Size metrics
+
+Next we will collect XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+`CollectInsertSizeMetrics` tool. In this case we need to provide an
+input bam, the name of the output metrics file and XXXXXXXXXXXXXXXXXXXX
+
+> 1. Run Picard's `CollectInsertSizeMetrics` tool on the chr1 sorted bam 
+>    providing the following options.
+>     * INPUT - The sorted chr 1 only bam file
+>     * OUTPUT - bam/SRR7657883.chr1.insert_size.txt
+>     * HISTOGRAM - bam/SRR7657883.chr1.insert_size.pdf
+>     * REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa
+>
+CollectInsertSizeMetrics \
+      I=${InpFil} \
+      O=${outTab} \
+      H=${outPdf} \
+      VALIDATION_STRINGENCY=SILENT
+
+
+### Exercise 2.2
+
+> 1. Run Picard's `CollectAlignmentSummaryMetrics` tool on the chr1 sorted bam 
+>    providing the following options.
+>     * INPUT - The sorted chr 1 only bam file
+>     * OUTPUT - bam/SRR7657883.chr1.alignment_metrics.txt
+>     * REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa
+>
+
 
 ### 2.3 RNA alignment metrics
 
