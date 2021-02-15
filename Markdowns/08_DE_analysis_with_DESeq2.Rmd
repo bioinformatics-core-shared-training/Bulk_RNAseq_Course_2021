@@ -74,6 +74,9 @@ modelMatrix <- model.matrix(simple.model, data = sampleinfo)
 modelMatrix
 ```
 
+
+**Can we come up with different categories so that the intercept defaults to the infected samples?**
+
 It would be nice if `virgin` were the base line/intercept. To get R to 
 use `virgin` as the intercept we need to use a `factor`. Let's set factor levels
 on Status to use virgin as the intercept.
@@ -296,6 +299,7 @@ virgin". Let's have a look at the model matrix to understand why `DESeq2` has
 given us this particular contrast.
 
 ```{r viewModelMatrix}
+modelMatrix <- model.matrix(additive.model, data = sampleinfo)
 modelMatrix
 ```
 
@@ -442,8 +446,6 @@ We can see that for `r sum(resCvCS$padj < 0.05, na.rm=TRUE)` genes the more
 complex model does fit the data better. This would suggest that we should be
 including both terms in the linear model.
 
-XXXXXXXXXXXX AAAAAAAAAAARRRGHHHH THAT DOESN'T DEMO WHAT WE WANT !!!!!!! XXXXXXXXXXXXXXXX
-
 Although we have a result for each gene, in practice we should choose one model 
 or the other and apply it to all genes.
 
@@ -484,6 +486,7 @@ or the other and apply it to all genes.
 >    If not, why and how would you change it?   
 >
 
+#### **Interactive v Additive ***
 
 #```{r eval=FALSE, echo=FALSE, include=FALSE}
 ```{r eval=TRUE, echo=TRUE, include=TRUE}
@@ -493,26 +496,64 @@ ddsObj2.raw <- DESeqDataSetFromTximport(txi = txi,
                                       design = interactive.model)
 keep <- rowSums(counts(ddsObj2.raw)) > 5
 ddsObj2.filt <- ddsObj2.raw[keep,]
-ddsObj2 <- DESeq(ddsObj2.filt)
+ddsObj.interaction <- DESeq(ddsObj2.filt)
 
 # Compare the two designs
-ddsObjC2 <- DESeq(ddsObj2, test="LRT", reduced=additive.model)
-resCSvCxS <- results(ddsObjC2)
-table(resCSvCxS$padj < 0.05)
-
-# Compare the two designs
-ddsObjC2 <- DESeq(ddsObj2, test="LRT", reduced=simple.model)
+ddsObjC2 <- DESeq(ddsObj.interaction, test="LRT", reduced=additive.model)
 resCSvCxS <- results(ddsObjC2)
 table(resCSvCxS$padj < 0.05)
 ```
 
 
+#### **Interactive v SIMPLE - is this valid with the LRT???? ***
 
+```{r}
+# Compare the two designs
+ddsObjC2 <- DESeq(ddsObj.interaction, test="LRT", reduced=simple.model)
+resCSvCxS <- results(ddsObjC2)
+table(resCSvCxS$padj < 0.05)
+```
+
+## Extracting specific contrasts from an interactive model
+
+```{r}
+results.interaction.11 <- results(ddsObj.interaction, 
+                                  name="Group_Test_vs_Control",
+                                  alpha=0.05)
+results.interaction.33 <- results(ddsObj.interaction, 
+          contrast = list(c("Group_Test_vs_Control", "TimePointd33.GroupTest")),
+                                  alpha=0.05)
+```
+
+Number of genes with padj < 0.05 for Test v Control at day 11:
+
+```{r}
+sum(results.interaction.11$padj < 0.05, na.rm = TRUE)
+```
+
+Number of genes with padj < 0.05 for Test v Control at day 33:
+
+```{r}
+sum(results.interaction.33$padj < 0.05, na.rm = TRUE)
+```
 
 ## Finally save the results in a new RData object
 
 ```{r saveObjects, eval=FALSE}
-save(resLvV, ddsObj, sampleinfo, file="results/DE.RData")
+save(results.interaction.11, 
+     results.interaction.33, 
+     ddsObj.interaction, 
+     sampleinfo, 
+     file="results/DGE_analysis_results.RData")
+```
+
+
+```{r saveObjects, echo=FALSE}
+save(results.interaction.11, 
+     results.interaction.33, 
+     ddsObj.interaction, 
+     sampleinfo, 
+     file="RObjects//DGE_analysis_results.RData")
 ```
 
 --------------------
