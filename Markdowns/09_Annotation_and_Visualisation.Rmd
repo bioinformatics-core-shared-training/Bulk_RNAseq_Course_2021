@@ -18,7 +18,9 @@ Before starting this section, we will make sure we have all the relevant objects
 from the Differential Expression analysis.
 
 ```{r loadData}
-load("RObjects/DGE_analysis_results.RData")
+ddsObj.interaction <- readRDS("RObjects/DESeqDataSet.interaction.rds")
+results.interaction.11 <- readRDS("RObjects/DESeqResults.interaction_d11.rds")
+results.interaction.33 <- readRDS("RObjects/DESeqResults.interaction_d33.rds")
 ```
 
 # Overview
@@ -62,7 +64,6 @@ results table
 
 
 ```{r queryOrgDb, message=F}
-
 # what can we search for? 'columns'
 columns(EnsDb.Mmusculus.v79)
 
