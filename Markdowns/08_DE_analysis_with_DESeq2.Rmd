@@ -537,24 +537,18 @@ Number of genes with padj < 0.05 for Test v Control at day 33:
 sum(results.interaction.33$padj < 0.05, na.rm = TRUE)
 ```
 
-## Finally save the results in a new RData object
+## Save the results
+
+Finally save the corrected sample metadata, the DESeq2 dataset, and the two 
+DESeq2 results objects.
 
 ```{r saveObjects, eval=FALSE}
-save(results.interaction.11, 
-     results.interaction.33, 
-     ddsObj.interaction, 
-     sampleinfo, 
-     file="results/DGE_analysis_results.RData")
+write_tsv(sampleinfo, "results/samplesheet_corrected.tsv")
+saveRDS(ddsObj.interaction, "results/DESeqDataSet.interaction.rds")
+saveRDS(results.interaction.11, "results/DESeqResults.interaction_d11.rds")
+saveRDS(results.interaction.33, "results/DESeqResults.interaction_d33.rds")
 ```
 
-
-```{r saveObjects, echo=FALSE}
-save(results.interaction.11, 
-     results.interaction.33, 
-     ddsObj.interaction, 
-     sampleinfo, 
-     file="RObjects//DGE_analysis_results.RData")
-```
 
 --------------------
 
