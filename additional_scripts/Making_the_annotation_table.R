@@ -42,9 +42,9 @@ txLen <- getBM(attributes=c('ensembl_gene_id', 'transcript_length'),
 
 annot <- left_join(annot, txLen)
 
-saveRDS(annot, file="Full_annotation_with_dulicates.rds")
+saveRDS(annot, file="Full_annotation_with_duplicates.rds")
 
-# annot <- readRDS(file="Full_annotation_with_dulicates.rds")
+# annot <- readRDS(file="Full_annotation_with_duplicates.rds")
 
 # There are ensembl id's with multiple Entrez ID's
 # Deduplicate the entrez IDS by matching the entrez symbol and the 
