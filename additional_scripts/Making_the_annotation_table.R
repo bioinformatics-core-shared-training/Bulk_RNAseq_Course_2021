@@ -31,7 +31,6 @@ annot <- getBM(attributes=attributeNames,
                filters = filterType,
                values = filterValues,
                mart = ensembl)
-saveRDS(annot, "temp_annot_full.rds")
 
 # get transcript length
 txLen <- getBM(attributes=c('ensembl_gene_id', 'transcript_length'),
@@ -40,9 +39,12 @@ txLen <- getBM(attributes=c('ensembl_gene_id', 'transcript_length'),
                mart = ensembl) %>% 
     group_by(ensembl_gene_id) %>% 
     summarise(transcript_length=median(transcript_length))
-saveRDS(txLen, "temp_txLen_full.rds")
 
 annot <- left_join(annot, txLen)
+
+saveRDS(annot, file="Full_annotation_with_dulicates.rds")
+
+# annot <- readRDS(file="Full_annotation_with_dulicates.rds")
 
 # There are ensembl id's with multiple Entrez ID's
 # Deduplicate the entrez IDS by matching the entrez symbol and the 
@@ -101,7 +103,7 @@ as.data.frame(results.interaction.11) %>%
 
 # we need a pragmatic solution for the course
 # these genes are mostly non-significant, we'll arbritrarily set the
-# second entry to NA. Many of the duplicates are on patch scaffolds, we'll 
+# second entry to NA. Some of the duplicates are on patch scaffolds, we'll 
 # arrange by chromosome, so that these get set to NA
 dupEntrez <- annotUn %>% 
     add_count(entrezgene_id) %>% 
@@ -129,11 +131,10 @@ all(filterValues%in%annotFin$ensembl_gene_id)
 ensemblAnnot <- rownames(results.interaction.11) %>%  
     enframe(name = NULL, value = "ensembl_gene_id")  %>%  
     left_join(annotFin) %>%
-    dplyr::rename(GeneID="ensembl_gene_id", Entrez="entrezgene_id",
+    dplyr::select(GeneID="ensembl_gene_id", Entrez="entrezgene_id",
                   Symbol="external_gene_name", Description="description",
                   Biotype="gene_biotype", Chr="chromosome_name",
                   Start="start_position", End="end_position",
                   Strand="strand", medianTxLength='transcript_length')
 
-saveRDS(annot, file="Full_annotation_with_dulicates.rds")
 saveRDS(ensemblAnnot, file="RObjects/Ensembl_annotations.rds")
