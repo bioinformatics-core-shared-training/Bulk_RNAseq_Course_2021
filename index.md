@@ -103,9 +103,9 @@ Methods]() - Jon Price
     - [Practical](Markdowns/03_QC_of_aligned_reads_practical.html)  
     - [Practical solutions](Markdowns/03_QC_of_aligned_reads_practical.Solutions.html)
 
-15:30 - 17:00 [Read Counting with SubRead]()   - Ashley Sawle  
-    - [Practical]()  
-    - [Practical solutions]()
+15:30 - 17:00 [Quantification of Gene Expression with Salmon]()   - Ashley Sawle  
+    - [Practical](Markdowns/04_Quantification_with_Salmon_practical.html)  
+    - [Practical solutions](Markdowns/04_Quantification_with_Salmon_practical.Solutions.html)
 
 <!-- Goodbye: Ash -->
 
