@@ -69,30 +69,30 @@ is `references/my_index` then we will get a number of files called `myindex.1.ht
 >    reference materials that we will need throughout analysis, such as the
 >    mouse genome and gene annotations.
 > 3. Use `ls references` to list the contents of the `references` directory.   
->    There should be file called `Mus_musculus.GRCm38.chr1.fa`. This is the
->    reference genome sequence for chromosome 1 in FASTA format. We are just
->    going to work with chromosome 1 for this exercise as indexing the entire
+>    There should be file called `Mus_musculus.GRCm38.chr14.fa`. This is the
+>    reference genome sequence for chromosome 14 in FASTA format. We are just
+>    going to work with chromosome 14 for this exercise as indexing the entire
 >    genome would take too long.
 >    You'll also notice a directory called `hisat2_index`, this is the index for
 >    the entire genome, which has already been generated. We'll be using this
 >    later.
 > 4. Make a directory (`mkdir`) inside the `references` directory called 
->    `hisat2_index_chr1`:
+>    `hisat2_index_chr14`:
 >
-> `mkdir references/hisat2_index_chr1`
+> `mkdir references/hisat2_index_chr14`
 >
->    This is where we will create our chr1 index.
+>    This is where we will create our chr14 index.
 > 5. To create the hisat2 index run the following command: 
 > 
-> `hisat2-build -p 7 references/Mus_musculus.GRCm38.chr1.fa references/hisat2_index_chr1/grcm38`
+> `hisat2-build -p 7 references/Mus_musculus.GRCm38.dna_sm.chr14.fa references/hisat2_index_chr14/grcm38`
 >    
 > With this command we are:  
 >
-> * providing the fasta file *references/Mus_musculus.GRCm38.chr1.fa* for
+> * providing the fasta file *references/Mus_musculus.GRCm38.chr14.fa* for
 >   the `<reference_in>`  
 > * setting the `<hisat2_index_base>` to
->   *references/hisat2_index_chr1/mmu.GRCm38*, so all the files will be
->   created in the directory *references/hisat2_index_chr1* and their
+>   *references/hisat2_index_chr14/mmu.GRCm38*, so all the files will be
+>   created in the directory *references/hisat2_index_chr14* and their
 >   names will start with `mmu.GRCm38`.
 > 
 > A) Why do we use `-p 7`? Take a look at the `hisat2-build` help page.
