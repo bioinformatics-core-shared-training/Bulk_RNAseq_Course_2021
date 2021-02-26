@@ -69,13 +69,6 @@ tx2gene <- read_tsv("references/tx2gene.tsv")
 
 # create the "files" object
 # This is named vector - values are the quant.sf files, names are SampleNames
-
-files <- list.files("salmon", pattern = ".sf$", recursive = TRUE, full.names = TRUE)
-files <- set_names(files, str_extract(files, "SRR7657[0-9]+"))
-files <- files[sampleinfo$SampleName]
-
-#### OR?????????????????? ######################
-
 files <- str_c("salmon/", sampleinfo$SampleName, "/quant.sf")
 files <- set_names(files, sampleinfo$SampleName)
 
@@ -83,8 +76,11 @@ txi <- tximport(files, type = "salmon", tx2gene = tx2gene)
 str(txi)
 head(txi$counts)
 ```
-```{r saveData, echo=FALSE, eval=FALSE}
-saveRDS(txi, file = "RObjects/txi.rds")
+
+Save the `txi` object for use in later sessions.
+
+```{r saveData, eval=FALSE}
+saveRDS(txi, file = "salmon_outputs/txi.rds")
 ```
 
 ### A quick intro to `dplyr`
@@ -195,8 +191,6 @@ Several transformation methods exist to limit the dependence of variance on mean
 * VST : variance stabilizing transformation
 * rlog : regularized log transformation
 
-<p>&nbsp;</p>
-
 #### log2 transformation
 
 Because some genes are not expressed (detected) in some samples, their count are `0`. As log2(0) returns -Inf in R which triggers errors by some functions, we add 1 to every count value to create 'pseudocounts'. The lowest value then is 1, or 0 on the log2 scale (log2(1) = 0).
@@ -238,9 +232,6 @@ plot(rowMeans(logcounts), rowSds(logcounts),
 ```
 
 In contrast to raw counts, with log2 transformed counts lowly expressed genes show higher variation.
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 
 #### VST : variance stabilizing transformation
 
@@ -347,8 +338,8 @@ autoplot(pcDat,
     geom_text_repel(aes(x=PC1, y=PC2, label=SampleName), box.padding = 0.8)
 ```
 
-The mislabelled samples are *MCL1.DG*, which is labelled as *luminal* but should
-be *basal*, and *MCL1.LA*, which is labelled as *basal* but should be *luminal*.
+The mislabelled samples are *SRR7657882*, which is labelled as *Test* but should
+be *Control*, and *SRR7657873*, which is labelled as *Control* but should be *Test*.
 Let's fix the sample sheet.
 
 We're going to use another `dplyr` command: 
@@ -359,8 +350,6 @@ sampleinfo <- mutate(sampleinfo, Group=case_when(
                                           SampleName=="SRR7657882" ~ "Control",
                                           SampleName=="SRR7657873" ~ "Test", 
                                           TRUE ~ Group))
-
-################### OR?????? #####################
 ```
 
 ...and export it so that we have the correct version for later use.
@@ -391,14 +380,6 @@ first replicate of each group was prepared at a separate time from the second
 replicate. If the PCA plot showed separation of samples by time, it might be
 worthwhile including time in the downstream analysis to account for the
 time-based effect.
-
-## Export data
-
-**We can save the txi data object to use later**
-
-```{r saveData, eval=FALSE}
-saveRDS(txi, file = "results/txi.rds")
-```
 
 --------------------
 
