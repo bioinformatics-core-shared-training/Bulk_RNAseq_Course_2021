@@ -196,13 +196,13 @@ summary {
 <div id="build-index" class="section level1">
 <h1>Build Index</h1>
 <p><a href="https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/" class="uri">https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/</a> to create full decoy index.</p>
-<p>This takes too long with the full transcriptome so we have transcriptome for just genes on Chromosome 1. We also need to include the genomic reference as decoy, so we also have this with only Chr 1.</p>
+<p>This takes too long with the full transcriptome so we have transcriptome for just genes on Chromosome 14. We also need to include the genomic reference as decoy, so we also have this with only Chr 14.</p>
 <p>Full transcriptome downloaded from ensembl:</p>
 <pre><code>ensURL=ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus
 wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz</code></pre>
 <div id="exercise-1---create-salmon-index" class="section level2">
 <h2>Exercise 1 - Create Salmon index</h2>
-<p>chr1 files: * references/Mus_musculus.GRCm38.cdna.chr1.fa.gz * references/Mus_musculus.GRCm38.dna_sm.chr1.fa.gz</p>
+<p>chr14 files: * references/Mus_musculus.GRCm38.cdna.chr14.fa.gz * references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz</p>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Create decoy sequence list from the genomic fasta</li>

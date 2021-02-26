@@ -10,8 +10,8 @@ https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/
 to create full decoy index.
 
 This takes too long with the full transcriptome so we have transcriptome for 
-just genes on Chromosome 1. We also need to include the genomic reference as 
-decoy, so we also have this with only Chr 1.
+just genes on Chromosome 14. We also need to include the genomic reference as 
+decoy, so we also have this with only Chr 14.
 
 Full transcriptome downloaded from ensembl:
 
@@ -22,9 +22,9 @@ wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz
 
 ## Exercise 1 - Create Salmon index
 
-chr1 files:
-* references/Mus_musculus.GRCm38.cdna.chr1.fa.gz
-* references/Mus_musculus.GRCm38.dna_sm.chr1.fa.gz
+chr14 files:
+* references/Mus_musculus.GRCm38.cdna.chr14.fa.gz
+* references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz
 
 > 1. Create decoy sequence list from the genomic fasta
 ```

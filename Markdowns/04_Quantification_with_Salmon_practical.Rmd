@@ -10,8 +10,8 @@ https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/
 to create full decoy index.
 
 This takes too long with the full transcriptome so we have transcriptome for 
-just genes on Chromosome 1. We also need to include the genomic reference as 
-decoy, so we also have this with only Chr 1.
+just genes on Chromosome 14. We also need to include the genomic reference as 
+decoy, so we also have this with only Chr 14.
 
 Full transcriptome downloaded from ensembl:
 
@@ -71,6 +71,8 @@ salmon quant \
     -o salmon_output/SRR7657883
 ```
 
+Takes ~5 minutes.
+
 ## Exercise 3 - Run multiqc
 
 We have generated salmon quantification results for all samples in `salmon`.
@@ -79,6 +81,9 @@ We have generated salmon quantification results for all samples in `salmon`.
 ```
 multiqc -z -n Salmon_quantification_report -o salmon_output salmon_output
 ```
+
+Compare alignment rate (reads aligned to transcriptome) to the percentage of
+UTR/coding in the Alignment QC report.
 
 ## Exercise 4 - Make transcript to gene table
 

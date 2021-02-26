@@ -196,7 +196,7 @@ summary {
 <div id="build-index" class="section level1">
 <h1>Build Index</h1>
 <p><a href="https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/" class="uri">https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/</a> to create full decoy index.</p>
-<p>This takes too long with the full transcriptome so we have transcriptome for just genes on Chromosome 1. We also need to include the genomic reference as decoy, so we also have this with only Chr 1.</p>
+<p>This takes too long with the full transcriptome so we have transcriptome for just genes on Chromosome 14. We also need to include the genomic reference as decoy, so we also have this with only Chr 14.</p>
 <p>Full transcriptome downloaded from ensembl:</p>
 <pre><code>ensURL=ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus
 wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz</code></pre>
@@ -253,6 +253,7 @@ salmon quant \
     -1 fastq/SRR7657883.sra_1.fastq.gz \
     -2 fastq/SRR7657883.sra_2.fastq.gz \
     -o salmon_output/SRR7657883</code></pre>
+<p>Takes ~5 minutes.</p>
 </div>
 <div id="exercise-3---run-multiqc" class="section level2">
 <h2>Exercise 3 - Run multiqc</h2>
@@ -263,6 +264,7 @@ salmon quant \
 </ol>
 </blockquote>
 <pre><code>multiqc -z -n Salmon_quantification_report -o salmon_output salmon_output</code></pre>
+<p>Compare alignment rate (reads aligned to transcriptome) to the percentage of UTR/coding in the Alignment QC report.</p>
 </div>
 <div id="exercise-4---make-transcript-to-gene-table" class="section level2">
 <h2>Exercise 4 - Make transcript to gene table</h2>
