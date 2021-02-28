@@ -87,13 +87,15 @@ regarded as aspirations**
 9:30 - 9:45 - Welcome! <!-- Ash -->
 
 9:45 - 10:15 - [Introduction to RNAseq 
-Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - Jon Price  
+Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - XXXXXXXXXXXXX
 
-10:15 - 11:15 [Raw read file format and QC]()   - Jon Price  
+10:15 - 11:15 [Raw read file format and 
+QC](Markdowns/02_FastQC_introduction.html)  - XXXXXXXXXXXXX
     - [Practical](Markdowns/02_FastQC_practical.html)  
     - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html)
 
-11:15 - 12:45 [Short read alignment with HISAT2]()   - Zeynep Kalender Atak  
+11:15 - 12:45 [Short read alignment with 
+HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX
     - [Practical](Markdowns/03_Alignment_with_HISAT2_practical.html)  
     - [Practical solutions](Markdowns/03_Alignment_with_HISAT2.Solutions.html)
 
