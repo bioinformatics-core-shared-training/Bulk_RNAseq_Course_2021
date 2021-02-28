@@ -86,26 +86,26 @@ regarded as aspirations**
 
 9:30 - 9:45 - Welcome! <!-- Ash -->
 
-9:45 - 10:15 - [Introduction to RNAseq
-Methods]() - Jon Price  
+9:45 - 10:15 - [Introduction to RNAseq 
+Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - Jon Price  
 
 10:15 - 11:15 [Raw read file format and QC]()   - Jon Price  
-    - [Practical](Markdowns/01_FastQC_practical.html)  
-    - [Practical solutions](Markdowns/01_FastQC_practical.Solutions.html)
+    - [Practical](Markdowns/02_FastQC_practical.html)  
+    - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html)
 
 11:15 - 12:45 [Short read alignment with HISAT2]()   - Zeynep Kalender Atak  
-    - [Practical](Markdowns/02_Alignment_with_HISAT2_practical.html)  
-    - [Practical solutions](Markdowns/02_Alignment_with_HISAT2.Solutions.html)
+    - [Practical](Markdowns/03_Alignment_with_HISAT2_practical.html)  
+    - [Practical solutions](Markdowns/03_Alignment_with_HISAT2.Solutions.html)
 
 12:45 - 13:45 Lunch
 
 13:45 - 15:30 [QC of alignment]() - Zeynep Kalender Atak  
-    - [Practical](Markdowns/03_QC_of_aligned_reads_practical.html)  
-    - [Practical solutions](Markdowns/03_QC_of_aligned_reads_practical.Solutions.html)
+    - [Practical](Markdowns/04_QC_of_aligned_reads_practical.html)  
+    - [Practical solutions](Markdowns/04_QC_of_aligned_reads_practical.Solutions.html)
 
 15:30 - 17:00 [Quantification of Gene Expression with Salmon]()   - Ashley Sawle  
-    - [Practical](Markdowns/04_Quantification_with_Salmon_practical.html)  
-    - [Practical solutions](Markdowns/04_Quantification_with_Salmon_practical.Solutions.html)
+    - [Practical](Markdowns/05_Quantification_with_Salmon_practical.html)  
+    - [Practical solutions](Markdowns/05_Quantification_with_Salmon_practical.Solutions.html)
 
 <!-- Goodbye: Ash -->
 
