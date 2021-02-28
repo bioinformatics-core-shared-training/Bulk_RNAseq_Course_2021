@@ -1,7 +1,7 @@
 ---
 title: "Introduction to RNAseq Methods"
-author: "Jon Price"
-date: "November 2020"
+author: "XXXXXXXXXXXX"
+date: "March 2021"
 output:
   ioslides_presentation:
     css: stylesheet.css
@@ -193,7 +193,7 @@ the experiment and the nature of the RNA sample.
 
 The answer depends on the experiment:
 
-* Gene expression – typically just a short single read e.g. SE 50.
+* Gene expression – typically just a short read e.g. 50/75 bp; SE or PE.
 * kmer-based quantification of Gene Expression (Salmon etc.) - benefits from PE.
 * Transcriptome Analysis – longer paired-end reads (such as 2 x 75 bp).
 * Small RNA Analysis – short single read, e.f. SE50 - will need trimming.
