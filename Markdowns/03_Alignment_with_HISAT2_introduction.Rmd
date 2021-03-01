@@ -3,13 +3,18 @@ title: "Short Read Alignment"
 date: "April 2021"
 output:
   ioslides_presentation:
-    css: stylesheet.css
+    css: css/stylesheet.css
     logo: images/CRUK_Cambridge_Institute.png
     smaller: yes
     widescreen: yes
   beamer_presentation: default
   slidy_presentation: default
 ---
+
+```{r, include=FALSE, echo=FALSE}
+options(bitmapType='cairo')
+knitr::opts_chunk$set(dev = c("png"))
+```
 
 ## Differential Gene Expression Analysis Workflow {#less_space_after_title}
 
@@ -35,20 +40,20 @@ Aligners: STAR, HISAT2
 **S**equence **A**lignment/**M**ap (SAM) format is the standard format for files
 containing aligned reads.
 
-Definition of the format is avaiable at https://samtools.github.io/hts-specs/SAMv1.pdf.
+Definition of the format is available at https://samtools.github.io/hts-specs/SAMv1.pdf.
 
 Two main parts:  
 
 * Header  
   	- contains meta data (source of the reads, reference genome, aligner, etc.)  
-  	- Header lines start with “@”.  
-  	- Header fields have standardized two-letter codes
+  	- header lines start with “@”
+  	- header fields have standardized two-letter codes
   	
 * Alignment section  
     - 1 line for each alignment  
-    - Contains details of alignment position, mapping, base quality etc.  
+    - contains details of alignment position, mapping, base quality etc.  
     - 11 required fields, but other content may vary depending on aligner and other
-      tools used to the create the file
+      tools used to create the file
       
 ## SAM format - header
 
@@ -123,7 +128,7 @@ Two main parts:
 
 ## HISAT2
 
-Fast and good performance in published benchmark tests.
+Fast and good performance in published benchmark tests
 
 First need to generate an index for the reference genome with the `hisat2-build` 
 command
@@ -136,9 +141,9 @@ Then we can align reads to the genome with `hisat2`
 
 1. Create an index to the genome with `HISAT2`
 
-2. Align reads to the genome with `HISAT2` --> SAM file
+2. Align reads to the genome with `HISAT2` and store outcome in a SAM file <!-- for one sample at a time -->
 
-3. Convert the SAM file to BAM with `samtools`
+3. Convert the SAM file (human readable text) to BAM (binary) with `samtools`
 
 4. Index the BAM file with `samtools`
 
