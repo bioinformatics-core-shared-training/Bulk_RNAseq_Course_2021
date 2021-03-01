@@ -193,32 +193,10 @@ summary {
 </div>
 
 
-<div id="build-index" class="section level1">
-<h1>Build Index</h1>
-<p><a href="https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/" class="uri">https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/</a> to create full decoy index.</p>
-<p>This takes too long with the full transcriptome so we have transcriptome for just genes on Chromosome 14. We also need to include the genomic reference as decoy, so we also have this with only Chr 14.</p>
-<p>Full transcriptome downloaded from ensembl:</p>
-<pre><code>ensURL=ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus
-wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz</code></pre>
 <div id="exercise-1---create-salmon-index" class="section level2">
 <h2>Exercise 1 - Create Salmon index</h2>
-<p>chr14 files: * references/Mus_musculus.GRCm38.cdna.chr14.fa.gz * references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz</p>
 <blockquote>
 <ol style="list-style-type: decimal">
-<li>Create decoy sequence list from the genomic fasta</li>
-</ol>
-</blockquote>
-<pre><code>zcat references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz | 
-    grep &quot;^&gt;&quot; |
-    cut -f 1 -d &#39; &#39; | 
-    sed &#39;s/&gt;//g&#39; \
-    &gt; references/decoys.txt</code></pre>
-<blockquote>
-<p>Check the contents</p>
-</blockquote>
-<pre><code>cat references/decoys.txt </code></pre>
-<blockquote>
-<ol start="2" style="list-style-type: decimal">
 <li>Create concatenated trancriptome/genome reference file</li>
 </ol>
 </blockquote>
@@ -226,10 +204,22 @@ wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz</code></pre
     references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz \
     &gt; references/gentrome.chr14.fa.gz</code></pre>
 <blockquote>
-<ol start="3" style="list-style-type: decimal">
-<li>Create index - need to mention the kmer, but default is fine here</li>
+<ol start="2" style="list-style-type: decimal">
+<li>Create decoy sequence list from the genomic fasta</li>
 </ol>
 </blockquote>
+<pre><code>echo &quot;chr14&quot; &gt; references/decoys.txt</code></pre>
+<blockquote>
+<ol start="3" style="list-style-type: decimal">
+<li>Use <code>salmon index</code> to create the index. You will need to provide three pieces of information:
+<ul>
+<li>the <strong>Transcript fasta file</strong> - <em>references/gentrome.chr14.fa.gz</em></li>
+<li>the <strong>decoys</strong> - <em>references/decoys.txt</em></li>
+<li>the <strong>salmon index</strong> - a directory to write the index to, use <strong>references/salmon_index_chr14</strong> Also add <code>-p 7</code> to the command to instruct salmon to use 7 threads/cores. To find the flags for the other three pieces of information use:</li>
+</ul></li>
+</ol>
+</blockquote>
+<pre><code>salmon index --help</code></pre>
 <pre><code>salmon index \
     -t references/gentrome.chr14.fa.gz \
     -d references/decoys.txt \
@@ -239,13 +229,30 @@ wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz</code></pre
 <div id="exercise-2---quantify-with-salmon" class="section level2">
 <h2>Exercise 2 - Quantify with Salmon</h2>
 <p>We can use the full index here. Just one sample - we’ll provide results for all samples.</p>
+</div>
+<div id="exercise-2---quantify-with-salmon-1" class="section level2">
+<h2>Exercise 2 - Quantify with Salmon</h2>
 <blockquote>
 <ol style="list-style-type: decimal">
-<li>Run quantification on the fastq</li>
+<li>Make directory called <code>salmon_output</code></li>
 </ol>
 </blockquote>
-<pre><code>mkdir salmon_output
-salmon quant \
+<pre><code>mkdir salmon_output</code></pre>
+<blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>salmon quant</code> to quantify the gene expression from the raw fastq. To see all the options run <code>salmon quant --help-reads</code>. There are lot of possible parameters, we will need to provide the following:
+<ul>
+<li><strong>salmon index</strong> - <em>references/salmon_index</em></li>
+<li><code>-l A</code> - Salmon needs to use some information about the library preparation, we could explicitly give this, but it is easy enough for Salmon to <strong>A</strong>utomatically infer this from the data.</li>
+<li><strong>File containing the #1 mates</strong> - <em>fastq/SRR7657883.sra_1.fastq.gz</em></li>
+<li><strong>File containing the #2 mates</strong> - <em>fastq/SRR7657883.sra_2.fastq.gz</em></li>
+<li><strong>Output quantification directory</strong> - <em>salmon_output/SRR7657883</em></li>
+<li><code>--gcBias</code> - salmon can optionally correct for GC content bias, it is recommended to always use this</li>
+<li><strong>The number of threads to use</strong> - <em>7</em></li>
+</ul></li>
+</ol>
+</blockquote>
+<pre><code>salmon quant \
     -p 7 \
     -i references/salmon_index \
     --gcBias \
@@ -256,25 +263,17 @@ salmon quant \
 </div>
 <div id="exercise-3---run-multiqc" class="section level2">
 <h2>Exercise 3 - Run multiqc</h2>
-<p>We have generated salmon quantification results for all samples in <code>salmon</code>.</p>
 <blockquote>
 <ol style="list-style-type: decimal">
-<li>Run multiqc</li>
+<li>Run <code>multiqc</code> on the <code>salmon_output</code> directory and create a report called <code>Salmon_quantification_report</code> in the <code>salmon_output</code> directory. Look back to the previous session if you need a reminder on how to do this.</li>
 </ol>
 </blockquote>
 <pre><code>multiqc -z -n Salmon_quantification_report -o salmon salmon</code></pre>
-</div>
-<div id="exercise-4---make-transcript-to-gene-table" class="section level2">
-<h2>Exercise 4 - Make transcript to gene table</h2>
-<p>We need this to summarise the quantification to gene level when loading into R</p>
-<pre><code>echo -e &quot;TxID\tGeneID&quot; &gt; salmon_output/tx2gene.tsv
-zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz | 
-  grep &quot;^&gt;&quot; |
-  tr &#39; &#39; &#39;\t&#39; |
-  cut -f 1,4 |
-  sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39; \
-  &gt;&gt; salmon_output/tx2gene.tsv</code></pre>
-</div>
+<blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>Open the report and determine what percentage of the reads have been <em>aligned</em> to the transcriptome. Compare this to the RNAseq metrics in the QC report from the previous session. IFXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXx both give ~85% aligned to transcriptome/UTR+Exons</li>
+</ol>
+</blockquote>
 </div>
 
 

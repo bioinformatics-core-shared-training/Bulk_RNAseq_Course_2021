@@ -4,97 +4,165 @@ subtitle: "Quantification of Gene Expression with Salmon"
 output: html_document
 ---
 
-# Build Index
+# Quasi-mapping and gene expression quantification
+
+So far we have QC'd our raw reads, aligned against the genome with HISAT2, and 
+done some additional QC using the alignment results. The next step is to 
+quantify the gene expression. One way would be to look at the alignments and
+use information about where genes are located on the genome to count the number
+of reads coming from each gene. This method is shown in the [extended materials
+using the `featureCounts` tool]().
+
+An alternative is to use faster methods known as *quasi-mapping* or 
+*pseudo-alignment*, followed by inferential estimation of gene expression. This 
+approach has been developed over the past few years has advantages of being
+faster and more lightweight than full alignment (they can be run on a laptop
+rather than needing a high performance cluster). In addition these methods give
+more accurate estimates of gene expression at the transcript level and 
+incorporate corrections for GC-content bias and sequence bias. 
+They are also able to quantify multimapping reads in a more pragmatic manner
+than the standard alignment/counting approaches giving more accurate counts, 
+particularly for genes beloning to families of genes with very similar 
+sequences.
+
+There are various tools that use this approach such at `Kallisto`, `Sailfish` 
+and `Salmon`; we will use `Salmon`. 
+
+You can find the full manual here:
+
+https://salmon.readthedocs.io/en/latest/salmon.html#using-salmon
+
+This provides much more information about various options and the reasons behind
+them.
+
+# 1. Indexing the transcriptome for Salmon
+
+As with the alignment step, we will need a reference to map the reads to, 
+however, in this case we will be mapping to the transcriptome rather than the
+genome. The transcriptome reference is a fasta file containing sequences
+for all transcripts. Before we can run `Salmon` we need to create an index,
+just as we did for `HISAT2`. For common species is possible to [download](http://refgenomes.databio.org/)
+pre-generated Salmon indexes, however, it is worth knowing how to create your 
+own. This process is more computationally intentensive and will not run on 
+standard laptop or desktop.
+
+The details of the index creation are taken from:
 
 https://combine-lab.github.io/alevin-tutorial/2019/selective-alignment/
-to create full decoy index.
 
-This takes too long with the full transcriptome so we have transcriptome for 
-just genes on Chromosome 14. We also need to include the genomic reference as 
-decoy, so we also have this with only Chr 14.
+As well as including the transcriptome, we also want to include the genomic
+sequences. These will act as a *decoy* so that non-transcriptomic reads will not
+be erroneously counted against genes.
 
-Full transcriptome downloaded from ensembl:
+The indexing takes too long with the full transcriptome for the purposes of this
+training session, so we will work with the transcriptome for 
+just genes on Chromosome 14. 
 
-```
-ensURL=ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus
-wget -P references ${ensURL}/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz
-```
+The full transcriptome has been downloaded from Ensembl:
+
+ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz
+
+## Indexing the transcriptome
+
+We are going to be giving Salmon both genomic and transcriptomic sequences to
+index. First we need to create a single fasta file that contains both sets of 
+sequences. It is important to have the transcriptome sequences first in the file.
+
+The genomic sequences are the *decoys* and we need a file that lists
+these so that Salmon will know which are which. In out case we are just using
+chr14, so we just need to create a file containing this.
+
+Finally, we will need to provide salmon with the name of a directory in which to 
+create the index. We don't need to make the directory, salmon will do this
+itself.
 
 ## Exercise 1 - Create Salmon index
-
-chr1 files:
-* references/Mus_musculus.GRCm38.cdna.chr1.fa.gz
-* references/Mus_musculus.GRCm38.dna_sm.chr1.fa.gz
-
-> 1. Create decoy sequence list from the genomic fasta
-```
-zcat references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz | 
-    grep "^>" |
-    cut -f 1 -d ' ' | 
-    sed 's/>//g' \
-    > references/decoys.txt
-```
-> Check the contents
-```
-cat references/decoys.txt 
-```
-> 2. Create concatenated trancriptome/genome reference file
+> 1. Create concatenated trancriptome/genome reference file
 ```
 cat references/Mus_musculus.GRCm38.cdna.chr14.fa.gz \
     references/Mus_musculus.GRCm38.dna_sm.chr14.fa.gz \
     > references/gentrome.chr14.fa.gz
 ```
-> 3. Create index - need to mention the kmer, but default is fine here
+> 2. Create decoy sequence list from the genomic fasta
 ```
-salmon index \
-    -t references/gentrome.chr14.fa.gz \
-    -d references/decoys.txt \
-    -p 7 \
-    -i references/salmon_index_chr14
+echo "chr14" > references/decoys.txt
 ```
+> 3. Use `salmon index` to create the index. You will need to provide three
+>  pieces of information:
+>     * the **Transcript fasta file** - *references/gentrome.chr14.fa.gz*
+>     * the **decoys** - *references/decoys.txt*
+>     * the **salmon index** - a directory to write the index to, use **references/salmon_index_chr14**
+> Also add `-p 7` to the command to instruct salmon to use 7 threads/cores.
+> To find the flags for the other three pieces of information use:
+```
+salmon index --help
+```
+
+# 2. Gene expression quantification
+
+Now that we have an index we can quickly get gene expression estimates directly
+from our raw fastq files.
+
+We can use the full index here as this step is quick. The full index should
+already be in the references directory: `references/salmon_index`. For this 
+exercise we'll
+just quantify one sample: **SRR7657883**. (We've already run salmon on the
+complete data set. You can see the results in the `salmon` directory. We'll use
+this for the differential gene expression analysis in later sessions.)
 
 ## Exercise 2 - Quantify with Salmon
 
-We can use the full index here. Just one sample - we'll provide results for all 
-samples.
+> 1. Make directory called `salmon_output`
+> 2. Use `salmon quant` to quantify the gene expression from the raw fastq.
+> To see all the options run `salmon quant --help-reads`. There are lot of 
+> possible parameters, we will need to provide the following:
+>       * **salmon index** - *references/salmon_index*
+>       * `-l A` - Salmon needs to use some information about the library 
+>         preparation, we could explicitly give this, but it is easy enough
+>         for Salmon to **A**utomatically infer this from the data.
+>       * **File containing the #1 mates** - *fastq/SRR7657883.sra_1.fastq.gz*
+>       * **File containing the #2 mates** - *fastq/SRR7657883.sra_2.fastq.gz*
+>       * **Output quantification directory** - *salmon_output/SRR7657883*
+>       * `--gcBias` - salmon can optionally correct for GC content bias, it is
+>         recommended to always use this
+>       * **The number of threads to use** - *7*
 
-> 1. Run quantification on the fastq
-```
-mkdir salmon_output
-salmon quant \
-    -p 7 \
-    -i references/salmon_index \
-    --gcBias \
-    -l A \
-    -1 fastq/SRR7657883.sra_1.fastq.gz \
-    -2 fastq/SRR7657883.sra_2.fastq.gz \
-    -o salmon_output/SRR7657883
-```
+Salmon creates a separate output directory for each sample analysed. This 
+directory contains a number of files; the file that contains the quantification
+data is called `quant.sf`.
 
-Takes ~5 minutes.
+# 3. A quick summary of the results
+
+We have generated salmon quantification results for all samples in the 
+directory `salmon`. You can run `multiqc` on these results to get some basic
+statistics regarding the percentage of reads that have been counted against the
+transcriptome.
 
 ## Exercise 3 - Run multiqc
 
-We have generated salmon quantification results for all samples in `salmon`.
+> 1. Run `multiqc` on the `salmon_output` directory and create a report called 
+> `Salmon_quantification_report` in the `salmon_output` directory. Look back to
+> the previous session if you need a reminder on how to do this.
+> 2. Open the report and determine what percentage of the reads have been 
+> *aligned* to the transcriptome. Compare this to the RNAseq metrics in the 
+> QC report from the previous session. 
 
-> 1. Run multiqc
+## Make transcript to gene table
+
+Salmon quantifies gene expression at the transcript level. When we come to do
+out differential gene expression analysis in R, we will want to summarise this
+to the gene level. To do this we need a table that links transcript IDs to gene 
+IDs. We have already done this for you, but for reference the code below was 
+used to generate this table from the sequence headers in the transcriptome
+reference file.
+
 ```
-multiqc -z -n Salmon_quantification_report -o salmon_output salmon_output
-```
-
-Compare alignment rate (reads aligned to transcriptome) to the percentage of
-UTR/coding in the Alignment QC report.
-
-## Exercise 4 - Make transcript to gene table
-
-We need this to summarise the quantification to gene level when loading into R
-
-```
-echo -e "TxID\tGeneID" > salmon_output/tx2gene.tsv
+#### YOU DO NOT NEED TO RUN THIS CODE ####
+echo -e "TxID\tGeneID" > references/tx2gene.tsv
 zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz | 
   grep "^>" |
   tr ' ' '\t' |
   cut -f 1,4 |
   sed -e 's/^>//' -e 's/gene://' -e 's/\.[0-9]*$//' \
-  >> salmon_output/tx2gene.tsv
+  >> references/tx2gene.tsv
 ```
