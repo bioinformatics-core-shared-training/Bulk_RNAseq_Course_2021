@@ -3,7 +3,7 @@ title: "Short Read Alignment"
 date: "April 2021"
 output:
   ioslides_presentation:
-    css: css/stylesheet.css
+    css: stylesheet.css
     logo: images/CRUK_Cambridge_Institute.png
     smaller: yes
     widescreen: yes
