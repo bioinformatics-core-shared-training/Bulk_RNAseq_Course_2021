@@ -135,7 +135,7 @@ In this case it would perhaps makes most sense to discard the Entrez ID
 ```{r eval=FALSE}
 # lets set it up
 ourCols <- c("GENEID", "SYMBOL", "ENTREZID")
-ourKeys <- rownames(resLvV)[1:1000]
+ourKeys <- rownames(results.interaction.11)[1:1000]
 
 # run the query
 annot <- AnnotationDbi::select(EnsDb.Mmusculus.v79, 
