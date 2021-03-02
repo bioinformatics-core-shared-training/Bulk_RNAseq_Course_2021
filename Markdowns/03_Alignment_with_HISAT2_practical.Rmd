@@ -14,28 +14,28 @@ goals and requirements. For RNAseq gene expression analysis HISAT2 is a very
 fast tool that has been shown to have a good performance on published
 benchmarks. 
 
-We are going to be aligning the reads from the fastq against the GRCm38 
+We are going to be aligning the reads from the fastq files against the GRCm38 
 reference genome from [Ensembl](http://www.ensembl.org/Mus_musculus/Info/Index).
 
-## 0 Obtaining the references
+## 0 Obtaining the reference genome
 
 **Note**: We have already done this .......
 
-## 1 Indexing the genome for Hisat2
+## 1 Indexing the reference genome for Hisat2
 
 Typically our genome reference will be in [FASTA
 format](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp).
 Before we can start mapping RNA-seq reads to the genome, we need to create an
 index to the genome. This index allows HISAT2 to quickly search the genome for
 possible mapping positions for each read. It is analogous to an index in a
-book: if you what to find out where in the book a particular word occurs it is
+book: if you want to find out where in the book a particular word occurs it is
 quicker to look at the index than to search through the book word by word, then
 you can jump straight to the correct page to find the exact line and position
 of the word.
 
 The command to index the genome for HISAT2 is `hisat2-build`. 
 
-Access the help page to find the basic usage an other options:
+Access the help page to find the basic usage and other options:
 
 `hisat2-build --help`
 
@@ -50,11 +50,11 @@ hisat2-build [options]* <reference_in> <ht2_index_base>
 This means that we have to use the command `hisat2-build` to run the programme.
 
 Then we need to replace `<reference_in>` with the name of our reference 
-genome files and replace  `<hisat2_index_base>` with a 'basename' for the index 
+genome files and replace `<hisat2_index_base>` with a 'basename' for the index 
 files that the command will generate. 
 
 HISAT2 is going to generate a number of files for the index. The 'basename' is 
-what all the name of these files will start with. e.g is the 'basename' we give
+what all the name of these files will start with. If the 'basename' we give
 is `references/my_index` then we will get a number of files called `myindex.1.ht2`,  
 `myindex.2.ht2`,  `myindex.3.ht2` ...etc. inside the directory `references` 
 (this directory must already exist).
@@ -66,10 +66,10 @@ is `references/my_index` then we will get a number of files called `myindex.1.ht
 >    directory).
 > 2. Use `ls` to list the contents of the directory.  
 >    There should be a `references` directory.  This will contain various
->    reference materials that we will need throughout analysis, such as the
+>    reference materials that we will need throughout the analysis, such as the
 >    mouse genome and gene annotations.
 > 3. Use `ls references` to list the contents of the `references` directory.   
->    There should be file called `Mus_musculus.GRCm38.chr14.fa`. This is the
+>    There should be a file called `Mus_musculus.GRCm38.dna_sm.chr14.fa`. This is the
 >    reference genome sequence for chromosome 14 in FASTA format. We are just
 >    going to work with chromosome 14 for this exercise as indexing the entire
 >    genome would take too long.
