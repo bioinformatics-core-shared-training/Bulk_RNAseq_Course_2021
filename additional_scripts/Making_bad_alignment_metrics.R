@@ -65,7 +65,7 @@ makeFakeInsSize <- function(newSamID, newMedian = NA){
             mutate(MEDIAN_INSERT_SIZE = newMedian)  %>%  
             mutate(MODE_INSERT_SIZE = round(medianRatio * MODE_INSERT_SIZE, 0))
         totalReads <- sum(newHist$All_Reads.fr_count)
-        newHist <- newHist %>%  
+        squeeHist <- newHist %>%  
             mutate(insert_size = round(((insert_size - minSize) * medianRatio) + minSize)) %>%  
             group_by(insert_size) %>%  
             summarise(across(All_Reads.fr_count, mean)) %>%  
@@ -74,6 +74,12 @@ makeFakeInsSize <- function(newSamID, newMedian = NA){
                                         sum(All_Reads.fr_count), 
                                     0)) %>%  
             select(insert_size, All_Reads.fr_count = NewReads) 
+        lastVal <- tail(squeeHist$All_Reads.fr_count, n = 1)
+        tailHist <- filter(newHist, !insert_size%in%squeeHist$insert_size) %>%  
+            mutate(All_Reads.fr_count = 
+                       All_Reads.fr_count * lastVal / max(All_Reads.fr_count)) %>%  
+            mutate(All_Reads.fr_count = round(All_Reads.fr_count, 0))
+        newHist <- bind_rows(squeeHist, tailHist)
     }
 
     # get the original file
