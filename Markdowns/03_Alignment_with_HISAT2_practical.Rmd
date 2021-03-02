@@ -118,6 +118,7 @@ Take a quick look to HISAT2's description
 `hisat2 --help`
 
 The usage is:
+
 ```
 Usage:
   hisat2 [options]* -x <ht2-idx> {-1 <m1> -2 <m2> | -U <r> | --sra-acc <SRA accession number>} [-S <sam>]
@@ -155,15 +156,15 @@ filename without the `.X.ht2` suffix:
 The chromosome 1 index that we created in Exercise 1 had 8 files:
 
 ```
-references/hisat2_index_chr1/grcm38.1.ht2
-references/hisat2_index_chr1/grcm38.2.ht2
+references/hisat2_index_chr14/grcm38.1.ht2
+references/hisat2_index_chr14/grcm38.2.ht2
 ...
-references/hisat2_index_chr1/grcm38.8.ht2
+references/hisat2_index_chr14/grcm38.8.ht2
 ```
 
-So the index filename prefix would be `references/hisat2_index_chr1/grcm38` .
+So the index filename prefix would be `references/hisat2_index_chr14/grcm38` .
 
-The next argumnet is the raw read data to be aligned. The curly brackets 
+The next argument is the raw read data to be aligned. The curly brackets 
 (`{...|...}`) indicate that we must provide this is one of three ways:
 
 * with the flags `-1` and `-2` to give two fastq files when we have paired end 
@@ -181,8 +182,8 @@ the screen.
 So we need to provide:  
 
 * the prefix of the index file after the `-x` flag  
-* the path to out fastq file after the `-U` flag
-* the name for the output SAM file after the `-S` flag.  The output file format
+* the path to our fastq file after the `-U` flag
+* the name for the output SAM file after the `-S` flag. The output file format
   is SAM, so the output filename should end `.sam`.
 
 There many additional options that allow us to tweak the parameters used in the
@@ -216,6 +217,7 @@ files are the binary (compressed) version of SAM files. They are much smaller
 and can be indexed making them quicker to access and process.
 
 ### 3.1 SAM to BAM with samtools
+
 We can transform from SAM to BAM using `samtools`. `samtools` is a toolkit that
 provides a number of useful tools for working with SAM/BAM files. In this case
 we will use the `view` command to transform the SAM file into a BAM file.
