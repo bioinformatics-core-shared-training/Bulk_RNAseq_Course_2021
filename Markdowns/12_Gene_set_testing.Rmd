@@ -53,8 +53,11 @@ We can then create a contingency table with:
 
 ### A toy example
 
-Let's start with a experiment with 20,000 genes of which 100 are differentially
-expressed, and a pathway with 2000 genes.
+Let's start with an experiment with:
+
+* 20,000 genes of which 100 are differentially expressed,
+* a pathway with 2000 genes,
+  * including 20 of the 100 differentially expressed genes.
 
 ```{r}
 contingencyTable <- data.frame(
@@ -78,12 +81,12 @@ For a given pathway:
 * N: total number of genes in the background set, e.g. all genes tested - 20,000
 in our example. This background set is sometimes referred to as the **universe**.
 * M: number of genes within that background that are annotated to the pathway -
-2000 in our example
+2,000 in our example
 * n: number of differentially expressed genes - 100 in our example
 * k: number of differentially expressed genes that are annotated to the pathway 
 - 20 in our example
 
-Significance can then be assessed with a the hypergeometric distribution:
+Significance can then be assessed with the hypergeometric distribution:
 
 <!-- over-representation p-value -->
 ![](images/overRepPvalHyperGeoFormula.png)
@@ -98,7 +101,7 @@ To save time and effort there are a number of packages that make applying this
 test to a large number of gene sets simpler, and which will import gene lists 
 for testing from various sources.
 
-Today we will use `clusterProfiler`.
+Today we will use [`clusterProfiler`](https://yulab-smu.github.io/clusterProfiler-book/index.html).
 
 <!--
 https://yulab-smu.github.io/clusterProfiler-book/index.html
@@ -122,10 +125,10 @@ search_kegg_organism('mouse', by='common_name')
 
 ## KEGG enrichment analysis
 
-The input for the KEGG enrichment is list of gene IDs for significant genes. 
+The input for the KEGG enrichment analysis is the list of gene IDs for significant genes. 
 
 We now load the R object keeping the outcome of the differential expression 
-analysis for the LvV contrast.
+analysis for the d11 contrast.
 
 ```{r loadData}
 shrink.d11 <- readRDS("RObjects/Shrunk_Results.d11.rds")
@@ -136,7 +139,7 @@ an absolute fold change greater than 2. We need to remember to eliminate genes
 with missing values in the FDR as a result of the independent filtering by
 DESeq2.
 
-For this tool we need to use Entrez IDs, so we will need to eliminate genes with 
+For this tool we need to use Entrez IDs, so we will also need to eliminate genes with 
 missing values in 'Entrez'.
 
 ```{r enrichKEGG, eval=FALSE}
@@ -159,11 +162,12 @@ kk <- enrichKEGG(gene = sigGenes, organism = 'mmu')
 head(kk, n=10) %>%  as_tibble()
 ```
 
-
 ### Visualise a pathway in a browser
 
 `clusterProfile` has a function `browseKegg` that allows you to view the KEGG
-pathway in in your browser with the genes that are in our gene highlighted.
+pathway in your browser highlighting the genes we selected as differentially expressed.
+
+We will show one of the top hits: pathway 'mmu04612' for 'Antigen processing and presentation'.
 
 ```{r browseKegg}
 browseKEGG(kk, 'mmu04612')
@@ -182,6 +186,9 @@ colour by any numeric vector, e.g. p-value).
 The package plots the KEGG pathway to a `png` file in the working directory.
 
 ```{r pathview, message=F}
+# check working directory
+getwd()
+# run pathview
 library(pathview)
 logFC <- shrink.d11$logFC
 names(logFC) <- shrink.d11$Entrez
@@ -195,10 +202,9 @@ pathview(gene.data = logFC,
 
 ![mmu04612 - Antigen processing and presentation](images/mmu04612.pathview.png)
 
-
 > ### Challenge 1 {.challenge}
 >
-> 1. Use `pathview` to export a figure for "mmu04060", but this time only
+> 1. Use `pathview` to export a figure for "mmu04659" or "mmu04658", but this time only
 > use genes that are statistically significant at FDR < 0.01
 >
 
@@ -208,9 +214,9 @@ pathview(gene.data = logFC,
 
 > ### Challenge 2 - GO term enrichment analysis
 >
-> `clusterProfiler` can also perform over-representation analysis on GO terms.
-> using the commmand `enrichGO`. Look at the help page for the command 
-> `enrichGO` (`?enrichGO`) and have a look at the instructions in the 
+> `clusterProfiler` can also perform over-representation analysis on GO terms 
+using the commmand `enrichGO`. Check the help page for the command 
+> `enrichGO` (`?enrichGO`) and the instructions in the 
 > [clusterProfiler book](http://yulab-smu.top/clusterProfiler-book/chapter5.html#go-over-representation-test).
 > 
 > 1. Run the over-representation analysis for GO terms 
@@ -244,6 +250,8 @@ These are collections of human genes, however. Fortunately, these lists
 have been translated to mouse equivalents by the Walter+Eliza Hall Institute
 Bioinformatics service and made available for 
 [download](http://bioinf.wehi.edu.au/MSigDB/index.html).
+They are now also available from recent R package
+[msigdbr](https://cran.r-project.org/web/packages/msigdbr/index.html) which we will use.
 
 ## Method
 
@@ -257,7 +265,8 @@ between the observed rankings and that which would be expected assuming a random
 rank distribution.
  
 The article describing the original software is available 
-[here](http://www.pnas.org/content/102/43/15545.long), while this [commentary on GSEA](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1266131/) provides a shorter description.
+[here](http://www.pnas.org/content/102/43/15545.long),
+while this [commentary on GSEA](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1266131/) provides a shorter description.
 
 ![](../images/gseaArticleFig1.png)
 
@@ -266,18 +275,20 @@ package [@Sergushichev2016] that implements the same algorithm in R.
 'fgsea' stands for' "fast preranked gene set enrichment analysis (GSEA)".
 
 ```{r fgsea}
+library(msigdbr)
 library(fgsea)
 ```
 
-## Ranking Data
+## Rank genes
 
 We need to provide `fgsea` with a vector containing numeric data by which it should 
 rank the genes. To start with we will simply use a rank based on their fold 
 change. We do not need to rank the genes ourselves, `fgsea` will do this based
 on the data we provide.
 
-We must exclude genes for which we do not have Entrez IDs. Also, we should 
-use the shrunk LFC values.
+We must exclude genes with no Entrez ID.
+
+Also, we should use the shrunk LFC values.
 
 ```{r preparedata}
 gseaDat <- filter(shrink.d11, !is.na(Entrez))
@@ -294,10 +305,16 @@ object call mSigDb.mm.H (`H` for **H**allmark gene set), which is a list of gene
 The names of the vectors in list are the names of gene sets and each vector 
 contains Entrez IDs for the genes in the gene set.
 
-```{r loadPathways}
+```{r loadPathways, eval=FALSE}
 mSigDb.mm.H <- readRDS("RObjects/Mm.h.all.v7.1.entrez.rds")
 head(names(mSigDb.mm.H))
 head(mSigDb.mm.H[[1]])
+```
+
+```{r loadPathways_msigdbr}
+m_t2g_H <- msigdbr(species = "Mus musculus", category = "H") %>% 
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+m_t2g_H
 ```
 
 ## Conduct analysis
