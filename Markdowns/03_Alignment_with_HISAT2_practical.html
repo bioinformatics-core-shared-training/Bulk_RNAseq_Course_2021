@@ -464,12 +464,12 @@ There should be a file called <code>Mus_musculus.GRCm38.dna_sm.chr14.fa</code>. 
 <p>The usage tells us that the filename prefix should be provided, that is the filename without the <code>.X.ht2</code> suffix:</p>
 <pre><code>`&lt;ht2-idx&gt;  Index filename prefix (minus trailing .X.ht2).`</code></pre>
 <p>The chromosome 1 index that we created in Exercise 1 had 8 files:</p>
-<pre><code>references/hisat2_index_chr1/grcm38.1.ht2
-references/hisat2_index_chr1/grcm38.2.ht2
+<pre><code>references/hisat2_index_chr14/grcm38.1.ht2
+references/hisat2_index_chr14/grcm38.2.ht2
 ...
-references/hisat2_index_chr1/grcm38.8.ht2</code></pre>
-<p>So the index filename prefix would be <code>references/hisat2_index_chr1/grcm38</code> .</p>
-<p>The next argumnet is the raw read data to be aligned. The curly brackets (<code>{...|...}</code>) indicate that we must provide this is one of three ways:</p>
+references/hisat2_index_chr14/grcm38.8.ht2</code></pre>
+<p>So the index filename prefix would be <code>references/hisat2_index_chr14/grcm38</code> .</p>
+<p>The next argument is the raw read data to be aligned. The curly brackets (<code>{...|...}</code>) indicate that we must provide this is one of three ways:</p>
 <ul>
 <li>with the flags <code>-1</code> and <code>-2</code> to give two fastq files when we have paired end reads (as is the case today)</li>
 <li>with the <code>-U</code> flag to just give one fastq if our reads are single end</li>
@@ -480,7 +480,7 @@ references/hisat2_index_chr1/grcm38.8.ht2</code></pre>
 <ul>
 <li>the prefix of the index file after the <code>-x</code> flag<br />
 </li>
-<li>the path to out fastq file after the <code>-U</code> flag</li>
+<li>the path to our fastq file after the <code>-U</code> flag</li>
 <li>the name for the output SAM file after the <code>-S</code> flag. The output file format is SAM, so the output filename should end <code>.sam</code>.</li>
 </ul>
 <p>There many additional options that allow us to tweak the parameters used in the alignment. As a general rule, unless you really know what you are doing you should stick to the defaults.</p>
