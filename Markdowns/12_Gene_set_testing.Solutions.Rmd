@@ -18,6 +18,8 @@ library(pathview)
 #library(org.Mm.eg.db)
 library(tidyverse)
 knitr::opts_knit$set(cache=TRUE)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(dev = c("png"))
 ```
 
 ```{r prepareORAData, include=FALSE}
@@ -51,7 +53,7 @@ pathview(gene.data = logFC,
 
 mmu04659.pathview.png:
 
-![mmu04659 - Th17 cell differentiation](../../images/mmu04659.pathview.png)
+![mmu04659 - Th17 cell differentiation](images/mmu04659.pathview.png)
 
 ## Challenge 2 - GO term enrichment analysis
 
@@ -74,7 +76,7 @@ mmu04659.pathview.png:
 > 2. Use the `dotplot` function to visualise the results.
 
 ```{r solution2}
-library(org.Mm.eg.db)
+suppressMessages(library(org.Mm.eg.db))
 
 sigGenes <-  shrink.d11 %>% 
     drop_na(FDR) %>% 
@@ -108,43 +110,44 @@ dotplot(ego)
 
 ```{r prepareGSEAData, include=FALSE}
 # fgsea data
-gseaDat <- filter(shrinkLvV, !is.na(Entrez))
+gseaDat <- filter(shrink.d11, !is.na(Entrez))
 ranks <- gseaDat$logFC
-load("../Robjects/mouse_H_v5.RData")
-pathwaysH <- Mm.H
-```
-
-```{r solution3b, eval=FALSE}
-ranks <- -log10(gseaDat$pvalue) * sign(gseaDat$logFC) # or gseaDat$stat
-names(ranks) <- gseaDat$Entrez  
-
-load("Robjects/mouse_c2_v5.RData")
-
-fgseaResC2 <- fgsea(Mm.c2, ranks, minSize=15, maxSize = 500)
-head(fgseaResC2[order(padj, -abs(NES)), ], n=10)
 ```
 
 ```{r solution3, echo=FALSE}
 ranks <- -log10(gseaDat$pvalue) * sign(gseaDat$logFC) # or gseaDat$stat
 names(ranks) <- gseaDat$Entrez  
-
-load("../Robjects/mouse_c2_v5.RData")
+#dir("../Course_Materials/RObjects")
+Mm.c2 <- readRDS("../Course_Materials/RObjects/Mm.c2.all.v7.1.entrez.rds")
 
 fgseaResC2 <- fgsea(Mm.c2, ranks, minSize=15, maxSize = 500)
 head(fgseaResC2[order(padj, -abs(NES)), ], n=10) %>% tibble()
 ```
 
-> 4. Run `fgsea` using the new ranked genes and the H pathways. How do these 
-> results differ from the ones we got when ranking by the fold change alone? 
 
-```{r solution3.4b, eval=FALSE}
-fgseaResH <- fgsea(Mm.H, ranks, minSize=15, maxSize = 500)
-head(fgseaResH[order(padj, -abs(NES)), ], n=20)
+```{r solution3_GSEA}
+
+m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>% 
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+
+rankedGenes <- shrink.d11 %>%
+  drop_na(Entrez, FDR) %>%
+  filter(FDR < 0.05 & abs(logFC) > 1) %>%
+  #mutate(rank = logFC) %>%
+  mutate(rank = -log10(pvalue) * sign(logFC)) %>%
+  arrange(-rank) %>%
+  pull(rank,Entrez)
+
+gseaRes <- GSEA(rankedGenes,
+                TERM2GENE = m_H_t2g[,c("gs_name", "entrez_gene")],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+
+gseaRes %>% 
+    arrange(desc(abs(NES))) %>% 
+    top_n(10, -p.adjust) %>%  
+    as_tibble()
 ```
-
-```{r solution3.4, echo=FALSE}
-fgseaResH <- fgsea(Mm.H, ranks, minSize=15, maxSize = 500)
-head(fgseaResH[order(padj, -abs(NES)), ], n=20) %>% tibble()
-```
-
 
