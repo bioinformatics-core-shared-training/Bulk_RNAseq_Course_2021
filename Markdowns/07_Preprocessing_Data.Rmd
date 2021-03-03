@@ -37,8 +37,7 @@ library(tidyverse)
 BRIEF DESCRIPTION OF THE DATASET - paper, GEO, SRA
 
 Please see extended material for instructions on 
-[downloading raw files from SRA](../Supplementary_Materials/S1_Getting_raw_reads_from_SRA.html) 
-and [aligning fastq using HISAT2](../extended_html/C_Alignment_with_HISAT2_practical.html).
+[downloading raw files from SRA](S1_Getting_raw_reads_from_SRA.html).
 
 BREIF DESCRIPTION OF EXPERIMENT - SAMPLE GROUPS, REPS etc.
 
@@ -62,15 +61,20 @@ the Ensembl gene annotation and generate a counts matrix (as described in
 [the previous session](E_Read_Counts_with_Subread.practical.html)).
 
 First we need to read the data into R from the `quant.sf` files under the 
-*salmon* directory.
+*salmon* directory. To this we use the `tximport` function. We need to create
+a named vector in which the values are the paths to the quant.sf files and the
+names are sample names that we want in the column headers - these should match
+the sample names in our `sampleinfo` table.
+
+The Salmon quantification results are per transcript, we'll want to summarise
+to gene level. To this we need a table that related transcript 
 
 ```{r readSalmon}
-tx2gene <- read_tsv("references/tx2gene.tsv")
-
-# create the "files" object
-# This is named vector - values are the quant.sf files, names are SampleNames
 files <- str_c("salmon/", sampleinfo$SampleName, "/quant.sf")
 files <- set_names(files, sampleinfo$SampleName)
+
+
+tx2gene <- read_tsv("references/tx2gene.tsv")
 
 txi <- tximport(files, type = "salmon", tx2gene = tx2gene)
 str(txi)
@@ -342,8 +346,7 @@ The mislabelled samples are *SRR7657882*, which is labelled as *Test* but should
 be *Control*, and *SRR7657873*, which is labelled as *Control* but should be *Test*.
 Let's fix the sample sheet.
 
-We're going to use another `dplyr` command: 
-`mutate`. `mutate` creates new columns in the data frame.
+We're going to use another `dplyr` command `mutate`. 
 
 ```{r correctSampleSheet}
 sampleinfo <- mutate(sampleinfo, Group=case_when(
@@ -371,8 +374,12 @@ autoplot(pcDat,
 Replicate samples from the same group cluster together in the plot, while 
 samples from different groups form separate clusters. This indicates that the
 differences between groups are larger than those within groups.
-The biological signal of interest is stronger than the noise (biological and technical) and can be detected.
-Also, differences between virgin, pregnant and lactating are greater for luminal than basal cells.
+The biological signal of interest is stronger than the noise (biological and 
+technical) and can be detected. 
+
+Also, there appears to be a strong difference between days 11 and 33 post 
+infection for the test group, but the day 11 and day 33 samples for the controls
+are mixed together.
 
 Clustering in the PCA plot can be used to motivate changes to the design
 matrix in light of potential batch effects. For example, imagine that the

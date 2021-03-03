@@ -12,7 +12,6 @@
 * Chandra Chilamakuri - Bioinformatics Core, Cancer Research UK Cambridge Institute
 * Dominique-Laurent Couturier - Bioinformatics Core, Cancer Research UK Cambridge Institute 
 * Jon Price - Miska Group, Gurdon Institute, Cambridge
-* Karsten Bach - Marioni Group, Cancer Research UK Cambridge Institute
 * Stephane Ballereau - Bioinformatics Core, Cancer Research UK Cambridge Institute
 * Zeynep Kalender Atak - Miller Group, Cancer Research UK Cambridge Institute
 
@@ -90,12 +89,12 @@ regarded as aspirations**
 Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - XXXXXXXXXXXXX
 
 10:15 - 11:15 [Raw read file format and 
-QC](Markdowns/02_FastQC_introduction.html)  - XXXXXXXXXXXXX
+QC](Markdowns/02_FastQC_introduction.html)  - XXXXXXXXXXXXX    
     - [Practical](Markdowns/02_FastQC_practical.html)  
     - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html)
 
 11:15 - 12:45 [Short read alignment with 
-HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX
+HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX    
     - [Practical](Markdowns/03_Alignment_with_HISAT2_practical.html)  
     - [Practical solutions](Markdowns/03_Alignment_with_HISAT2.Solutions.html)
 
@@ -115,11 +114,12 @@ HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX
 
 <!-- Welcome: Abbi -->
 
-9:30 - 10:15  [Introduction to RNAseq Analysis in R]() - Jon Price   
+9:30 - 10:15  [Introduction to RNAseq Analysis in 
+R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - XXXXXXXX  
 
-10:15 - 12:30 - [RNA-seq Pre-processing]() - 
-Stephane Ballereau  
-    - [Practical solutions]()
+10:15 - 12:30 - [RNA-seq 
+Pre-processing](Markdowns/07_Preprocessing_Data.html) - XXXXXXXXXXXX  
+    - [Practical solutions](Markdowns/07_Preprocessing_Data.Solutions.html)
 
 12:30 - 13:30 Lunch
 
@@ -127,7 +127,7 @@ Stephane Ballereau
 Couturier     
     - [Practical (html)]() [(rmd)]()  
 
-15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]()   - Abbi Edwards   
+15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]()   - XXXXXXX    
     - [Practical]()    
 
 <!-- Goodbye: Abbi -->
@@ -137,16 +137,16 @@ Couturier
 <!-- Welcome: Abbi  -->
 
 9:30 - 12:15 - [Differential Expression for
-RNA-seq]() - Abbi Edwards 
+RNA-seq]() - XXXXXXXXXXXXXXXXXXX   
     - [practical solutions]()  
 
 12:15 - 13:15 Lunch
 
 13:15 - 15:30 [Annotation and Visualisation of RNA-seq
-results]() - Chandra Chilamakuri    
+results]() - XXXXXXXXXXXXXXXXXXXXx   
     - [practical solutions]()
 
-15:30 - 17:00 [Gene-set testing]() - Ashley Sawle  
+15:30 - 17:00 [Gene-set testing]() - XXXXXXXXXXXXXXXXX   
     - [slides]()
     - [practical solutions]()
 
@@ -158,6 +158,7 @@ The lecture slides and other source materials, including R code and
 practical solutions, can be found in the course's [Github 
 repository](https://github.com/bioinformatics-core-shared-training/RNAseq_November_2020_remote)
 
+<!--
 ## Extended materials
 
 The materials linked to from this page are somewhat cut down from the complete
@@ -166,6 +167,7 @@ contain the full course materials and links to additional RNAseq materials,
 including instruction on downloading and processing the raw data for this
 course, a link to an excellent R course, and where to get further help after
 the course.
+-->
 
 ## Additional Resources
 
