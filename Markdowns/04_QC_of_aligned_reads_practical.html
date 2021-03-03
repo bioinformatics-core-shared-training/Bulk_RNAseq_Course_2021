@@ -198,7 +198,7 @@ summary {
 <p>Once we have aligned our reads, it is then possible to run some additional quality checks on our data. In the first instance we will just look at some basic metrics such as the percentage of aligned reads and the duplication rates. We can then use some more sophisticated methods to assess the integrity of our RNA and genomic locations to which our reads are aligning.</p>
 <div id="a-quick-look-at-the-alignment-metrics-with-samtools" class="section level2">
 <h2>1. A quick look at the alignment metrics with <code>samtools</code></h2>
-<p>We previously used the <code>samtools</code> package to sort and index our bam file. <code>samtools</code> also includes some simple tools to generate alignment metrics. This can be very handy for a quick first look at our alignment quality. The tool we are going to use is called <code>flagstat</code></p>
+<p>We previously used the <code>samtools</code> package to sort and index our bam file. <code>samtools</code> also includes some simple tools to generate alignment metrics. This can be very handy for a quick first look at our alignment quality. The tool we are going to use is called <code>flagstat</code>.</p>
 <p>The <strong>Usage</strong> is:</p>
 <pre><code>samtools flagstat &lt;in.bam&gt;</code></pre>
 <p>Where <code>&lt;in.bam&gt;</code> is the bam file we wish to QC.</p>
@@ -219,8 +219,8 @@ summary {
 <h2>2. More detailed metrics with Picard Tools</h2>
 <p><a href="https://broadinstitute.github.io/picard/"><strong>Picard Tools</strong></a> is a suite of tools for analysing and manipulating sequencing data. It is maintained by the Broad Institute and comprises 88 different tools for doing jobs such as generating QC metrics, modifying bam files in various ways, or converting files between different formats.</p>
 <p>We are going to use three QC metrics tools to get a variety of different important metrics.</p>
-<p>Picard is java based programme and so to run a particular Picard tool the general format for the command is:</p>
-<pre><code>java -jar picard/picard.jar PicardToolName OPTION1=value1 OPTION2=value2...</code></pre>
+<p>Picard is a java based programme and so to run a particular Picard tool the general format for the command is:</p>
+<pre><code>java -jar picard/picard.jar PicardToolName OPTION1=value1 OPTION2=value2 ...</code></pre>
 <ul>
 <li><code>picard.jar</code> is the <strong>J</strong>ava <strong>AR</strong>chive file that contains all the tools. It can be found in the <em>picard</em> directory under <em>Course_Materials</em>.</li>
 <li><code>PicardToolName</code> is the name of the tools that you wish to use.</li>
@@ -229,7 +229,7 @@ summary {
 <pre><code>java -jar picard/picard.jar PicardToolName --help</code></pre>
 <div id="duplication-metrics" class="section level3">
 <h3>2.1 Duplication metrics</h3>
-<p>The first tool we are going to use is the <code>MarkDuplicates</code> tools. This tool actually performs two tasks.</p>
+<p>The first tool we are going to use is <code>MarkDuplicates</code>. This tool actually performs two tasks.</p>
 <p>First, Picard reads through the bam file and finds any duplicate reads - these are reads with the same 5’ position. For each group of duplicate reads, Picard selects a “primary” read based on the base quality scores and then marks all other reads in the group as “duplicates” by adding <strong>1024</strong> to the sam flag. For paired end reads, the entire fragment is considered, this essentially means both ends must be duplicated for the read pair to be marked as a duplicate.</p>
 <p>Once the duplicate reads are marked, Picard then also generates a metrics file that contains information about the duplication rate.</p>
 <p>For the purposes of this training session we will work with a bam files that only contains reads aligned to chromosome 1. Running each tool on the full bam file would take too long for the practical. You should find afile called <code>SRR7657883.chr1.sorted.bam</code> under the directory <code>bam</code>, please use this rather than the bam file you created in the previous session.</p>
@@ -242,9 +242,9 @@ summary {
 </li>
 </ol>
 <pre><code>java -jar picard/picard.jar MarkDuplicates \
-         INPUT=bam/SRR7657883.chr1.sorted.bam \
-         OUTPUT=bam/SRR7657883.chr1.mkdup.bam \
-         METRICS_FILE=bam/SRR7657883.chr1.mkdup_metrics.txt \
+         INPUT=bam/SRR7657883.chr14.sorted.bam \
+         OUTPUT=bam/SRR7657883.chr14.mkdup.bam \
+         METRICS_FILE=bam/SRR7657883.chr14.mkdup_metrics.txt \
          CREATE_INDEX=true</code></pre>
 <p><strong>Note</strong>: The <code>\</code> at the end of each line tells the terminal that when you press <code>Enter</code>, you have not yet finished typing the command. You can if you wish, type the whole command on a single line, omitting the <code>\</code>. The command is written across multiple lines here just to make it easier to read.</p>
 <p>Q. What is the duplication rate for this bam file?</p>
@@ -258,10 +258,10 @@ summary {
 <h3>Exercise 2.2</h3>
 <blockquote>
 <ol style="list-style-type: decimal">
-<li>Run Picard’s <code>CollectAlignmentSummaryMetrics</code> tool on the chr1 sorted bam providing the following options.
+<li>Run Picard’s <code>CollectAlignmentSummaryMetrics</code> tool on the chr14 sorted bam providing the following options.
 <ul>
-<li>INPUT - The sorted chr 1 only bam file</li>
-<li>OUTPUT - bam/SRR7657883.chr1.alignment_metrics.txt</li>
+<li>INPUT - The sorted chr 14 only bam file</li>
+<li>OUTPUT - bam/SRR7657883.chr14.alignment_metrics.txt</li>
 <li>REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa</li>
 </ul></li>
 </ol>
@@ -270,6 +270,9 @@ summary {
 <div id="insert-size-metrics" class="section level3">
 <h3>2.2 Insert Size metrics</h3>
 <p>Next we will collect some metrics that relate to the <em>insert size</em>. This is the size of the fragment of RNA that each read pair has originated from. The pair of reads are just the ends of this fragment. We will use Picard’s <code>CollectInsertSizeMetrics</code> tool. In this case we need to provide an input bam, the name of the output metrics file and a name for a pdf which will contain an plot showing the distribution of insert sizes in our library.</p>
+</div>
+<div id="exercise-2.3" class="section level3">
+<h3>Exercise 2.3</h3>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Run Picard’s <code>CollectInsertSizeMetrics</code> tool on the chr1 sorted bam providing the following options.
@@ -282,27 +285,14 @@ summary {
 </ol>
 </blockquote>
 </div>
-<div id="exercise-2.2-1" class="section level3">
-<h3>Exercise 2.2</h3>
-<blockquote>
-<ol style="list-style-type: decimal">
-<li>Run Picard’s <code>CollectAlignmentSummaryMetrics</code> tool on the chr1 sorted bam providing the following options.
-<ul>
-<li>INPUT - The sorted chr 1 only bam file</li>
-<li>OUTPUT - bam/SRR7657883.chr1.alignment_metrics.txt</li>
-<li>REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa</li>
-</ul></li>
-</ol>
-</blockquote>
-</div>
 <div id="rna-alignment-metrics" class="section level3">
-<h3>2.3 RNA alignment metrics</h3>
-<p>The <code>CollectRnaSeqMetrics</code> tool produces metrics describing the distribution of the reads across different genomics locations - intronic, exonic, intergenic, UTR - and the distribution of bases within the transcripts.</p>
+<h3>2.4 RNA alignment metrics</h3>
+<p>The <code>CollectRnaSeqMetrics</code> tool produces metrics describing the distribution of the reads across different genomic locations - intronic, exonic, intergenic, UTR - and the distribution of bases within the transcripts.</p>
 <p>The <code>CollectRnaSeqMetrics</code> requires four pieces of information to run:</p>
 <ol style="list-style-type: decimal">
 <li>The input bam file<br />
 </li>
-<li>An file name for the output metrics file</li>
+<li>A file name for the output metrics file</li>
 <li>A file containing gene annotations in a format called RefFlat that is defined <a href="http://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#RefFlat">here</a>. This format can be generated from a gtf file. We’ve already generated this file for you at <code>references/Mus_musculus.GRCm38.97.txt</code><br />
 </li>
 <li>A parameter for strand specificity. Strand specificity is factor of the library prep chemistry. There are three possible options:<br />
@@ -312,14 +302,14 @@ c) Unstranded library prep, i.e. the reads may be on either strand - NONE<br />
 With your own data you would need to find this information out from whoever has prepared the library. In this case our library prep is unstranded, so we will use <code>NONE</code>.</li>
 </ol>
 </div>
-<div id="exercise-2.3" class="section level3">
-<h3>Exercise 2.3</h3>
+<div id="exercise-2.4" class="section level3">
+<h3>Exercise 2.4</h3>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Run Picard’s <code>CollectRnaSeqMetrics</code> tool on the sorted bam file providing the following options:
 <ul>
 <li>INPUT - The sorted bam file</li>
-<li>OUTPUT - bam/SRR7657883.chr1.RNA_metrics.txt</li>
+<li>OUTPUT - bam/SRR7657883.chr14.RNA_metrics.txt</li>
 <li>REF_FLAT - the RefFlat reference file</li>
 <li>STRAND - NONE</li>
 </ul></li>
@@ -330,7 +320,7 @@ With your own data you would need to find this information out from whoever has 
 </div>
 <div id="visualising-qc-results-with-multiqc" class="section level2">
 <h2>3. Visualising QC results with MultiQC</h2>
-<p><a href="https://multiqc.info/">MultiQC</a> is a tool for collating multiple QC results files into a single report. It’s use is simple, you just run the command <code>multiqc</code> on the directory containing your metrics files. The general command is:</p>
+<p><a href="https://multiqc.info/">MultiQC</a> is a tool for collating multiple QC results files into a single report. Its use is simple, you just run the command <code>multiqc</code> on the directory containing your metrics files. The general command is:</p>
 <pre><code>multiqc &lt;directory containing metrics files&gt;</code></pre>
 <p>We will add a couple of options to control the output directory and the name of the report.</p>
 <div id="exercise-3.1" class="section level3">
@@ -339,11 +329,11 @@ With your own data you would need to find this information out from whoever has 
 <ol style="list-style-type: decimal">
 <li>Run multiqc on the bam directory:</li>
 </ol>
-</blockquote>
-<pre><code>multiqc -n Alignment_QC_Report.html -o bam bam`</code></pre>
-<blockquote>
-<pre><code>* `-n` - a name for the report
-* `-o` - the directory in which to place the report</code></pre>
+<pre><code>multiqc -n Alignment_QC_Report.html -o bam bam</code></pre>
+<ul>
+<li><code>-n</code> - a name for the report</li>
+<li><code>-o</code> - the directory in which to place the report</li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Open the html report that was generated by multiqc and inspect the QC plots The easiest way to do this is type <code>xdg-open multiqc_report.html</code>, which will open the report in a web browser.</li>
 </ol>
