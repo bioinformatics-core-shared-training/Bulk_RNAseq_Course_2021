@@ -1,0 +1,153 @@
+---
+title: "RNA-seq analysis in R"
+subtitle: "Gene Set Testing for RNA-seq - Solutions"
+author: "Stephane Ballereau, Dominique-Laurent Couturier, Mark Dunning, Abbi Edwards, Ashley Sawle"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+layout: page
+---
+
+```{r setup, include=FALSE}
+library(msigdbr)
+library(fgsea)
+library(clusterProfiler)
+library(pathview)
+#library(org.Mm.eg.db)
+library(tidyverse)
+knitr::opts_knit$set(cache=TRUE)
+options(bitmapType='cairo')
+knitr::opts_chunk$set(dev = c("png"))
+```
+
+```{r prepareORAData, include=FALSE}
+shrink.d11 <- readRDS("RObjects/Shrunk_Results.d11.rds")
+
+# Kegg data
+sigGenes <-  shrink.d11 %>% 
+    drop_na(Entrez, FDR) %>% 
+    filter(FDR < 0.01 & abs(logFC) > 1) %>% 
+    pull(Entrez)
+kk <- enrichKEGG(gene = sigGenes, organism = 'mmu')
+```
+
+## Challenge 1
+
+> 1. Use `pathview` to export a figure for "mmu04659", but this time only
+> use genes that are statistically significant at FDR < 0.01
+
+```{r solution1}
+logFC <- shrink.d11 %>% 
+  drop_na(FDR, Entrez) %>% 
+  filter(FDR < 0.01) %>% 
+  dplyr::select(Entrez, logFC) %>% 
+  deframe()
+
+pathview(gene.data = logFC, 
+         pathway.id = "mmu04659", 
+         species = "mmu", 
+         limit = list(gene=5, cpd=1))
+```
+
+mmu04659.pathview.png:
+
+![mmu04659 - Th17 cell differentiation](images/mmu04659.pathview.png)
+
+## Challenge 2 - GO term enrichment analysis
+
+> `clusterProfiler` can also perform over-representation analysis on GO terms.
+> using the commmand `enrichGO`. Look at the help page for the command 
+> `enrichGO` (`?enrichGO`) and have a look at the instructions in the 
+> [clusterProfiler book](http://yulab-smu.top/clusterProfiler-book/chapter5.html#go-over-representation-test).
+>
+> 1. Run the over-representation analysis for GO terms 
+>     - Use genes that have an adjusted p-value (FDR) of less than 0.01 and
+> an absolute fold change greater than 2.    
+>     - For this analysis you can use Ensembl IDs rather then Entrez
+>     - You'll need to provide the background (`universe`) genes, this should be
+> all the genes in our analysis.
+>     - The mouse database package is called `org.Mm.eg.db`. You'll need to load
+>  it using `library` before running the analysis.    
+>     - As we are using Ensembl IDs, you'll need to set the `keyType` 
+> parameter in the `enrichGO` command to indicate this.
+>     - Only test terms in the "Molecular Function" ontology 
+> 2. Use the `dotplot` function to visualise the results.
+
+```{r solution2}
+suppressMessages(library(org.Mm.eg.db))
+
+sigGenes <-  shrink.d11 %>% 
+    drop_na(FDR) %>% 
+    filter(FDR < 0.01 & abs(logFC) > 1) %>% 
+    pull(GeneID)
+
+
+universe <- shrink.d11$GeneID
+
+ego <- enrichGO(gene          = sigGenes, 
+                universe      = universe,
+                OrgDb         = org.Mm.eg.db,
+                keyType       = "ENSEMBL",
+                ont           = "MF",
+                pvalueCutoff  = 0.01,
+                readable      = TRUE)
+dotplot(ego)
+```
+
+## Challenge 3
+
+> Another common way to rank the genes is to order by pvalue, but also, sorting
+> so that upregulated genes are at start and downregulated at the other - 
+> you can do this combining the sign of the fold change and the pvalue. 
+> 
+> 1. Rank the genes by statisical significance - you will need to create
+> a new ranking value using `-log10({p value}) * sign({Fold Change})`  
+> 2. Load the "C2" pathways from the the `Robjects/mouse_c2_v5.RData` file   
+> 3. Run `fgsea` using the new ranked genes and the C2 pathways  
+
+
+```{r prepareGSEAData, include=FALSE}
+# fgsea data
+gseaDat <- filter(shrink.d11, !is.na(Entrez))
+ranks <- gseaDat$logFC
+```
+
+```{r solution3, echo=FALSE}
+ranks <- -log10(gseaDat$pvalue) * sign(gseaDat$logFC) # or gseaDat$stat
+names(ranks) <- gseaDat$Entrez  
+#dir("../Course_Materials/RObjects")
+Mm.c2 <- readRDS("../Course_Materials/RObjects/Mm.c2.all.v7.1.entrez.rds")
+
+fgseaResC2 <- fgsea(Mm.c2, ranks, minSize=15, maxSize = 500)
+head(fgseaResC2[order(padj, -abs(NES)), ], n=10) %>% tibble()
+```
+
+
+```{r solution3_GSEA}
+
+m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>% 
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+
+rankedGenes <- shrink.d11 %>%
+  drop_na(Entrez, FDR) %>%
+  filter(FDR < 0.05 & abs(logFC) > 1) %>%
+  #mutate(rank = logFC) %>%
+  mutate(rank = -log10(pvalue) * sign(logFC)) %>%
+  arrange(-rank) %>%
+  pull(rank,Entrez)
+
+gseaRes <- GSEA(rankedGenes,
+                TERM2GENE = m_H_t2g[,c("gs_name", "entrez_gene")],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+
+gseaRes %>% 
+    arrange(desc(abs(NES))) %>% 
+    top_n(10, -p.adjust) %>%  
+    as_tibble()
+```
+

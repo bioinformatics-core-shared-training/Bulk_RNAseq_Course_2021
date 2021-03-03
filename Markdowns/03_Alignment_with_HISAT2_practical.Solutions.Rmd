@@ -43,6 +43,7 @@ output: html_document
 >
 > B) How many files are created? 
 >
+
 Hisat2 always creates 8 index files that start with our base name end with `.X.ht2`.
 So in this case we have `mmu.GRCm38.1.ht2` to `mmu.GRCm38.8.ht2`.
 
@@ -72,6 +73,10 @@ So in this case we have `mmu.GRCm38.1.ht2` to `mmu.GRCm38.8.ht2`.
 >        -p 7 \
 >        -t
 > ```
+> **Note**: The `\` at the end of each line tells the terminal that when you press 
+> `Enter`, you have not yet finished typing the command. You can if you wish, type
+> the whole command on a single line, omitting the `\`. The command is written across
+> multiple lines here just to make it easier to read.
 
 ## 3 Convert the SAM output to BAM 
 
