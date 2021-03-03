@@ -17,10 +17,6 @@ benchmarks.
 We are going to be aligning the reads from the fastq files against the GRCm38 
 reference genome from [Ensembl](http://www.ensembl.org/Mus_musculus/Info/Index).
 
-## 0 Obtaining the reference genome
-
-**Note**: We have already done this .......
-
 ## 1 Indexing the reference genome for Hisat2
 
 Typically our genome reference will be in [FASTA
@@ -49,6 +45,10 @@ hisat2-build [options]* <reference_in> <ht2_index_base>
 
 This means that we have to use the command `hisat2-build` to run the programme.
 
+The `[options]*` means that there are various optional arguments we can provide
+after the main command. These are list in detail under the basic usage. We will
+only be using one option  - `-p`.
+
 Then we need to replace `<reference_in>` with the name of our reference 
 genome files and replace `<hisat2_index_base>` with a 'basename' for the index 
 files that the command will generate. 
@@ -58,6 +58,17 @@ what all the name of these files will start with. If the 'basename' we give
 is `references/my_index` then we will get a number of files called `myindex.1.ht2`,  
 `myindex.2.ht2`,  `myindex.3.ht2` ...etc. inside the directory `references` 
 (this directory must already exist).
+
+For example, if our reference fasta file is called `my_reference.fa` and we
+want to write the index to `references/my_index`, then we use the command:
+
+```
+hisat2-build -p 7 my_reference.fa references/my_index
+```
+
+Note that we are not typing the `[`, `]`, `<`, and `>` symbols. In the usage the
+square brackets denote *optional* arguments and the `<>` denote required 
+arguments.
 
 ### Exercise 1
 
