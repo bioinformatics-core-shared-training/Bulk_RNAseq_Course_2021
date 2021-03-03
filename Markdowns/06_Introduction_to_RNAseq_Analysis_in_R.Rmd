@@ -1,10 +1,9 @@
 ---
 title: "Introduction to RNAseq analysis in R"
-author: "Jon Price"
-date: "November 2020"
+date: "April 2021"
 output:
   ioslides_presentation:
-    css: stylesheet.css
+    css: css/stylesheet.css
     logo: images/CRUK_Cambridge_Institute.png
     smaller: yes
     widescreen: yes
@@ -59,7 +58,6 @@ output:
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/workflow_3Day.svg" class="centerimg" style="width: 60%; margin-top: 60px;">
-<!-- <img src="images/workflow.svg" class="centerimg" style="width: 60%;"> -->
 
 ## Sources of Noise
 
@@ -85,64 +83,6 @@ library from that gene.
 ## Sources of Noise - Sequencing Artefacts
 
 <img src="images/SequencingArtefacts.png" class="centerimg" style="width: 75%">
-
-<!--
-## Alignment
-
-<img src="images/splicing.svg" class="centerimg" style="width: 75%">
-
-<div>
-* RNA does not contain the introns
-
-* When aligning to the genome we need to use a splice-aware aligner and provide gene definitions (GTF) e.g.:
-
-    * HISAT2 (uses Bowtie2)
-    * Star
-    * Or pseudoaligners e.g. Salmon or Kallisto
-</div>
-
-## Counting/Summarisation
-
-<img src="images/Counting.png" class="centerimg" style="width: 75%">
-
-<div style="width: 30%; 
-    float: left;
-    border-style: solid; 
-    border-width: 1px;
-    border-radius: 25px; 
-    padding: 20px; 
-    margin-right: 10%;
-    margin-left: 10%;">
-<span style="color: #2e3192">**Genome-based features**</span>
-
-* Exon or gene boundaries
-
-* Isoform structures
-
-* Gene multireads
-
-</div>
-
-<div style="width: 30%; 
-    float: left; 
-    border-style: solid; 
-    border-width: 1px;
-    border-radius: 25px; 
-    padding: 20px;">
-<span style="color: #2e3192">**Transcript-based features**</span>
-
-* Transcript assembly
-
-* Novel structures
-
-* Isoform multireads
-
-</div>
-
-<div style="clear: both; text-align: center; padding: 20px">
-**HTSeq or Subread**
-</div>
--->
 
 ## Normalisation
 
@@ -218,8 +158,6 @@ quartile
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/DESeq2_workflow_00.png" class="centerimg" style="width: 25%">
-
-
 
 ## Normalisation - Geometric mean scaling factor
 
@@ -506,18 +444,6 @@ abline(ewe, col="red")
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/mmu03320.pathview.png" class="centerimg" style="width: 65%">
-
-<!--
-## Towards biological meaning - Network Analysis {#less_space_after_title}
-
-<div style="line-height: 50%;"><br></div>
-
-<img src="images/Hamy2016PlosOneNetworkTrp.png" class="centerimg" style="width: 50%">
-
-<div style="text-align: right;">
-    Hamy et al. (2016) PLOS One
-</div>
--->
 
 ## More Depth or More Reps? {#less_space_after_title}
 
