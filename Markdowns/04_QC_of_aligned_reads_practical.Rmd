@@ -79,12 +79,17 @@ First, Picard reads through the bam file and finds any duplicate reads - these
 are reads with the same 5' position. For each group of duplicate reads, Picard
 selects a "primary" read based on the base quality scores and then marks all
 other reads in the group as "duplicates" by adding **1024** to the sam flag. 
-**XXXXXXXXXX NEED TO MODIFY FOR PE XXXXXXXXXX**
+For paired end reads, the entire fragment is considered, this essentially means
+both ends must be duplicated for the read pair to be marked as a duplicate.
 
 Once the duplicate reads are marked, Picard then also generates a metrics file
 that contains information about the duplication rate.
 
-**WE WILL USE A BAM WITH ONLY CHR1 for speed: SRR7657883.chr1.sorted.bam**
+For the purposes of this training session we will work with a bam files that
+only contains reads aligned to chromosome 1. Running each tool on the full bam
+file would take too long for the practical. You should find afile called
+`SRR7657883.chr1.sorted.bam` under the directory `bam`, please use this rather
+than the bam file you created in the previous session.
 
 ### Exercise 2.1
 
@@ -122,9 +127,12 @@ genomic reference.
 
 ### 2.2 Insert Size metrics
 
-Next we will collect XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Next we will collect some metrics that relate to the *insert size*. This is the
+size of the fragment of RNA that each read pair has originated from. The pair
+of reads are just the ends of this fragment. We will use Picard's
 `CollectInsertSizeMetrics` tool. In this case we need to provide an
-input bam, the name of the output metrics file and XXXXXXXXXXXXXXXXXXXX
+input bam, the name of the output metrics file and a name for a pdf which will
+contain an plot showing the distribution of insert sizes in our library.
 
 > 1. Run Picard's `CollectInsertSizeMetrics` tool on the chr1 sorted bam 
 >    providing the following options.
@@ -133,12 +141,6 @@ input bam, the name of the output metrics file and XXXXXXXXXXXXXXXXXXXX
 >     * HISTOGRAM - bam/SRR7657883.chr1.insert_size.pdf
 >     * REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa
 >
-CollectInsertSizeMetrics \
-      I=${InpFil} \
-      O=${outTab} \
-      H=${outPdf} \
-      VALIDATION_STRINGENCY=SILENT
-
 
 ### Exercise 2.2
 

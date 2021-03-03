@@ -2,7 +2,7 @@ library(tidyverse)
 
 set.seed(76320)
 
-newSamples <- c("SRR7657893","SRR7657894",  "SRR7657895")
+newSample <- c("SRR7657893")
 
 # make a fake aligment metrics file
 # randomly choose a read depth, set alignment rate, NA everything else
@@ -207,7 +207,15 @@ makeFakeRNAseqMtr <- function(newSamID, badCoverage){
     write_tsv(covDat, outNam, append = TRUE)
 }
 
-walk2(newSamples, c(0.87, 0.43, 0.93), makeFakeAlnMtr)
-walk2(newSamples, c(NA, 120, NA), makeFakeInsSize)
-walk2(newSamples, c(0.234435, 0.212121, 0.823125), makeFakeMkDup)
-walk2(newSamples, c(TRUE, FALSE, FALSE), makeFakeRNAseqMtr)
+# walk2(newSamples, c(0.87, 0.43, 0.93), makeFakeAlnMtr)
+# walk2(newSamples, c(NA, 120, NA), makeFakeInsSize)
+# walk2(newSamples, c(0.234435, 0.212121, 0.823125), makeFakeMkDup)
+# walk2(newSamples, c(TRUE, FALSE, FALSE), makeFakeRNAseqMtr)
+
+makeFakeAlnMtr(newSample, 0.43)
+makeFakeInsSize(newSample, 120)
+# we have decided not to include a sample with excess duplication
+makeFakeMkDup(newSample, 0.23534)
+makeFakeRNAseqMtr(newSample, TRUE)
+
+

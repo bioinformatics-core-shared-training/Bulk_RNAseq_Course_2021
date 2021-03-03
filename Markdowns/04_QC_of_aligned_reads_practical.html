@@ -230,9 +230,9 @@ summary {
 <div id="duplication-metrics" class="section level3">
 <h3>2.1 Duplication metrics</h3>
 <p>The first tool we are going to use is the <code>MarkDuplicates</code> tools. This tool actually performs two tasks.</p>
-<p>First, Picard reads through the bam file and finds any duplicate reads - these are reads with the same 5’ position. For each group of duplicate reads, Picard selects a “primary” read based on the base quality scores and then marks all other reads in the group as “duplicates” by adding <strong>1024</strong> to the sam flag. <strong>XXXXXXXXXX NEED TO MODIFY FOR PE XXXXXXXXXX</strong></p>
+<p>First, Picard reads through the bam file and finds any duplicate reads - these are reads with the same 5’ position. For each group of duplicate reads, Picard selects a “primary” read based on the base quality scores and then marks all other reads in the group as “duplicates” by adding <strong>1024</strong> to the sam flag. For paired end reads, the entire fragment is considered, this essentially means both ends must be duplicated for the read pair to be marked as a duplicate.</p>
 <p>Once the duplicate reads are marked, Picard then also generates a metrics file that contains information about the duplication rate.</p>
-<p><strong>WE WILL USE A BAM WITH ONLY CHR1 for speed: SRR7657883.chr1.sorted.bam</strong></p>
+<p>For the purposes of this training session we will work with a bam files that only contains reads aligned to chromosome 1. Running each tool on the full bam file would take too long for the practical. You should find afile called <code>SRR7657883.chr1.sorted.bam</code> under the directory <code>bam</code>, please use this rather than the bam file you created in the previous session.</p>
 </div>
 <div id="exercise-2.1" class="section level3">
 <h3>Exercise 2.1</h3>
@@ -269,7 +269,7 @@ summary {
 </div>
 <div id="insert-size-metrics" class="section level3">
 <h3>2.2 Insert Size metrics</h3>
-<p>Next we will collect XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX <code>CollectInsertSizeMetrics</code> tool. In this case we need to provide an input bam, the name of the output metrics file and XXXXXXXXXXXXXXXXXXXX</p>
+<p>Next we will collect some metrics that relate to the <em>insert size</em>. This is the size of the fragment of RNA that each read pair has originated from. The pair of reads are just the ends of this fragment. We will use Picard’s <code>CollectInsertSizeMetrics</code> tool. In this case we need to provide an input bam, the name of the output metrics file and a name for a pdf which will contain an plot showing the distribution of insert sizes in our library.</p>
 <blockquote>
 <ol style="list-style-type: decimal">
 <li>Run Picard’s <code>CollectInsertSizeMetrics</code> tool on the chr1 sorted bam providing the following options.
@@ -280,11 +280,6 @@ summary {
 <li>REFERENCE_SEQUENCE - references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa</li>
 </ul></li>
 </ol>
-<p>CollectInsertSizeMetrics<br />
-I=<span class="math inline">\({InpFil} \
-O=\)</span>{outTab}<br />
-H=${outPdf}<br />
-VALIDATION_STRINGENCY=SILENT</p>
 </blockquote>
 </div>
 <div id="exercise-2.2-1" class="section level3">
