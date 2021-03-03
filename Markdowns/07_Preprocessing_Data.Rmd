@@ -49,7 +49,7 @@ need for the analysis today: name, cell type, status.
 
 ```{r loadSampleInfo, message = FALSE}
 # Read the sample information into a data frame
-sampleinfo <- read_tsv("meta_data/samplesheet.tsv", col_types = c("cccc")) %>% 
+sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc")) %>% 
   arrange(Group, TimePoint, Replicate)
 sampleinfo
 ```

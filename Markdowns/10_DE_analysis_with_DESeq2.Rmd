@@ -30,7 +30,7 @@ library(DESeq2)
 ```{r loadData}
 # load the RData object we created in the previous session
 txi <- readRDS("RObjects/txi.rds")
-sampleinfo <- read_tsv("meta_data/samplesheet_corrected.tsv", col_types="cccc")
+sampleinfo <- read_tsv("data/samplesheet_corrected.tsv", col_types="cccc")
 
 all(colnames(txi$counts)==sampleinfo$SampleName)
 ```
@@ -238,7 +238,7 @@ sum(results.simple$padj < 0.05, na.rm = TRUE)
 >   
 > ```{r}
 > txi <- readRDS("RObjects/txi.rds")
-> sampleinfo <- read_tsv("meta_data/samplesheet_corrected.tsv", col_types="cccc")
+> sampleinfo <- read_tsv("data/samplesheet_corrected.tsv", col_types="cccc")
 > ```
 > 
 > 2. Create the model:
