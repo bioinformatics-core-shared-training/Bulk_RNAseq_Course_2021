@@ -63,7 +63,7 @@ need for the analysis today: name, cell type, status.
 # Read the sample information into a data frame
 sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc"))
 sampleinfo %>% 
-  arrange(Group, TimePoint, Replicate)
+  arrange(Status, TimePoint, Replicate)
 ```
 
 ## Reading in the count data
@@ -223,14 +223,14 @@ colour to see if there is any difference between sample groups.
 
 ```{r plotLogCounts}
 # make a colour vector
-groupCols <- str_replace_all(sampleinfo$Group, c(Test="red", Control="orange"))
+statusCols <- str_replace_all(sampleinfo$Status, c(Infected="red", Uninfected="orange"))
 
 # Check distributions of samples using boxplots
 boxplot(logcounts,
         xlab="",
         ylab="Log2(Counts)",
         las=2,
-        col=groupCols,
+        col=statusCols,
         main="Log2(Counts)")
 # Let's add a blue horizontal line that corresponds to the median
 abline(h=median(logcounts), col="blue")
@@ -263,7 +263,7 @@ boxplot(vst_counts,
         xlab="", 
         ylab="VST counts",
         las=2,
-        col=groupCols)
+        col=statusCols)
 # Let's add a blue horizontal line that corresponds to the median
 abline(h=median(vst_counts), col="blue")
 ```
@@ -327,7 +327,7 @@ We can use colour and shape to identify the Cell Type and the Status of each sam
 ```{r pcaPlotWiColor, message = FALSE, fig.width=6.5, fig.height=5, fig.align="center"}
 autoplot(pcDat,
          data = sampleinfo, 
-         colour="Group", 
+         colour="Status", 
          shape="TimePoint",
          size=5)
 ```
@@ -348,7 +348,7 @@ library(ggrepel)
 # setting shape to FALSE causes the plot to default to using the labels instead of points
 autoplot(pcDat,
          data = sampleinfo,  
-         colour="Group", 
+         colour="Status", 
          shape="TimePoint",
          size=5) +
     geom_text_repel(aes(x=PC1, y=PC2, label=SampleName), box.padding = 0.8)
@@ -361,10 +361,10 @@ Let's fix the sample sheet.
 We're going to use another `dplyr` command `mutate`. 
 
 ```{r correctSampleSheet}
-sampleinfo <- mutate(sampleinfo, Group=case_when(
-                                          SampleName=="SRR7657882" ~ "Control",
-                                          SampleName=="SRR7657873" ~ "Test", 
-                                          TRUE ~ Group))
+sampleinfo <- mutate(sampleinfo, Status=case_when(
+                                          SampleName=="SRR7657882" ~ "Uninfected",
+                                          SampleName=="SRR7657873" ~ "Infected", 
+                                          TRUE ~ Status))
 ```
 
 ...and export it so that we have the correct version for later use.
@@ -378,7 +378,7 @@ Let's look at the PCA now.
 ```{r correctedPCA, fig.width=6.5, fig.height=5, fig.align="center"}
 autoplot(pcDat,
          data = sampleinfo, 
-         colour="Group", 
+         colour="Status", 
          shape="TimePoint",
          size=5)
 ```

@@ -21,17 +21,22 @@ library(tidyverse)
 ```{r prepareData, message=FALSE, include=FALSE}
 # This chunk is just for the knitting
 # Read the sample information into R
-sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc")) %>% 
-  arrange(Group, TimePoint, Replicate)
+sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc"))
 # Read the data into R
-txi <- readRDS("RObjects/txi.rds")
+files <- str_c("salmon/", sampleinfo$SampleName, "/quant.sf")
+files <- set_names(files, sampleinfo$SampleName)
+
+tx2gene <- read_tsv("references/tx2gene.tsv")
+
+txi <- tximport(files, type = "salmon", tx2gene = tx2gene)
+
 rawCounts <- round(txi$counts, 0)
 # filter
 keep <- rowSums(rawCounts) > 5
 filtCounts <- rawCounts[keep,]
 # VST
 vst_counts <- vst(filtCounts)
-groupCols <- str_replace_all(sampleinfo$Group, c(Test="red", Control="orange"))
+statusCols <- str_replace_all(sampleinfo$Status, c(Infected="red", Uninfected="orange"))
 ```
 
 ### Challenge 1
@@ -49,7 +54,7 @@ boxplot(rlogcounts,
         xlab="", 
         ylab="Log2(Counts)",
         las=2,
-        col=groupCols)
+        col=statusCols)
 # Let's add a blue horizontal line that corresponds to the median logCPM
 abline(h=median(as.matrix(rlogcounts)), col="blue")
 ```

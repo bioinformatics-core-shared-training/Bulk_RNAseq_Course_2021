@@ -394,19 +394,17 @@ myRamp <- colorRamp2(c(-2, 0, 2), myPalette)
 ```{r heatmap, fig.width=5, fig.height=8}
 Heatmap(z.mat, name = "z-score",
         col = myRamp,            
-        show_row_names = FALSE,
-        cluster_columns = FALSE)
+        show_row_names = FALSE)
 ```
 
 we can also split the heat map into clusters and add some annotation.
 
 ```{r splitHeatmap, fig.width=5, fig.height=8}
-ha1 = HeatmapAnnotation(df = colData(ddsObj.interaction)[,c("Group", "TimePoint")])
+ha1 = HeatmapAnnotation(df = colData(ddsObj.interaction)[,c("Status", "TimePoint")])
 
 Heatmap(z.mat, name = "z-score",
         col = myRamp,            
-        show_row_name = FALSE,
-        cluster_columns = FALSE,
+        show_row_name = FALSE,,
         split=3,
         rect_gp = gpar(col = "darkgrey", lwd=0.5),
         top_annotation = ha1)

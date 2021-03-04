@@ -65,7 +65,7 @@ with a simple model which considers Status but ignores Cell Type
 
 ```{r modelForumla}
 # Use the standard R 'formula' syntax for an additive model
-simple.model <- as.formula(~ Group)
+simple.model <- as.formula(~ Status)
 ```
 
 What does this look like as a model matrix?
@@ -74,18 +74,15 @@ modelMatrix <- model.matrix(simple.model, data = sampleinfo)
 modelMatrix
 ```
 
-
-**Can we come up with different categories so that the intercept defaults to the infected samples?**
-
-It would be nice if `virgin` were the base line/intercept. To get R to 
-use `virgin` as the intercept we need to use a `factor`. Let's set factor levels
-on Status to use virgin as the intercept.
+It would be nice if `Uninfected` were the base line/intercept. To get R to 
+use `Uninfected` as the intercept we need to use a `factor`. Let's set factor 
+levels on Status to use `Uninfected` as the intercept.
 
 ```{r setFactors}
-# sampleinfo$Status <- factor(sampleinfo$Status, 
-#                             levels = c("virgin", "pregnant", "lactate"))
-# modelMatrix <- model.matrix(design, data = sampleinfo)
-# modelMatrix
+sampleinfo$Status <- factor(sampleinfo$Status, 
+                            levels = c("Uninfected", "Infected"))
+modelMatrix <- model.matrix(simple.model, data = sampleinfo)
+modelMatrix
 ```
 
 # Build a DESeq2DataSet
@@ -138,14 +135,14 @@ We can use `plotMA` from `limma` to look at the data in an MA plot
 ```{r}
 logcounts <- log2(counts(ddsObj)  + 1)
 
-limma::plotMA(logcounts)
+limma::plotMA(logcounts, array = 11)
 abline(h=0, col="red")
 ```
 
 ```{r}
 logNormalizedCounts <- log2(counts(ddsObj, normalized=TRUE)  + 1)
 
-limma::plotMA(logNormalizedCounts)
+limma::plotMA(logNormalizedCounts, array=11)
 abline(h=0, col="red")
 ```
 
@@ -219,14 +216,14 @@ this was the purpose of the `alpha` argument in the previous command.
 
 How many genes have an adjusted p-value of less than 0.05?
 
-```{r countSigGenes}
+```{r countSigGenes2}
 sum(results.simple$padj < 0.05, na.rm = TRUE)
 ```
 
 ### Exercise 1
 
-> So far we have fitted a simple model considering just "Group", but in reality 
-> we want to model the effects of both "Group" and "Time Point".
+> So far we have fitted a simple model considering just "Status", but in reality 
+> we want to model the effects of both "Status" and "Time Point".
 > 
 > Let's start with the model with only main effects - an additive model with no 
 > interaction. The main assumption here is that the effects of theXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -244,7 +241,7 @@ sum(results.simple$padj < 0.05, na.rm = TRUE)
 > 2. Create the model:
 > 
 > ```{r eval=FALSE}
-> additive.model <- as.formula(~ TimePoint + Group)
+> additive.model <- as.formula(~ TimePoint + Status)
 > ```
 > 
 > 3. Then build the DESeq from the raw data, the sample meta data and the model
@@ -280,7 +277,7 @@ sum(results.simple$padj < 0.05, na.rm = TRUE)
 > b) How many genes are have an adjusted p-value of less than 0.05
  
 ```{r echo=FALSE}
-additive.model <- as.formula(~ TimePoint + Group)
+additive.model <- as.formula(~ TimePoint + Status)
 ddsObj.raw <- DESeqDataSetFromTximport(txi = txi,
                                       colData = sampleinfo,
                                       design = additive.model)
@@ -313,14 +310,14 @@ resultsNames(ddsObj)
 Let's just rename `results.additive` so that we know which contrast results it contains.
 
 ```{r}
-results.TestvControl <- results.additive
+results.InfectedvUninfected <- results.additive
 rm(results.additive)
 ```
 
 Let's get the top 100 genes by adjusted p-value
 
 ```{r topGenesPvV, message = F, results="hide"}
-topGenesPvV <- as.data.frame(results.TestvControl) %>%
+topGenesPvV <- as.data.frame(results.InfectedvUninfected) %>%
     rownames_to_column("GeneID") %>% 
     arrange(padj) %>% 
     head(100)
@@ -385,7 +382,7 @@ XXXXXXXXXXXXXXXX OLD DATA IN SUPPLEMENTARY ????? XXXXXXXXXXXXXXXXXXXXXX
 
 # Should be using the interaction model?
 
-So far we have modeled gene expression as a function of Group and Time Point 
+So far we have modeled gene expression as a function of Status and Time Point 
 with an additive model. It is possible that the two factors interact such that
 differences in gene expression between different cell types are not the same
 across all three mouse statuses:
@@ -398,7 +395,7 @@ Can you anticipate if the interaction term will be important?
 
 ```{r pcaPlot, fig.width=5, fig.height=5}
 vstcounts <- vst(ddsObj.raw, blind=TRUE)
-plotPCA(vstcounts, intgroup=c("Group", "TimePoint"))
+plotPCA(vstcounts,  intgroup = c("Status", "TimePoint"))
 ```
 
 Maybe, but we can't be sure so we need a way to compare the two models.
@@ -408,17 +405,18 @@ Maybe, but we can't be sure so we need a way to compare the two models.
 Let's take a simple example to start with.
 
 Suppose we thought that maybe `TimePoint` was irrelevant and really the only 
-differences might be between `Test` and `Control` groups. We could fit the simpler model and this 
-would give us more degrees of freedom and therefore more power, but how
-would we know if it was a better model of not? 
+differences might be between `Infected` and `Uninfected` groups. We could fit 
+the simpler model and this would give us more degrees of freedom and therefore 
+more power, but how would we know if it was a better model of not? 
 
 We can compare two models using the "likelihood ratio test" (LRT). 
 
 To do so we provide the LRT with a simpler model (one with less parameters) than
-the one currently be used. 
+the one currently being used. 
 
-Currently `ddsObj` is using the model `~TimePoint + Group`. Here we want to
-compare to a model without the `TimePoint` parameter: `~Group`
+Currently `ddsObj` is using the model `~TimePoint + Status`. Here we want to
+compare to a model without the `TimePoint` parameter: `~Status`, this was our
+`simple.model` from earlier.
 
 ```{r compareModels}
 # Compare the two designs
@@ -429,7 +427,7 @@ resCvCS
 
 The second line of the results output shows us the test we are doing:
 
-  `LRT p-value: '~ TimePoint + Group' vs '~ Group'`
+  `LRT p-value: '~ TimePoint + Status' vs '~ Status'`
 
 The null hypothesis is that there is no significant difference between the two
 models, i.e. the simpler model is sufficient to explain the variation in gene
@@ -489,10 +487,10 @@ or the other and apply it to all genes.
 
 #```{r eval=FALSE, echo=FALSE, include=FALSE}
 ```{r eval=TRUE, echo=TRUE, include=TRUE}
-interactive.model <- as.formula(~ TimePoint * Group)
+interaction.model <- as.formula(~ TimePoint * Status)
 ddsObj2.raw <- DESeqDataSetFromTximport(txi = txi,
                                       colData = sampleinfo,
-                                      design = interactive.model)
+                                      design = interaction.model)
 keep <- rowSums(counts(ddsObj2.raw)) > 5
 ddsObj2.filt <- ddsObj2.raw[keep,]
 ddsObj.interaction <- DESeq(ddsObj2.filt)
@@ -517,10 +515,10 @@ table(resCSvCxS$padj < 0.05)
 
 ```{r}
 results.interaction.11 <- results(ddsObj.interaction, 
-                                  name="Group_Test_vs_Control",
+                                  name="Status_Infected_vs_Uninfected",
                                   alpha=0.05)
 results.interaction.33 <- results(ddsObj.interaction, 
-          contrast = list(c("Group_Test_vs_Control", "TimePointd33.GroupTest")),
+          contrast = list(c("Status_Infected_vs_Uninfected", "TimePointd33.StatusInfected")),
                                   alpha=0.05)
 ```
 
