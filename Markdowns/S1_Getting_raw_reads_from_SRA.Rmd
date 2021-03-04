@@ -24,13 +24,16 @@ explains how to begin by downloading the raw data files from the [NCBI
 Sequence Read Archive](https://trace.ncbi.nlm.nih.gov/Traces/sra/) public 
 repository.
 
-## The dataset
+## The Dataset
 
-The data for this course comes from a Frontiers in Microbiology paper, [Transcriptomic Profiling of Mouse Brain During Acute and Chronic Infections by Toxoplasma gondii Oocysts*](https://www.frontiersin.org/articles/10.3389/fmicb.2020.570903/full) [@Hu2020]. 
+The data for this course comes from a Frontiers in Microbiology paper, [Transcriptomic 
+Profiling of Mouse Brain During Acute and Chronic Infections by Toxoplasma gondii
+Oocysts*](https://www.frontiersin.org/articles/10.3389/fmicb.2020.570903/full) 
+[@Hu2020]. 
 The raw data (sequence reads) can be downloaded from SRA under under the 
 bio-project number PRJNA483261.
 
-## Download raw data from SRA
+## Downloading     raw data from SRA
 
 Raw reads from sequencing experiments tend to be distributed through the
 Sequence Read Archive [SRA](https://trace.ncbi.nlm.nih.gov/Traces/sra/)). SRA
@@ -117,7 +120,7 @@ created:
   b) Press 'y' to save changes
   c) press 'o' to confirm
 
-## Download the set of sra files
+### c) Download the set of sra files
 
 We can now directly download the `sra` files. The `sra` file is SRA's own
 archive format, but we can extract the raw reads in the more common `.fastq`
@@ -133,7 +136,7 @@ enter the project number *PRJNA483261*.
 Use the `prefetch` tool from the sra toolkit to download each file.
 
 ```
-for sraAcc in `cat accessoryFiles/SRR_Acc_List.txt`; do
+for sraAcc in `cat SRR_Acc_List.txt`; do
   prefetch ${srrAcc}  
 done
 ```
@@ -142,12 +145,12 @@ This will download the `sra` files into the `sra` directory. There will be one
 file for each `SRR` run number in the `SRR_Acc_List.txt` file, these correspond
 to samples.
 
-## Extracting fastq files
+### d) Extracting fastq files
 
 We can extract reads from these archive files to `fastq` format files using 
 `fasterq-dump` tool.
 
-```{bash}
+```
 mkdir fastq
 for sraFile in sraDir/sra/*.sra; do
   fasterq-dump -O fastq -e 8 --split-files ${sraFile}

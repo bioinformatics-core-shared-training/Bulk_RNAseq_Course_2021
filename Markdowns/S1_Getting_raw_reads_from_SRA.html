@@ -289,7 +289,7 @@ div.tocify {
 <h1 class="title toc-ignore">RNA-seq analysis in R</h1>
 <h3 class="subtitle">Obtaining RNA-seq reads from public repositories</h3>
 <h4 class="author">Ashley Sawle</h4>
-<h4 class="date">Last modified: 05 Feb 2021</h4>
+<h4 class="date">Last modified: 04 Mar 2021</h4>
 
 </div>
 
@@ -302,38 +302,45 @@ div.tocify {
 <p>Analysing an RNAseq experiment begins with sequencing reads. This tutorial explains how to begin by downloading the raw data files from the <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/">NCBI Sequence Read Archive</a> public repository.</p>
 </div>
 <div id="the-dataset" class="section level2">
-<h2>The dataset</h2>
+<h2>The Dataset</h2>
 <p>The data for this course comes from a Frontiers in Microbiology paper, <a href="https://www.frontiersin.org/articles/10.3389/fmicb.2020.570903/full">Transcriptomic Profiling of Mouse Brain During Acute and Chronic Infections by Toxoplasma gondii Oocysts*</a> <span class="citation">(Hu et al. 2020)</span>. The raw data (sequence reads) can be downloaded from SRA under under the bio-project number PRJNA483261.</p>
 </div>
-<div id="download-raw-data-from-sra" class="section level2">
-<h2>Download raw data from SRA</h2>
+<div id="downloading-raw-data-from-sra" class="section level2">
+<h2>Downloading raw data from SRA</h2>
 <p>Raw reads from sequencing experiments tend to be distributed through the Sequence Read Archive <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/">SRA</a>). SRA provide command line tools for downloading and processing the archive files as the <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software">SRA toolkit</a>.</p>
 <p>Alternatively the (<em>SRAdb</em>)[<a href="http://bioconductor.org/packages/release/bioc/html/SRAdb.html" class="uri">http://bioconductor.org/packages/release/bioc/html/SRAdb.html</a>] Bioconductor package can be used to query and download files that are hosted in SRA from within R.</p>
 <p>We will download the data using the SRA toolkit in the Terminal.</p>
 <div id="a-download-the-sra-toolkit" class="section level3">
 <h3>a) Download the SRA toolkit</h3>
 <p>You will need to select the correct version from the website above for your operating system, in this case we are on a CentOS Linux machine. There are other versions for Windows and MAC OS, be sure to download the correct version for your system.</p>
-<pre><code># download the gzip file
-wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.9/sratoolkit.2.10.9-centos_linux64.tar.gz
-
-# unzip the file
-tar -xzvf sratoolkit.2.10.9-centos_linux64.tar.gz
-
-# add the &#39;bin&#39; directory to the PATH - note the you will need to do this
-# everytime you start a new terminal and wish to use the toolkit
-export PATH=$PWD/sratoolkit.2.10.9-centos_linux64/bin/:${PATH}</code></pre>
+<div id="download-the-toolkit-as-a-gzip-file" class="section level4">
+<h4>Download the toolkit as a gzip file</h4>
+<pre><code>wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.10.9/sratoolkit.2.10.9-centos_linux64.tar.gz</code></pre>
+</div>
+<div id="unpack-the-file" class="section level4">
+<h4>Unpack the file</h4>
+<pre><code>tar -xzvf sratoolkit.2.10.9-centos_linux64.tar.gz</code></pre>
+</div>
+<div id="add-the-bin-directory-to-the-path" class="section level4">
+<h4>Add the <code>bin</code> directory to the PATH</h4>
+<p>The tools are located in the <code>bin</code> directory. Adding them to the PATH allows us to use them by name on the command line without having to provide the full path to file every time.</p>
+<p><strong>NOTE</strong>: You will need to do this every time you start a new terminal and wish to use the toolkit</p>
+<pre><code>export PATH=$PWD/sratoolkit.2.10.9-centos_linux64/bin/:${PATH}</code></pre>
 </div>
 </div>
-<div id="c-set-up-the-download-directory" class="section level2">
-<h2>c) Set up the download directory</h2>
-<pre><code># create a directory to which to download the sra files
-mkdir sra
-
-# use the vdb-config tool to set the download directory
-vdb-config -i </code></pre>
-<p>The last command will open an interactive window.</p>
+<div id="b-set-up-the-download-directory" class="section level3">
+<h3>b) Set up the download directory</h3>
+<p>We want to direct the toolkit to download the data to a directory we specify.</p>
+<div id="create-a-directory-to-which-to-download-the-sra-files" class="section level5">
+<h5>Create a directory to which to download the sra files</h5>
+<pre><code>mkdir sra</code></pre>
+</div>
+<div id="use-the-vdb-config-tool-to-set-the-download-directory" class="section level5">
+<h5>Use the vdb-config tool to set the download directory</h5>
+<pre><code>vdb-config -i </code></pre>
+<p>The last command will open an interactive window:</p>
 <p><img src="data:image/png;base64,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" /></p>
-<p>Use the vdb-config window to set the Default Import Path to the new <code>sra</code> directory we just created:</p>
+<p>Use the vdb-config window to set the import path to the <code>sra</code> directory we just created:</p>
 <ol style="list-style-type: decimal">
 <li>Press ‘c’ to navigate to the “CACHE” tab</li>
 <li>Set the ‘location of the user-repository’ to <code>sra</code>:</li>
@@ -341,48 +348,50 @@ vdb-config -i </code></pre>
 <ol style="list-style-type: lower-alpha">
 <li>Press ‘o’ to “choose” the directory</li>
 <li>Navigate the directory tree using the up and down arrow keys to select a directory and ‘Enter’ to open directories</li>
-<li>When you have the <code>sra</code> directory highlighted press ‘Tab,’ the red indicator will move to ‘OK,’ then press ‘Enter’</li>
+<li>When you are in <code>sra</code> directory press ‘Tab,’ the red indicator will move yto ‘OK,’ then press ‘Enter’</li>
 <li>Then press ‘y’ to confirm</li>
 </ol>
-<ol start="2" style="list-style-type: decimal">
-<li>under TOOLS set ‘prefetch downloads to’ to ‘user-repository’</li>
+<ol start="3" style="list-style-type: decimal">
+<li>Press ‘t’ to move to the “TOOLS” tab</li>
+<li>Set ‘prefetch downloads to’ to ‘user-repository’ (it may already be set):</li>
 </ol>
-<p>Use the vdb-config window to . Use tab to navigate to <code>Change</code> under the <code>Set  Default Import Path</code> (the highlighting indicates the active field the arrow keys and tab to navigate to the correct directory. When you have changed the directory <code>Save</code> and <code>Exit</code></p>
+<ol style="list-style-type: lower-alpha">
+<li>Press ‘p,’ this should highlight the options</li>
+<li>Use the arrow keys to move the asterix to “user-directory”</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>Exit and save:</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Press ‘x’ to exit</li>
+<li>Press ‘y’ to save changes</li>
+<li>press ‘o’ to confirm</li>
+</ol>
 </div>
-<div id="download-the-set-of-sra-files" class="section level2">
-<h2>Download the set of sra files</h2>
-<p>We can now directly download each <code>sra</code> file. The <code>sra</code> file is SRA’s own archive format, but we can extract the raw reads in the more common <code>.fastq</code> format in the next step.</p>
-<p>To download the sra file we need their accessions numbers. Go to the <a href="https://trace.ncbi.nlm.nih.gov/Traces/study/?go=home">SRA Run Selector</a> and enter the project number <em>SRP045534</em>. This will give us the <code>SRR</code> run numbers that we need to download.</p>
+</div>
+<div id="c-download-the-set-of-sra-files" class="section level3">
+<h3>c) Download the set of sra files</h3>
+<p>We can now directly download the <code>sra</code> files. The <code>sra</code> file is SRA’s own archive format, but we can extract the raw reads in the more common <code>.fastq</code> format in the next step.</p>
+<p>To download the sra file we need their accessions numbers. Go to the <a href="https://trace.ncbi.nlm.nih.gov/Traces/study/?go=home">SRA Run Selector</a> and enter the project number <em>PRJNA483261</em>.</p>
+<p>“Metadata” –&gt; SraRunTable.txt “Accession List” –&gt; SRR_Acc_List.txt</p>
 <p>Use the <code>prefetch</code> tool from the sra toolkit to download each file.</p>
-<pre class="bash"><code>prefetch SRR1552444
-prefetch SRR1552445
-prefetch SRR1552446
-prefetch SRR1552447
-prefetch SRR1552448
-prefetch SRR1552449
-prefetch SRR1552450
-prefetch SRR1552451
-prefetch SRR1552452
-prefetch SRR1552453
-prefetch SRR1552454
-prefetch SRR1552455</code></pre>
-</div>
-<div id="extracting-fastq-files" class="section level2">
-<h2>Extracting fastq files</h2>
-<p>Using the <a href="https://www.ncbi.nlm.nih.gov/sra">SRA Toolkit</a> command-line utility from NCBI we can generate the <code>fastq</code> files from these archive files.</p>
-<pre class="bash"><code>mkdir fastq
-for sraFile in sraDir/sra/*.sra; do
- echo &quot;Extracting fastq from &quot;${sraFile}
- fastq-dump \
-    --origfmt \
-    --gzip \
-    --outdir fastq \
-    ${sraFile}
+<pre><code>for sraAcc in `cat SRR_Acc_List.txt`; do
+  prefetch ${srrAcc}  
 done</code></pre>
-<p>After each fastq file has been extracted, you should see a message to report have many reads (spots) are contained in the file. <strong>Note that this process may take several hours.</strong></p>
+<p>This will download the <code>sra</code> files into the <code>sra</code> directory. There will be one file for each <code>SRR</code> run number in the <code>SRR_Acc_List.txt</code> file, these correspond to samples.</p>
+</div>
+<div id="d-extracting-fastq-files" class="section level3">
+<h3>d) Extracting fastq files</h3>
+<p>We can extract reads from these archive files to <code>fastq</code> format files using <code>fasterq-dump</code> tool.</p>
+<pre><code>mkdir fastq
+for sraFile in sraDir/sra/*.sra; do
+  fasterq-dump -O fastq -e 8 --split-files ${sraFile}
+done</code></pre>
+<p>After each fastq file has been extracted, you should see a message to report have many reads are contained in the file.</p>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Hu2020" class="csl-entry">
 Hu, Rui-Si, Jun-Jun He, Hany M. Elsheikha, Yang Zou, Muhammad Ehsan, Qiao-Ni Ma, Xing-Quan Zhu, and Wei Cong. 2020. <span>“Transcriptomic Profiling of Mouse Brain During Acute and Chronic Infections by Toxoplasma Gondii Oocysts.”</span> <em>Frontiers in Microbiology</em> 11: 2529. <a href="https://doi.org/10.3389/fmicb.2020.570903">https://doi.org/10.3389/fmicb.2020.570903</a>.
+</div>
 </div>
 </div>
 </div>
