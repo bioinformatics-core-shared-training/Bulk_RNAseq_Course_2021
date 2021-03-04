@@ -1,10 +1,9 @@
 ---
 title: "Introduction to RNAseq Methods"
-author: "XXXXXXXXXXXX"
 date: "March 2021"
 output:
   ioslides_presentation:
-    css: stylesheet.css
+    css: css/stylesheet.css
     logo: images/CRUK_Cambridge_Institute.png
     smaller: yes
     widescreen: yes
