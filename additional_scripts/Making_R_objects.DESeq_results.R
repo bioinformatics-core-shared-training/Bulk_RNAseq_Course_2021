@@ -4,7 +4,7 @@ library(tidyverse)
 # Make DESeq object
 
 txi <- readRDS("RObjects/txi.rds")
-sampleinfo <- read_tsv("meta_data/samplesheet_corrected.tsv", col_types="cccc")
+sampleinfo <- read_tsv("data/samplesheet_corrected.tsv", col_types="cccc")
 
 interactive.model <- as.formula(~ TimePoint * Group)
 ddsObj.raw <- DESeqDataSetFromTximport(txi = txi,
@@ -64,3 +64,4 @@ lfcShrink(ddsObj.interaction,
     left_join(ensemblAnnot, "GeneID") %>% 
     rename(logFC=log2FoldChange, FDR=padj) %>% 
     saveRDS(file="RObjects/Shrunk_Results.d33.rds")
+

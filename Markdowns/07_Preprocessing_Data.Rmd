@@ -32,14 +32,27 @@ library(DESeq2)
 library(tidyverse)
 ```
 
-## THE DATASET
+## A brief description of the data set
 
-BRIEF DESCRIPTION OF THE DATASET - paper, GEO, SRA
+The data for this tutorial comes from the paper [Transcriptomic Profiling of 
+Mouse Brain During Acute and Chronic Infections by *Toxoplasma gondii*
+Oocysts](https://www.frontiersin.org/articles/10.3389/fmicb.2020.570903/full) 
+[@Hu2020]. The raw data (sequence reads) can be downloaded from the [NCBI Short 
+Read Archive](https://www.ncbi.nlm.nih.gov/sra) under project number 
+**PRJNA483261**.
 
-Please see extended material for instructions on 
-[downloading raw files from SRA](S1_Getting_raw_reads_from_SRA.html).
+Please see extended material for instructions on [downloading raw files from
+SRA](S1_Getting_raw_reads_from_SRA.html).
 
-BREIF DESCRIPTION OF EXPERIMENT - SAMPLE GROUPS, REPS etc.
+This study examines changes in the gene expression profile in mouse brain in 
+response to infection with the protozoan *Toxoplasma gondii*. The authors
+performed transcriptome analysis on samples from infected and uninfected mice at 
+two time points, 11 days post infection and 33 days post infection. For each 
+sample group there are 3 biological replicates. This effectively makes this a 
+two factor study with two groups in each factor:
+
+* Status: Infected/Uninfected
+* Time Point: 11 dpi/33 dpi
 
 ## Reading in the sample metadata
 
@@ -48,9 +61,9 @@ need for the analysis today: name, cell type, status.
 
 ```{r loadSampleInfo, message = FALSE}
 # Read the sample information into a data frame
-sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc")) %>% 
+sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc"))
+sampleinfo %>% 
   arrange(Group, TimePoint, Replicate)
-sampleinfo
 ```
 
 ## Reading in the count data
@@ -72,7 +85,6 @@ to gene level. To this we need a table that related transcript
 ```{r readSalmon}
 files <- str_c("salmon/", sampleinfo$SampleName, "/quant.sf")
 files <- set_names(files, sampleinfo$SampleName)
-
 
 tx2gene <- read_tsv("references/tx2gene.tsv")
 
