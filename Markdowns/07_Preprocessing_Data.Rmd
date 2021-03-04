@@ -68,19 +68,18 @@ sampleinfo %>%
 
 ## Reading in the count data
 
-The raw reads were aligned using HISAT2 [@Kim2015] to the GRCm38 mouse reference
-genome from Ensembl. featureCounts [@Liao2014] was used to count reads against
-the Ensembl gene annotation and generate a counts matrix (as described in 
-[the previous session](E_Read_Counts_with_Subread.practical.html)).
+Salmon [@Patro2017] was used to quantify gene expression from raw reads against
+the Ensembl transcriptome GRCm38 version 102 (as described in 
+[the previous session](05_Quantification_with_Salmon_practical.html)).
 
 First we need to read the data into R from the `quant.sf` files under the 
-*salmon* directory. To this we use the `tximport` function. We need to create
-a named vector in which the values are the paths to the quant.sf files and the
+*salmon* directory. To do this we use the `tximport` function. We need to create
+a named vector in which the values are the paths to the `quant.sf` files and the
 names are sample names that we want in the column headers - these should match
 the sample names in our `sampleinfo` table.
 
 The Salmon quantification results are per transcript, we'll want to summarise
-to gene level. To this we need a table that related transcript 
+to gene level. To this we need a table that relates transcript IDs to gene IDs.
 
 ```{r readSalmon}
 files <- str_c("salmon/", sampleinfo$SampleName, "/quant.sf")
