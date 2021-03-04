@@ -133,16 +133,16 @@ colMeans(normalizationFactors(ddsObj))
 We can use `plotMA` from `limma` to look at the data in an MA plot
 
 ```{r}
-logcounts <- log2(counts(ddsObj)  + 1)
+logcounts <- log2(counts(ddsObj, normalized=FALSE)  + 1)
 
-limma::plotMA(logcounts, array = 11)
+limma::plotMA(logcounts, array = 5, ylim =c(-5, 5))
 abline(h=0, col="red")
 ```
 
 ```{r}
 logNormalizedCounts <- log2(counts(ddsObj, normalized=TRUE)  + 1)
 
-limma::plotMA(logNormalizedCounts, array=11)
+limma::plotMA(logNormalizedCounts, array=5, ylim =c(-5, 5))
 abline(h=0, col="red")
 ```
 
@@ -317,11 +317,11 @@ rm(results.additive)
 Let's get the top 100 genes by adjusted p-value
 
 ```{r topGenesPvV, message = F, results="hide"}
-topGenesPvV <- as.data.frame(results.InfectedvUninfected) %>%
+topGenesIvU <- as.data.frame(results.InfectedvUninfected) %>%
     rownames_to_column("GeneID") %>% 
     arrange(padj) %>% 
     head(100)
-topGenesPvV
+topGenesIvU
 ```
 
 

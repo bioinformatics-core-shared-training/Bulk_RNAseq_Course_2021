@@ -4,12 +4,14 @@ library(tidyverse)
 # Make DESeq object
 
 txi <- readRDS("RObjects/txi.rds")
-sampleinfo <- read_tsv("data/samplesheet_corrected.tsv", col_types="cccc")
+sampleinfo <- read_tsv("data/samplesheet_corrected.tsv", col_types="cccc") %>% 
+    mutate(Status = fct_relevel(Status, "Uninfected"))
 
-interactive.model <- as.formula(~ TimePoint * Group)
+
+interaction.model <- as.formula(~ TimePoint * Status)
 ddsObj.raw <- DESeqDataSetFromTximport(txi = txi,
                                         colData = sampleinfo,
-                                        design = interactive.model)
+                                        design = interaction.model)
 
 keep <- rowSums(counts(ddsObj.raw)) > 5
 ddsObj.filt <- ddsObj.raw[keep,]
@@ -19,10 +21,11 @@ ddsObj.interaction <- DESeq(ddsObj.filt)
 # Results objects
 
 results.interaction.11 <- results(ddsObj.interaction, 
-                                  name="Group_Test_vs_Control",
+                                  name="Status_Infected_vs_Uninfected",
                                   alpha=0.05)
 results.interaction.33 <- results(ddsObj.interaction, 
-                                  contrast = list(c("Group_Test_vs_Control", "TimePointd33.GroupTest")),
+                                  contrast = list(c("Status_Infected_vs_Uninfected", 
+                                                    "TimePointd33.StatusInfected")),
                                   alpha=0.05)
 
 saveRDS(ddsObj.interaction, "RObjects/DESeqDataSet.interaction.rds")

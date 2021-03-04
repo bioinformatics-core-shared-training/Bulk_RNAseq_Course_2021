@@ -129,7 +129,6 @@ do the initial QC and filtering.
 rawCounts <- round(txi$counts, 0) 
 ```
 
-
 # Filtering the genes
 
 <!-- prefiltering -->
