@@ -3,7 +3,7 @@ title: "Basic quality control with FastQC"
 date: "April 2021"
 output:
   ioslides_presentation:
-    css: stylesheet.css
+    css: css/stylesheet.css
     logo: images/CRUK_Cambridge_Institute.png
     smaller: yes
     widescreen: yes
@@ -46,10 +46,10 @@ Check for any problems before we put time and effort into analysing potentially 
 <div style="margin-left: 60px;
             float: none;">
   
-<img src="images/FastQC_logo.png", style="width: 25%;
-                                               margin-left: auto;
-                                               margin-right: auto;
-                                               display: block;">
+<img src="images/FastQC_logo.png" style="width: 25%;
+                                  margin-left: auto;
+                                  margin-right: auto;
+                                  display: block;">
                                                
 </div>
 
