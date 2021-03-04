@@ -34,7 +34,7 @@ library(tidyverse)
 
 ## THE DATASET
 
-BRIEF DESCRIPTION OF THE DATASET - paper, GEO, SRA
+BRIEF DESCRIPTION OF THE DATASET - paper, GEO, SRA [@Hu2020]
 
 Please see extended material for instructions on 
 [downloading raw files from SRA](S1_Getting_raw_reads_from_SRA.html).
@@ -48,9 +48,9 @@ need for the analysis today: name, cell type, status.
 
 ```{r loadSampleInfo, message = FALSE}
 # Read the sample information into a data frame
-sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc")) %>% 
+sampleinfo <- read_tsv("data/samplesheet.tsv", col_types = c("cccc"))
+sampleinfo %>% 
   arrange(Group, TimePoint, Replicate)
-sampleinfo
 ```
 
 ## Reading in the count data
