@@ -2,6 +2,7 @@
 title: "RNA-seq analysis in R"
 subtitle: "Quantification of Gene Expression with Salmon"
 output: html_document
+bibliography: ref.bib
 ---
 
 # Quasi-mapping and gene expression quantification
@@ -22,11 +23,12 @@ more accurate estimates of gene expression at the transcript level and
 incorporate corrections for GC-content bias and sequence bias. 
 They are also able to quantify multimapping reads in a more pragmatic manner
 than the standard alignment/counting approaches giving more accurate counts, 
-particularly for genes beloning to families of genes with very similar 
+particularly for genes belonging to families of genes with very similar 
 sequences.
 
 There are various tools that use this approach such at `Kallisto`, `Sailfish` 
-and `Salmon`; we will use `Salmon`. 
+and `Salmon`; we will use [`Salmon`](https://combine-lab.github.io/salmon/) 
+[@Patro2017]. 
 
 You can find the full manual here:
 

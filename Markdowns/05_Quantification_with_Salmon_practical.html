@@ -78,6 +78,28 @@ h6 {
 }
 </style>
 
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -196,8 +218,8 @@ summary {
 <div id="quasi-mapping-and-gene-expression-quantification" class="section level1">
 <h1>Quasi-mapping and gene expression quantification</h1>
 <p>So far we have QC’d our raw reads, aligned against the genome with HISAT2, and done some additional QC using the alignment results. The next step is to quantify the gene expression. One way would be to look at the alignments and use information about where genes are located on the genome to count the number of reads coming from each gene. This method is shown in the <a href>extended materials using the <code>featureCounts</code> tool</a>.</p>
-<p>An alternative is to use faster methods known as <em>quasi-mapping</em> or <em>pseudo-alignment</em>, followed by inferential estimation of gene expression. This approach has been developed over the past few years has advantages of being faster and more lightweight than full alignment (they can be run on a laptop rather than needing a high performance cluster). In addition these methods give more accurate estimates of gene expression at the transcript level and incorporate corrections for GC-content bias and sequence bias. They are also able to quantify multimapping reads in a more pragmatic manner than the standard alignment/counting approaches giving more accurate counts, particularly for genes beloning to families of genes with very similar sequences.</p>
-<p>There are various tools that use this approach such at <code>Kallisto</code>, <code>Sailfish</code> and <code>Salmon</code>; we will use <code>Salmon</code>.</p>
+<p>An alternative is to use faster methods known as <em>quasi-mapping</em> or <em>pseudo-alignment</em>, followed by inferential estimation of gene expression. This approach has been developed over the past few years has advantages of being faster and more lightweight than full alignment (they can be run on a laptop rather than needing a high performance cluster). In addition these methods give more accurate estimates of gene expression at the transcript level and incorporate corrections for GC-content bias and sequence bias. They are also able to quantify multimapping reads in a more pragmatic manner than the standard alignment/counting approaches giving more accurate counts, particularly for genes belonging to families of genes with very similar sequences.</p>
+<p>There are various tools that use this approach such at <code>Kallisto</code>, <code>Sailfish</code> and <code>Salmon</code>; we will use <a href="https://combine-lab.github.io/salmon/"><code>Salmon</code></a> <span class="citation">(Patro 2017)</span>.</p>
 <p>You can find the full manual here:</p>
 <p><a href="https://salmon.readthedocs.io/en/latest/salmon.html#using-salmon" class="uri">https://salmon.readthedocs.io/en/latest/salmon.html#using-salmon</a></p>
 <p>This provides much more information about various options and the reasons behind them.</p>
@@ -293,6 +315,11 @@ zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz |
   cut -f 1,4 |
   sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39; \
   &gt;&gt; references/tx2gene.tsv</code></pre>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Patro2017" class="csl-entry">
+Patro, Duggal, R. 2017. <span>“Salmon Provides Fast and Bias-Aware Quantification of Transcript Expression.”</span> <em>Nature Methods</em> 14: 417–19. <a href="https://doi.org/10.1038/nmeth.4197">https://doi.org/10.1038/nmeth.4197</a>.
+</div>
+</div>
 </div>
 </div>
 
