@@ -1,5 +1,5 @@
 # Introduction to RNA-seq data analysis 
-### 18th - 20th November 2020
+### 22nd - 24th March 2021
 #### Taught remotely
 #### Bioinformatics Training, Craik-Marshall Building, Downing Site, University of Cambridge
 
@@ -83,7 +83,7 @@ regarded as aspirations**
 
 ### Day 1
 
-9:30 - 9:45 - Welcome! <!-- Ash -->
+9:30 - 9:45 - Welcome! 
 
 9:45 - 10:15 - [Introduction to RNAseq 
 Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - XXXXXXXXXXXXX
@@ -108,11 +108,7 @@ HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX
     - [Practical](Markdowns/05_Quantification_with_Salmon_practical.html)  
     - [Practical solutions](Markdowns/05_Quantification_with_Salmon_practical.Solutions.html)
 
-<!-- Goodbye: Ash -->
-
 ### Day 2
-
-<!-- Welcome: Abbi -->
 
 9:30 - 10:15  [Introduction to RNAseq Analysis in 
 R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - XXXXXXXX  
@@ -127,18 +123,14 @@ Pre-processing](Markdowns/07_Preprocessing_Data.html) - XXXXXXXXXXXX
 Couturier     
     - [Practical (html)]() [(rmd)]()  
 
-15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]()   - XXXXXXX    
+15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]() - XXXXXXX    
     - [Practical]()    
-
-<!-- Goodbye: Abbi -->
 
 ### Day 3
 
-<!-- Welcome: Abbi  -->
-
 9:30 - 12:15 - [Differential Expression for
-RNA-seq]() - XXXXXXXXXXXXXXXXXXX   
-    - [practical solutions]()  
+RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - XXXXXXXXXXXXXXXXXXX   
+    - [practical solutions](Markdowns/10_DE_analysis_with_DESeq2.Solutions.html)  
 
 12:15 - 13:15 Lunch
 
@@ -158,16 +150,12 @@ The lecture slides and other source materials, including R code and
 practical solutions, can be found in the course's [Github 
 repository](https://github.com/bioinformatics-core-shared-training/RNAseq_November_2020_remote)
 
-<!--
 ## Extended materials
 
-The materials linked to from this page are somewhat cut down from the complete
-course that we normally teach. The [Extended Materials](Extended_index.md)
-contain the full course materials and links to additional RNAseq materials,
-including instruction on downloading and processing the raw data for this
-course, a link to an excellent R course, and where to get further help after
-the course.
--->
+The [Extended Materials](Extended_index.md) contain extensions to some of the
+sessions and additional materials, including instruction on downloading and
+processing the raw data for this course, a link to an excellent R course, and
+where to get further help after the course.
 
 ## Additional Resources
 
