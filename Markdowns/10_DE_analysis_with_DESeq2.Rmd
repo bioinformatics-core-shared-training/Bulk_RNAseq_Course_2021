@@ -45,12 +45,16 @@ all(colnames(txi$counts)==sampleinfo$SampleName)
 
 # The model formula and design matrices
 
-Now that we are happy that the quality of the data looks good, we can 
-proceed to testing for differentially expressed genes. There are a number of 
-packages to analyse RNA-Seq data. Most people use 
-[DESeq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) 
-or [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html). They 
-are both equally applicable. There is an informative and honest blog post
+Now that we are happy that the quality of the data looks good, we can proceed to
+testing for differentially expressed genes. There are a number of packages to
+analyse RNA-Seq data. Most people use
+[DESeq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+[@Love2014] or
+[edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)
+[@Robinson2010; @McCarthy2012]. There is also the option to use the
+[limma](https://bioconductor.org/packages/release/bioc/html/limma.html) package
+and transform the counts using its `voom` function .They are all equally valid
+approaches [@Ritchie2015]. There is an informative and honest blog post
 [here](https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/) by Mike Love,
 one of the authors of DESeq2, about deciding which to use.
 
@@ -541,3 +545,4 @@ saveRDS(results.interaction.33, "results/DESeqResults.interaction_d33.rds")
 
 --------------------
 
+# References
