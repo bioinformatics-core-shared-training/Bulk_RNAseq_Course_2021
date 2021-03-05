@@ -92,3 +92,5 @@ Note that the output directory must already exist, FastQC will not create it.
 >           A) What is the read length?  
 >           B) Does the quality score vary through the read length?  
 >           C) How is the data's quality?  
+
+-------------------------------------------------------------------

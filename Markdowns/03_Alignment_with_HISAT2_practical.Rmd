@@ -287,3 +287,6 @@ This would create a new file called `my_sample.sorted.bam.bai` (**ba**m
 > in your bam file. Don't forget the website 
 > [Explain SAM flags](https://broadinstitute.github.io/picard/explain-flags.html)
 > which helps with decoding the flag field of the alignment.
+
+
+---------------------------------------------------------------
