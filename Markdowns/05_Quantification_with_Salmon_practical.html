@@ -306,19 +306,33 @@ summary {
 </div>
 <div id="make-transcript-to-gene-table" class="section level2">
 <h2>Make transcript to gene table</h2>
-<p>Salmon quantifies gene expression at the transcript level. When we come to do out differential gene expression analysis in R, we will want to summarise this to the gene level. To do this we need a table that links transcript IDs to gene IDs. We have already done this for you, but for reference the code below was used to generate this table from the sequence headers in the transcriptome reference file.</p>
+<p>Salmon quantifies gene expression at the transcript level. When we come to do out differential gene expression analysis in R, we will want to summarise this to the gene level. To do this we need a table that links transcript IDs to gene IDs. <strong>We have already done this for you</strong>, but, for reference, the code below was used to generate this table from the sequence headers in the transcriptome reference file.</p>
 <pre><code>#### YOU DO NOT NEED TO RUN THIS CODE ####
 echo -e &quot;TxID\tGeneID&quot; &gt; references/tx2gene.tsv
-zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz | 
-  grep &quot;^&gt;&quot; |
-  tr &#39; &#39; &#39;\t&#39; |
-  cut -f 1,4 |
-  sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39; \
+zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz |
+  grep &quot;^&gt;&quot; | 
+  cut -f 1,4 | 
+  sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39; |
+  tr &#39; &#39; &#39;\t&#39; \ 
   &gt;&gt; references/tx2gene.tsv</code></pre>
+<ol style="list-style-type: decimal">
+<li><code>zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz</code> - read the zipped fasta<br />
+</li>
+<li><code>grep &quot;^&gt;&quot;</code> - find the sequence headers, they all start with ‘&gt;’<br />
+</li>
+<li><code>cut -f 1,4 -d &#39; &#39;</code> - extract the 1st and 4th entries - transcript ID and gene ID<br />
+</li>
+<li><code>sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39;</code> - remove the “&gt;” from the beginning of the line, the “gene:” from the beginning of the gene ID, and the trailing “.x” number which indicates that version of the gene annotation</li>
+<li><code>tr &#39; &#39; &#39;\t&#39;</code> - replace spaces with tabs so that the table is tab delimited</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Patro2017" class="csl-entry">
 Patro, Duggal, R. 2017. <span>“Salmon Provides Fast and Bias-Aware Quantification of Transcript Expression.”</span> <em>Nature Methods</em> 14: 417–19. <a href="https://doi.org/10.1038/nmeth.4197">https://doi.org/10.1038/nmeth.4197</a>.
-</div>
 </div>
 </div>
 </div>

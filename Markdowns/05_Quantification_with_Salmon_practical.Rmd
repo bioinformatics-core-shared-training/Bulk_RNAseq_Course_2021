@@ -153,18 +153,30 @@ transcriptome.
 
 Salmon quantifies gene expression at the transcript level. When we come to do
 out differential gene expression analysis in R, we will want to summarise this
-to the gene level. To do this we need a table that links transcript IDs to gene 
-IDs. We have already done this for you, but for reference the code below was 
-used to generate this table from the sequence headers in the transcriptome
+to the gene level. To do this we need a table that links transcript IDs to gene
+IDs. **We have already done this for you**, but, for reference, the code below
+was used to generate this table from the sequence headers in the transcriptome
 reference file.
 
 ```
 #### YOU DO NOT NEED TO RUN THIS CODE ####
 echo -e "TxID\tGeneID" > references/tx2gene.tsv
-zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz | 
-  grep "^>" |
-  tr ' ' '\t' |
-  cut -f 1,4 |
-  sed -e 's/^>//' -e 's/gene://' -e 's/\.[0-9]*$//' \
+zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz |
+  grep "^>" | 
+  cut -f 1,4 | 
+  sed -e 's/^>//' -e 's/gene://' -e 's/\.[0-9]*$//' |
+  tr ' ' '\t' \ 
   >> references/tx2gene.tsv
 ```
+
+1. `zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz` -  read the zipped fasta  
+2. `grep "^>"` -  find the sequence headers, they all start with '>'  
+3. `cut -f 1,4 -d ' '` - extract the 1st and 4th entries - transcript ID and gene ID  
+4. `sed -e 's/^>//' -e 's/gene://' -e 's/\.[0-9]*$//'` - remove the ">" from the
+beginning of the line, the "gene:" from the beginning of the gene ID, and
+the trailing ".x" number which indicates that version of the gene annotation
+5. `tr ' ' '\t'` - replace spaces with tabs so that the table is tab delimited
+
+----------------------------------------------------------
+
+# References
