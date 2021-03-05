@@ -37,6 +37,14 @@ output:
 * Human exome is ~30 Mb therefore there are < 30 million possible reads
 * Duplication rates in RNAseq can be > 40%
 
+## QC of aligned reads - Insert Size
+
+* Insert size is the length of the fragment of mRNA from which the reads are
+derived
+
+<img src="images/Insert_Size_QC.svg" class="centerimg">
+<img src="images/Insert_Size.svg" class="centerimg" style="width: 80%">
+
 ## QC of aligned reads - Genomic location of reads
 
 <div style="line-height: 50%;"><br></div>

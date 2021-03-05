@@ -6,7 +6,7 @@ read_tsv("metrics/SRR7657872.insert_size.txt", skip = 10) %>%
     ggplot(aes(x = insert_size, y = All_Reads.fr_count)) +
         geom_line(col = "#6427A3") +
         labs(x = "Insert Size (nucleotides)", y = "Read count")  
-ggsave("images/Insert_Size.svg", width = 8, height=5)
+ggsave("images/Insert_Size.svg", width = 8, height=3)
 
 
 # Genomic locations

@@ -96,7 +96,7 @@ QC](Markdowns/02_FastQC_introduction.html)  - XXXXXXXXXXXXX
 11:15 - 12:45 [Short read alignment with 
 HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX    
     - [Practical](Markdowns/03_Alignment_with_HISAT2_practical.html)  
-    - [Practical solutions](Markdowns/03_Alignment_with_HISAT2.Solutions.html)
+    - [Practical solutions](Markdowns/03_Alignment_with_HISAT2_practical.Solutions.html)
 
 12:45 - 13:45 Lunch
 
