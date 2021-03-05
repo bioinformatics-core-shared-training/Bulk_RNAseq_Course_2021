@@ -1,7 +1,6 @@
 ---
 title: "RNA-seq analysis in R"
 subtitle: "QC of raw reads with FastQC - Solutions"
-author: "Stephane Ballereau, Dominique-Laurent Couturier, Abbi Edwards, Guillermo Parada Gonzalez, Ashley Sawle"
 ---
 
 ### Exercise 1

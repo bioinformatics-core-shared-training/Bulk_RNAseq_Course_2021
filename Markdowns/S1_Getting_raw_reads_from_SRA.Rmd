@@ -1,11 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-author: "Ashley Sawle"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
   html_document:
     toc: yes
-    toc_float: yes
 layout: page
 subtitle: Obtaining RNA-seq reads from public repositories
 bibliography: ref.bib
@@ -105,20 +103,20 @@ created:
 
 1. Press 'c' to navigate to the "CACHE" tab
 2. Set the 'location of the user-repository' to `sra`:
-  a) Press 'o' to "choose" the directory
-  b) Navigate the directory tree using the up and down arrow keys to select a 
+    a) Press 'o' to "choose" the directory
+    b) Navigate the directory tree using the up and down arrow keys to select a 
     directory and 'Enter' to open directories
-  c) When you are in `sra` directory press 'Tab', the red indicator will move 
-     yto 'OK', then press 'Enter'
-  d) Then press 'y' to confirm
+    c) When you are in `sra` directory press 'Tab', the red indicator will move 
+       to 'OK', then press 'Enter'
+    d) Then press 'y' to confirm
 3. Press 't' to move to the "TOOLS" tab
 4. Set 'prefetch downloads to' to 'user-repository' (it may already be set):
-  a) Press 'p', this should highlight the options
-  b) Use the arrow keys to move the asterix to "user-directory"
-4. Exit and save:
-  a) Press 'x' to exit
-  b) Press 'y' to save changes
-  c) press 'o' to confirm
+    a) Press 'p', this should highlight the options
+    b) Use the arrow keys to move the asterix to "user-directory"
+5. Exit and save:
+    a) Press 'x' to exit
+    b) Press 'y' to save changes
+    c) press 'o' to confirm
 
 ### c) Download the set of sra files
 

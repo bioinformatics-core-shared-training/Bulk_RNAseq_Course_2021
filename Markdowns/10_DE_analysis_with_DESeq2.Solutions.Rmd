@@ -1,7 +1,6 @@
 ---
 title: "RNA-seq analysis in R"
 subtitle: "Differential Expression of RNA-seq data"
-author: "Stephane Ballereau, Dominique-Laurent Couturier, Mark Dunning, Abbi Edwards, Ashley Sawle"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:  html_document
 ---
@@ -158,8 +157,8 @@ results.d33_v_d11_uninfected <- results(ddsObj.interaction,
 table(results.d33_v_d11_uninfected$padj < 0.05)
 ```
 > Is this remarkable?  
-Maybe not, so we really expect vast gene expression differences between the 
-brains of mice that are slightly older than one another. It is possible that 
+Maybe not. Do we really expect vast gene expression differences between the 
+brains of mice that are slightly older than one another? It is possible that 
 there could have been confounding factors, such as changes in enviromental 
 conditions such as temperature or feeding regime, that may have effected gene
 expression. In which case it was important to set the experiment up with 
