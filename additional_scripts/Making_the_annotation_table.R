@@ -1,7 +1,7 @@
 library(biomaRt)
 library(tidyverse)
 
-load("RObjects/DGE_analysis_results.RData")
+results.interaction.11 <- readRDS("RObjects/DESeqResults.interaction_d11.rds")
 
 ## set up connection to ensembl database
 ensembl <- useEnsembl(biomart = 'genes', 
@@ -32,19 +32,9 @@ annot <- getBM(attributes=attributeNames,
                values = filterValues,
                mart = ensembl)
 
-# get transcript length
-txLen <- getBM(attributes=c('ensembl_gene_id', 'transcript_length'),
-               filters = filterType,
-               values = filterValues,
-               mart = ensembl) %>% 
-    group_by(ensembl_gene_id) %>% 
-    summarise(transcript_length=median(transcript_length))
-
-annot <- left_join(annot, txLen)
-
 saveRDS(annot, file="Full_annotation_with_duplicates.rds")
 
-# annot <- readRDS(file="Full_annotation_with_duplicates.rds")
+#annot <- readRDS(file="Full_annotation_with_duplicates.rds")
 
 # There are ensembl id's with multiple Entrez ID's
 # Deduplicate the entrez IDS by matching the entrez symbol and the 
@@ -89,7 +79,7 @@ annotUn %>%
     filter(!is.na(entrezgene_id)) %>% 
     add_count(entrezgene_id) %>% 
     filter(n>1) %>% 
-    count(entrezgene_id)
+    dplyr::count(entrezgene_id)
 
 # fsgea throws a nasty warning about multiple genes if we have this issue
 as.data.frame(results.interaction.11) %>% 
@@ -98,11 +88,11 @@ as.data.frame(results.interaction.11) %>%
     filter(!is.na(entrezgene_id)) %>% 
     add_count(entrezgene_id) %>% 
     filter(n>1) %>% 
-    select(ensembl_gene_id, entrezgene_id, padj) %>% 
+    select(ensembl_gene_id, entrezgene_id, padj, chromosome_name) %>% 
     arrange(padj)
 
 # we need a pragmatic solution for the course
-# these genes are mostly non-significant, we'll arbritrarily set the
+# these genes are mostly non-significant, we'll arbitrarily set the
 # second entry to NA. Some of the duplicates are on patch scaffolds, we'll 
 # arrange by chromosome, so that these get set to NA
 dupEntrez <- annotUn %>% 
@@ -135,6 +125,6 @@ ensemblAnnot <- rownames(results.interaction.11) %>%
                   Symbol="external_gene_name", Description="description",
                   Biotype="gene_biotype", Chr="chromosome_name",
                   Start="start_position", End="end_position",
-                  Strand="strand", medianTxLength='transcript_length')
+                  Strand="strand")
 
 saveRDS(ensemblAnnot, file="RObjects/Ensembl_annotations.rds")
