@@ -18,13 +18,6 @@ library(tidyverse)
 knitr::opts_knit$set(cache=TRUE)
 ```
 
-Before starting this section, we will make sure we have all the relevant objects
-from the Differential Expression analysis.
-
-```{r eval=FALSE}
-load("RObjects/DGE_analysis_results.RData")
-```
-
 # Overview
 
 - Getting annotation
@@ -33,6 +26,12 @@ load("RObjects/DGE_analysis_results.RData")
 
 We have a list of significantly differentially expressed genes, but the only
 annotation we can see is the Ensembl Gene ID, which is not very informative. 
+
+```{r, message=FALSE}
+results.interaction.11 <- readRDS("RObjects/DESeqResults.interaction_d11.rds")
+results.interaction.11
+```
+
 
 There are a number of ways to add annotation. One method is to do this using the
 *org.Mm.eg.db* package. This package is one of several *organism-level* packages
@@ -232,8 +231,9 @@ length(unique(annot$ensembl_gene_id))
 > (a) Search the attributes and add the following to our list of attributes:  
 >       (i) The gene description   
 >       (ii) The gene biotype  
-> (b) Query BioMart using all of the genes in our results table (`resLvV`)  
+> (b) Query BioMart using all of the genes in our results table (`results.interaction.11`)  
 >
 > (c) How many Ensembl genes have multipe Entrez IDs associated with them?  
-> (d) How many Ensembl genes in `resLvV` don't have any annotation?
+> (d) How many Ensembl genes in `results.interaction.11` don't have any annotation?
 
+-------------------------------------------------------------------------------
