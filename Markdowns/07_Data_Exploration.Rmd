@@ -1,6 +1,6 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Pre-processsing RNA-seq data"
+subtitle: "Initial exploration of RNA-seq data"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
   html_document:
@@ -10,17 +10,35 @@ bibliography: ref.bib
 
 # Introduction
 
-In this section we will begin the process of analysing the RNAseq data in R. In the
-next section we will use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
-for differential analysis. A detailed analysis workflow, recommended by the authors of DESeq2 can be found
-on [the Bionconductor 
+In this section we will begin the process of analyzing the RNAseq data in R. In
+the next section we will use
+[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) for
+differential analysis. A detailed analysis workflow, recommended by the authors
+of DESeq2 can be found on [the Bionconductor
 website](http://master.bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html).
 
-We first need to:
+Before embarking on the main analysis of the data, it is essential to do some
+exploration of the raw data. We want to assess the patterns and 
+characteristics of the data and compare these to what we expect from mRNAseq 
+data and assess the data based on our knowledge of the experimental design. The
+primary means of data explorations are summary statistics and visualisations.
+In this session we will primarily concentrate on assessing if the patterns
+in the raw data conform to what we know about the experimental design. This is
+essential to identify problems such as batch effects, outlier samples and 
+sample swaps.
 
-* import our counts into R
-* filter out unwanted genes
-* run some initial QC on the raw count data
+Due to time constraints we are not able to cover all the ways we might do this,
+so additional information on initial data exploration are available in the
+[supplementary materials](Markdowns/S4_Additional_Data_Exploration.html).
+
+In this session we will:
+
+* import our counts into R  
+* filter out unwanted genes  
+* look at the effects of variance and how to mitigate this with data 
+transformation
+* do some initial exploration of the raw count data using principle component 
+analysis  
 
 # Data import
 
@@ -119,10 +137,10 @@ If you are familiar with R but not `dplyr` or `tidyverse` then we have a very
 brief introduction [here](../extended_html/02a_A_brief_intro_to_dplyr.html). A more detailed 
 introduction can be found in our [online R course](https://bioinformatics-core-shared-training.github.io/r-intro/week4.html)
 
-# Create a raw counts matrix for initial QC
+# Create a raw counts matrix for data exploration
 
 DESeq2 will use the txi object directly but we will need a counts matrix to
-do the initial QC and filtering.
+do the data exploration.
 
 ```{r rawCounts}
 rawCounts <- round(txi$counts, 0) 
@@ -142,7 +160,9 @@ With `DESeq2` this is however not necessary as it applies `independent
 filtering` during the analysis. On the other hand, some filtering for 
 genes that are very lowly expressed does reduce the size of the data matrix, 
 meaning that less memory is required and processing steps are carried out 
-faster.
+faster. Furthermore, for the purposes of visualization it is important to remove
+the genes that are not expressed in order to avoid them dominating the patterns
+that we observe.
 
 We will keep all genes where the total number of reads across all samples is 
 greater than 5.
@@ -160,11 +180,6 @@ filtCounts <- rawCounts[keep,]
 # check dimension of new count matrix
 dim(filtCounts)
 ```
-
-# Quality assessment
-
-Before moving on to doing the actual differential expression analysis it is
-important to assess the quality of our data.
 
 ## Data transformations and visualization
 
@@ -294,10 +309,10 @@ treatments/sample groups. It is also an incredibly useful tool for checking for
 outliers and batch effects.
 
 To run the PCA we should first normalise our data for library size and transform
-to a log scale. DESeq2 provides two separate commands to do this (`vst` and `rlog`). Here we
-will use the command `rlog`. `rlog` performs a log2 scale transformation in a 
-way that compensates for differences between samples for genes with low read 
-count and also normalizes between samples for library size. 
+to a log scale. DESeq2 provides two separate commands to do this (`vst` and
+`rlog`). Here we will use the command `rlog`. `rlog` performs a log2 scale
+transformation in a way that compensates for differences between samples for
+genes with low read count and also normalizes between samples for library size.
 
 You can read more about `rlog`, its alternative `vst` and the comparison
 between the two 
@@ -320,7 +335,8 @@ pcDat <- prcomp(t(rlogcounts))
 autoplot(pcDat)
 ```
 
-We can use colour and shape to identify the Cell Type and the Status of each sample.
+We can use colour and shape to identify the Cell Type and the Status of each
+sample.
 
 ```{r pcaPlotWiColor, message = FALSE, fig.width=6.5, fig.height=5, fig.align="center"}
 autoplot(pcDat,
