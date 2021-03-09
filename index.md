@@ -114,8 +114,8 @@ HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX
 R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - XXXXXXXX  
 
 10:15 - 12:30 - [RNA-seq 
-Pre-processing](Markdowns/07_Preprocessing_Data.html) - XXXXXXXXXXXX  
-    - [Practical solutions](Markdowns/07_Preprocessing_Data.Solutions.html)
+Pre-processing](Markdowns/07_Data_Exploration.html) - XXXXXXXXXXXX  
+    - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html)
 
 12:30 - 13:30 Lunch
 
