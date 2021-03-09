@@ -7,7 +7,7 @@ bibliography: ref.bib
 
 # Introduction
 
-This document gives a very biref introduction to read trimming. Read trimming
+This document gives a very brief introduction to read trimming. Read trimming
 may desirable to remove adapter sequence or poor quality sequence from reads
 prior to analysis.
 
