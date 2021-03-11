@@ -361,12 +361,12 @@ want to use normalised expression values, so we'll use the `vst` function.
 ```{r selectGenes}
 # get the top genes
 sigGenes <- shrinkTab.11 %>% 
-    top_n(500, wt=-FDR) %>% 
+    top_n(250, wt=-FDR) %>% 
     pull("GeneID")
 
 # filter the data for the top 200 by padj in the LRT test
 plotDat <- vst(ddsObj.interaction)[sigGenes,] %>% 
-    assay()
+  assay()
 ```
 
 The range expression values for different genes can vary widely. Some genes will
@@ -393,7 +393,7 @@ myRamp <- colorRamp2(c(-2, 0, 2), myPalette)
 
 ```{r heatmap, fig.width=5, fig.height=8}
 Heatmap(z.mat, name = "z-score",
-        col = myRamp,            
+        col = myRamp,
         show_row_names = FALSE)
 ```
 
@@ -409,6 +409,20 @@ Heatmap(z.mat, name = "z-score",
         rect_gp = gpar(col = "darkgrey", lwd=0.5),
         top_annotation = ha1)
 ```
+
+```{r}
+library(ggvenn)
+vennDat <- tibble(Geneid=rownames(results.interaction.11)) %>% 
+  mutate(Acute_upregulated = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange > 0) %>% 
+  mutate(Acute_downregulated = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange < 0) %>%
+  mutate(Chronic_upregulated = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange > 0) %>%
+  mutate(Chronic_downregulated = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange < 0) 
+
+ggvenn(vennDat)
+
+```
+
+
 
 ```{r saveEnvironment, eval=FALSE}
 saveRDS(annot.interaction.11, file="results/Annotated_Results.d11.rds")
