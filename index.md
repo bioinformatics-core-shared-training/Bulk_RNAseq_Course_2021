@@ -138,8 +138,8 @@ RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - XXXXXXXXXXXXXXXXXXX
 results]() - XXXXXXXXXXXXXXXXXXXXx   
     - [practical solutions]()
 
-15:30 - 17:00 [Gene-set testing]() - XXXXXXXXXXXXXXXXX   
-    - [slides]()
+15:30 - 17:00 [Gene-set testing]() - XXXXXXXXXXXXXXXXX      
+    - [slides](Markdowns/12_Gene_set_testing_introduction.html)
     - [practical solutions]()
 
 <!-- Goodbye: Ash -->
