@@ -11,7 +11,6 @@ layout: page
 
 ```{r setup, include=FALSE}
 library(msigdbr)
-library(fgsea)
 library(clusterProfiler)
 library(pathview)
 #library(org.Mm.eg.db)
@@ -32,7 +31,7 @@ sigGenes <-  shrink.d11 %>%
 kk <- enrichKEGG(gene = sigGenes, organism = 'mmu')
 ```
 
-## Challenge 1
+## Exercise 1
 
 > 1. Use `pathview` to export a figure for "mmu04659", but this time only
 > use genes that are statistically significant at FDR < 0.01
@@ -54,7 +53,7 @@ mmu04659.pathview.png:
 
 ![mmu04659 - Th17 cell differentiation](images/mmu04659.pathview.png)
 
-## Challenge 2 - GO term enrichment analysis
+## Exercise 2 - GO term enrichment analysis
 
 > `clusterProfiler` can also perform over-representation analysis on GO terms.
 > using the commmand `enrichGO`. Look at the help page for the command 
@@ -82,7 +81,6 @@ sigGenes <-  shrink.d11 %>%
     filter(FDR < 0.01 & abs(logFC) > 1) %>% 
     pull(GeneID)
 
-
 universe <- shrink.d11$GeneID
 
 ego <- enrichGO(gene          = sigGenes, 
@@ -95,58 +93,281 @@ ego <- enrichGO(gene          = sigGenes,
 dotplot(ego)
 ```
 
-## Challenge 3
+## Exercise 3
 
 > Another common way to rank the genes is to order by pvalue, but also, sorting
-> so that upregulated genes are at start and downregulated at the other - 
+> so that upregulated genes are at the start and downregulated at the end - 
 > you can do this combining the sign of the fold change and the pvalue. 
 > 
 > 1. Rank the genes by statisical significance - you will need to create
 > a new ranking value using `-log10({p value}) * sign({Fold Change})`  
-> 2. Load the "C2" pathways from the the `Robjects/mouse_c2_v5.RData` file   
+> 2. Load the "C2" pathways from the msigdbr  
 > 3. Run `fgsea` using the new ranked genes and the C2 pathways  
 
+### Exercise 3.1
 
-```{r prepareGSEAData, include=FALSE}
-# fgsea data
-gseaDat <- filter(shrink.d11, !is.na(Entrez))
-ranks <- gseaDat$logFC
-```
-
-```{r solution3, echo=FALSE}
-ranks <- -log10(gseaDat$pvalue) * sign(gseaDat$logFC) # or gseaDat$stat
-names(ranks) <- gseaDat$Entrez  
-#dir("../Course_Materials/RObjects")
-Mm.c2 <- readRDS("../Course_Materials/RObjects/Mm.c2.all.v7.1.entrez.rds")
-
-fgseaResC2 <- fgsea(Mm.c2, ranks, minSize=15, maxSize = 500)
-head(fgseaResC2[order(padj, -abs(NES)), ], n=10) %>% tibble()
-```
-
-
-```{r solution3_GSEA}
+```{r solution3_GSEA_1}
+# 1. Rank the genes by statistical significance - you will need to create
+# a new ranking value using `-log10({p value}) * sign({Fold Change})`  
 
 m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>% 
   dplyr::select(gs_name, entrez_gene, gene_symbol)
 
-rankedGenes <- shrink.d11 %>%
-  drop_na(Entrez, FDR) %>%
-  filter(FDR < 0.05 & abs(logFC) > 1) %>%
-  #mutate(rank = logFC) %>%
+rankedGenes.e1 <- shrink.d11 %>%
+  drop_na(Entrez, pvalue, logFC) %>%
   mutate(rank = -log10(pvalue) * sign(logFC)) %>%
   arrange(-rank) %>%
   pull(rank,Entrez)
 
-gseaRes <- GSEA(rankedGenes,
+gseaRes.e1 <- GSEA(rankedGenes.e1,
                 TERM2GENE = m_H_t2g[,c("gs_name", "entrez_gene")],
                 #pvalueCutoff = 0.05,
                 pvalueCutoff = 1.00, # to retrieve whole output
                 minGSSize = 15,
                 maxGSSize = 500)
-
-gseaRes %>% 
-    arrange(desc(abs(NES))) %>% 
-    top_n(10, -p.adjust) %>%  
-    as_tibble()
 ```
+
+```{r}
+# have function to format in scientific notation
+format.e1 <- function(x) (sprintf("%.1e", x))
+# format table:
+gseaRes.e1 %>%
+  # sort in decreasing order of absolute NES
+  arrange(desc(abs(NES))) %>%
+  # only keep the 10 entries with the lowest p.adjust
+  top_n(10, -p.adjust) %>%
+  # remove columns 'core_enrichment' and 'Description'
+  dplyr::select(-core_enrichment) %>%
+  dplyr::select(-Description) %>%
+  # convert to data.frame
+  data.frame() %>%
+  # remove row names
+  remove_rownames() %>%
+  # format score
+  mutate(NES=formatC(NES, digits = 3)) %>%
+  mutate(ES=formatC(enrichmentScore, digits = 3)) %>%
+  relocate(ES, .before=NES) %>%
+  dplyr::select(-enrichmentScore) %>%
+  # format p-values
+  modify_at(
+    c("pvalue", "p.adjust", "qvalues"),
+    format.e1
+  ) %>%
+  # display
+  DT::datatable(options = list(dom = 't'))
+```
+
+Compare to previous results, i.e. where genes are ranked by logFC only:
+
+```{r}
+rankedGenes <- shrink.d11 %>%
+  drop_na(Entrez, pvalue, logFC) %>%
+  mutate(rank = logFC) %>%
+  arrange(-rank) %>%
+  pull(rank,Entrez)
+gseaRes <- GSEA(rankedGenes,
+                TERM2GENE = m_H_t2g[,1:2],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+```
+Combine the two sets of results:
+
+```{r}
+# store combined data in new data.frame res.df
+# only keep "ID", "NES" and "p.adjust"
+res.df <- gseaRes %>%
+  data.frame() %>%
+  # rename NES 
+  dplyr::rename(NES.1=NES, padj.1=p.adjust) %>%
+  dplyr::select(ID, NES.1, padj.1) %>%
+  left_join(gseaRes.e1[,c("ID", "NES", "p.adjust")]) %>%
+  dplyr::rename(NES.2=NES, padj.2=p.adjust) %>%
+  mutate(l10.padj.1 = -log10(padj.1),
+         l10.padj.2 = -log10(padj.2))
+```
+
+Plot NES:
+
+```{r}
+res.df %>%
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  ggplot(aes(x=NES.1,
+             y=NES.2)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1) +
+  xlab("NES for d11_lfcRank") +
+  ylab("NES for d11_sigRank") +
+  ggtitle("GSEA NES for H catalog, d11_sigRank vs d11_lfcRank")
+```
+
+Plot -log10(p.adjust):
+
+```{r}
+res.df %>%
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  ggplot(aes(x=l10.padj.1,
+             y=l10.padj.2)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_hline(yintercept = -log10(0.05), linetype = 2) +
+  geom_vline(xintercept = -log10(0.05), linetype = 2) +
+  xlab("-log(p.adjust) for d11_lfcRank") +
+  ylab("-log(p.adjust) for d11_sigRank") +
+  ggtitle("-log(p.adjust) for H catalog, d11_sigRank vs d11_lfcRank")
+```
+
+### Exercise 3.2
+
+```{r solution3_GSEA_2}
+# 2. Load the "C2" pathways from the msigdbr
+# 3. Run `GSEA` using the new ranked genes and the C2 pathways  
+
+m_c2_t2g <- msigdbr(species = "Mus musculus", category = "C2") %>% 
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+
+gseaRes.e2 <- GSEA(rankedGenes,
+                TERM2GENE = m_c2_t2g[,1:2],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+```
+
+```{r}
+gseaRes.e2 %>%
+  arrange(desc(abs(NES))) %>%
+  top_n(10, -p.adjust) %>%
+  #as_tibble()
+  dplyr::select(-core_enrichment) %>%
+  dplyr::select(-Description) %>%
+  data.frame() %>%
+  remove_rownames() %>%
+  # format score
+  mutate(NES=formatC(NES, digits = 3)) %>%
+  mutate(ES=formatC(enrichmentScore, digits = 3)) %>%
+  relocate(ES, .before=NES) %>%
+  dplyr::select(-enrichmentScore) %>%
+  # format p-values
+  modify_at(
+    c("pvalue", "p.adjust", "qvalues"),
+    format.e1
+  ) %>%
+  DT::datatable(options = list(dom = 't'))
+```
+
+### Exercise 3.3
+
+With d33 and H catalog:
+
+```{r solution3_GSEA_3}
+
+# read d33 data in:
+shrink.d33 <- readRDS("RObjects/Shrunk_Results.d33.rds")
+
+# get mouse H(allmarks) catalog
+m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>% 
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+
+# rank genes
+rankedGenes.e3 <- shrink.d33 %>%
+  drop_na(Entrez, pvalue, logFC) %>%
+  mutate(rank = -log10(pvalue) * sign(logFC)) %>%
+  arrange(-rank) %>%
+  pull(rank,Entrez)
+
+# perform analysis
+gseaRes.e3 <- GSEA(rankedGenes.e3,
+                TERM2GENE = m_H_t2g[,c("gs_name", "entrez_gene")],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+```
+Check outcome:
+
+```{r}
+gseaRes.e3 %>%
+  arrange(desc(abs(NES))) %>%
+  top_n(10, -p.adjust) %>%
+  dplyr::select(-core_enrichment) %>%
+  dplyr::select(-Description) %>%
+  data.frame() %>%
+  remove_rownames() %>%
+  # format score
+  mutate(NES=formatC(NES, digits = 3)) %>%
+  mutate(ES=formatC(enrichmentScore, digits = 3)) %>%
+  relocate(ES, .before=NES) %>%
+  dplyr::select(-enrichmentScore) %>%
+  # format p-values
+  modify_at(
+    c("pvalue", "p.adjust", "qvalues"),
+    format.e1
+  ) %>%
+  DT::datatable(options = list(dom = 't'))
+```
+
+Compare results with those obtained for d11:
+
+First get run analysis for d11 with genes ranked by significance and LFC sign:
+
+```{r}
+# run analysis for d11 with genes ranked by signinficance and LFC sign
+# as for d33
+rankedGenes <- shrink.d11 %>%
+  drop_na(Entrez, pvalue, logFC) %>%
+  mutate(rank = -log10(pvalue) * sign(logFC)) %>%
+  arrange(-rank) %>%
+  pull(rank,Entrez)
+gseaRes <- GSEA(rankedGenes,
+                TERM2GENE = m_H_t2g[,1:2],
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+```
+
+Combine outcomes:
+
+```{r}
+res.df <- gseaRes %>%
+  data.frame() %>%
+  dplyr::rename(NES.1=NES, padj.1=p.adjust) %>%
+  dplyr::select(ID, NES.1, padj.1) %>%
+  left_join(gseaRes.e3[,c("ID", "NES", "p.adjust")]) %>%
+  dplyr::rename(NES.2=NES, padj.2=p.adjust) %>%
+  mutate(l10.padj.1 = -log10(padj.1),
+         l10.padj.2 = -log10(padj.2))
+```
+
+Plot NES:
+
+```{r}
+res.df %>%
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  ggplot(aes(x=NES.1,
+             y=NES.2)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1) +
+  xlab("NES for d11_sigRank") +
+  ylab("NES for d33_sigRank") +
+  ggtitle("GSEA NES for H catalog, d33_sigRank vs d11_sigRank")
+```
+
+Plot -log10(p.adjust):
+
+```{r}
+res.df %>%
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  ggplot(aes(x=l10.padj.1,
+             y=l10.padj.2)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1) +
+  geom_hline(yintercept = -log10(0.05), linetype = 2) +
+  geom_vline(xintercept = -log10(0.05), linetype = 2) +
+  xlab("-log10(p.adjust) for d11_sigRank") +
+  ylab("-log10(p.adjust) for d33_sigRank") +
+  ggtitle("GSEA -log10(p.adjust) for H catalog, d33_sigRank vs d11_sigRank")
+```
+
 
