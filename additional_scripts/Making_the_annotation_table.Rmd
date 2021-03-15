@@ -1,3 +1,25 @@
+---
+title: "RNA-seq analysis in R"
+subtitle: "Making the annotation table for the course"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output:
+  html_document:
+    toc: yes
+bibliography: ref.bib
+---
+
+# Preamble
+
+This document provides the necessary code for creating the rds file with
+the annotation table used in the course. It uses `biomaRt` to retrieve the
+annotation from Ensembl. The list of Ensembl IDs to retrieve annotation for is
+extracted from an rds object containing the DESeq2 differential expression 
+results, which was already created.
+
+This document is not intended as a tutorial, for a detailed explanation of how
+to use `biomaRt` please see the supplementary materials]
+
+```
 library(biomaRt)
 library(tidyverse)
 
