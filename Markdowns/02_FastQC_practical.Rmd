@@ -54,37 +54,48 @@ Note that the output directory must already exist, FastQC will not create it.
 > 1. 
 >       a) Check the location of the current directory using the command `pwd`  
 >       b) If the current directory is not
->       `/home/participant/Course_Materials`, then navigate to the
+>       `Course_Materials`, then navigate to the
 >       **Course_Materials** directory using the `cd` (**c**hange
 >       **d**irectory) command:  
-> `cd ~/Course_Materials`  
+>```{bash eval=FALSE}
+> cd ~/Course_Materials
+>```
 >
 > 2.   
 >       a) Use `ls` to list the contents of the directory. There should be directory
 >    called **fastq**    
 >       b) Use `ls` to list the contents of the **fastq** directory:  
->    `ls fastq`
->          You should see two fastq files. These are the files for read 1 and 
->          read 2 of one of the samples we will be working with.
+>```{bash eval=FALSE}
+> ls fastq
+>```
+>
+> You should see two fastq files. These are the files for read 1 and read 2
+> of one of the samples we will be working with.
 >
 > 3. Create a new directory for the QC results called **QC** using the `mkdir`
 >    command:  
->    `mkdir QC`
+>```{bash eval=FALSE}
+> mkdir QC  
+>```
 >
-> 4. Run fastqc on one of the fastqs:  
->    `fastqc fastq/SRR7657883.sra_1.fastq.gz`
+> 4. Run fastqc on one of the fastq files:  
+>```{bash eval=FALSE}
+> fastqc fastq/SRR7657883.sra_1.fastq.gz  
+>```
 >
 > 5. The previous command has written the report to the **fastq** directory -
 >    the default behaviour for fastqc. We want it in the **QC** directory. 
->       a) Use the `rm` (remove) command to delete the report:   
->          `rm SRR7657883.sra_1_fastqc.html`  
->       b) Also delete the associated zip file (this contains all the figures
->       and data tables for the report)
+>       a) Use the `rm` (remove) command to delete the report:  
+>```{bash eval=FALSE}
+> rm SRR7657883.sra_1_fastqc.html  
+>```  
+>  b) Also delete the associated zip file (this contains all the figures and the
+>    data tables for the report)
 >
 > 6. Run the FastQC again, but this time:
->       a) have fastqc analyses both at the same time. You will need to add 
->          `-t 2` before the sequence file names. See `fastqc --help` to find 
-           out about this option.
+>       a) have FastQC analyse both fastq files at the same time. You will need 
+>          to add `-t 2` before the sequence file names. See `fastqc --help` to
+>          find  out about this option.
 >       b) try to use the `-o` option to have the reports written to the **QC** 
 >          directory.
 >  
