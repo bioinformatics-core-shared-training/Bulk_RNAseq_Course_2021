@@ -13,10 +13,11 @@ during the taught course.
 2. Raw read file format and QC
     - [Using Trimmomatic to remove adapter contamination from reads](Markdowns/S3_Trimming_Reads.html)
 
-3. Pre-processing - extended 
+3. Data exploration - extended 
     - [A brief intro to the tidyverse](Markdowns/S4_A_brief_intro_to_dplyr.html)  
     - A more extended tidyverse course can be found here: 
         [Introduction to R](https://bioinformatics-core-shared-training.github.io/r-intro/)
+    - [Further data exploration](Markdowns/S5_Additional_Data_Exploration.html)
 
 4. Annotation and Visualisation - extended 
     - [Annotation with biomaRt](Markdowns/S6_Annotation_With_BioMart.html)  
