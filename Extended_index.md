@@ -4,6 +4,8 @@
 
 ![](images/CRUK_Cambridge_Major Centre logo.jpg)
 
+### Supplementary materials
+
 These files contain some additional information and exercises not included 
 during the taught course.
 
@@ -22,7 +24,9 @@ during the taught course.
 4. Annotation and Visualisation - extended 
     - [Annotation with biomaRt](Markdowns/S6_Annotation_With_BioMart.html)  
         - [practical solutions](Markdowns/S6_Annotation_With_BioMart.Solution.html)
+    - [Creating the annotation used in the course](additional_scripts/Making_the_annotation_table.html)
     - [Additional annotation and plotting]()
+
 
 ### Supplementary lessons
 
