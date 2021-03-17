@@ -11,8 +11,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="3227.3291"
-   height="1969.5095"
-   viewBox="0 0 3227.3291 1969.5095"
+   height="1624.6427"
+   viewBox="0 0 3227.3291 1624.6427"
    id="svg4786"
    version="1.1"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -52,7 +52,7 @@
        x2="703.06628"
        y2="700.8291"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40614,48.059456)" />
+       gradientTransform="translate(-103.40618,392.92627)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5436"
@@ -62,7 +62,7 @@
        y1="1848.3624"
        x2="703.06628"
        y2="700.8291"
-       gradientTransform="translate(-103.40614,396.55225)" />
+       gradientTransform="translate(-103.40618,741.41906)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5436"
@@ -72,23 +72,13 @@
        y1="1848.3624"
        x2="703.06628"
        y2="700.8291"
-       gradientTransform="translate(-103.40614,-300.43331)" />
+       gradientTransform="translate(-103.40618,44.4335)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5436"
        id="linearGradient5480"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40614,-648.92605)"
-       x1="-400.02045"
-       y1="1848.3624"
-       x2="703.06628"
-       y2="700.8291" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient5436"
-       id="linearGradient5484"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40614,-997.41888)"
+       gradientTransform="translate(-103.40618,-304.05924)"
        x1="-400.02045"
        y1="1848.3624"
        x2="703.06628"
@@ -98,7 +88,7 @@
        xlink:href="#linearGradient5436"
        id="linearGradient5488"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40614,-1345.9116)"
+       gradientTransform="translate(-103.40618,-1345.9116)"
        x1="-400.02045"
        y1="1848.3624"
        x2="703.06628"
@@ -122,13 +112,13 @@
        x2="-648.58472"
        y2="-488.04404"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-99.618296,-360.92202)" />
+       gradientTransform="translate(-99.618336,-360.92202)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient5520"
        id="linearGradient5545"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40613,-12.42919)"
+       gradientTransform="translate(-103.40617,-12.42919)"
        x1="-2316.8433"
        y1="1046.0306"
        x2="-648.58472"
@@ -178,7 +168,7 @@
        xlink:href="#linearGradient5520"
        id="linearGradient3912"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40613,336.06354)"
+       gradientTransform="translate(-103.40617,336.06354)"
        x1="-2316.8433"
        y1="1046.0306"
        x2="-648.58472"
@@ -188,7 +178,7 @@
        xlink:href="#linearGradient5520"
        id="linearGradient3916"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40613,1032.7645)"
+       gradientTransform="translate(-103.40617,1032.7645)"
        x1="-2316.8433"
        y1="1046.0306"
        x2="-648.58472"
@@ -208,7 +198,7 @@
        xlink:href="#linearGradient5520"
        id="linearGradient957"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-103.40613,684.99043)"
+       gradientTransform="translate(-103.40617,684.99043)"
        x1="-2316.8433"
        y1="1046.0306"
        x2="-648.58472"
@@ -223,7 +213,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.21641616"
      inkscape:cx="2000.4313"
-     inkscape:cy="661.24805"
+     inkscape:cy="316.38128"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -292,107 +282,7 @@
          y="101.42837"
          x="48.76355"
          id="tspan5351"
-         sodipodi:role="line">Quality Assessment</tspan></text>
-    <rect
-       ry="62.802795"
-       y="666.47284"
-       x="-665.51721"
-       height="219.8098"
-       width="1431.1006"
-       id="rect5478"
-       style="fill:url(#linearGradient5480);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       rx="62.802799" />
-    <text
-       id="text5365"
-       y="798.44891"
-       x="48.079956"
-       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-size:80px;line-height:1.25"
-         y="798.44891"
-         x="48.079956"
-         id="tspan5367"
-         sodipodi:role="line">Differential Expression Analysis</tspan></text>
-    <rect
-       style="fill:url(#linearGradient5476);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5474"
-       width="1431.1006"
-       height="219.8098"
-       x="-665.51721"
-       y="1014.9656"
-       ry="62.802795"
-       rx="62.802799" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-       x="51.224487"
-       y="1146.9592"
-       id="text5375"><tspan
-         sodipodi:role="line"
-         id="tspan5377"
-         x="51.224487"
-         y="1146.9592"
-         style="font-size:80px;line-height:1.25">Gene Annotation</tspan></text>
-    <rect
-       ry="62.802795"
-       y="1363.4583"
-       x="-665.51721"
-       height="219.8098"
-       width="1431.1006"
-       id="rect5381"
-       style="fill:url(#linearGradient5466);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       rx="62.802799" />
-    <text
-       id="text5383"
-       y="1495.4669"
-       x="49.5448"
-       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-       xml:space="preserve"><tspan
-         style="font-size:80px;line-height:1.25"
-         y="1495.4669"
-         x="49.5448"
-         id="tspan5385"
-         sodipodi:role="line">Data Visualisation</tspan></text>
-    <rect
-       style="fill:url(#linearGradient5472);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5470"
-       width="1431.1006"
-       height="219.8098"
-       x="-665.51721"
-       y="1711.951"
-       ry="62.802795"
-       rx="62.802799" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-       x="51.4198"
-       y="1843.9771"
-       id="text5391"><tspan
-         sodipodi:role="line"
-         id="tspan5393"
-         x="51.4198"
-         y="1843.9771"
-         style="font-size:80px;line-height:1.25">Gene Set testing</tspan></text>
-    <rect
-       style="fill:url(#linearGradient5484);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5482"
-       width="1431.1006"
-       height="219.8098"
-       x="-665.51721"
-       y="317.97998"
-       ry="62.802795"
-       rx="62.802799" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
-       x="49.5448"
-       y="449.93921"
-       id="text5357"><tspan
-         sodipodi:role="line"
-         id="tspan5359"
-         x="49.5448"
-         y="449.93921"
-         style="font-size:80px;line-height:1.25">Normalisation</tspan></text>
+         sodipodi:role="line">Data Exploration</tspan></text>
     <rect
        style="fill:url(#linearGradient5545);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect5539"
@@ -482,74 +372,144 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       transform="matrix(0.98603936,0,0,0.49998511,1775.5837,414.21546)"
-       id="g5635">
-      <path
-         style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1749.9815,-443.83408 v 193.17977"
-         id="path5637"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
-         id="path5639"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       transform="matrix(0.98603936,0,0,0.49998511,1775.5837,762.70829)"
-       id="g5641">
-      <path
-         style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1749.9815,-443.83408 v 193.17977"
-         id="path5643"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
-         id="path5645"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       id="g5647"
-       transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1111.201)">
-      <path
-         inkscape:connector-curvature="0"
-         id="path5649"
-         d="m -1749.9815,-443.83408 v 193.17977"
-         style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5651"
-         d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
-    <g
-       id="g5653"
-       transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1459.6938)">
-      <path
-         inkscape:connector-curvature="0"
-         id="path5655"
-         d="m -1749.9815,-443.83408 v 193.17977"
-         style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5657"
-         d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
-    <g
-       transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1808.1866)"
-       id="g5659">
-      <path
-         style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1749.9815,-443.83408 v 193.17977"
-         id="path5661"
-         inkscape:connector-curvature="0" />
-      <path
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
-         id="path5663"
-         inkscape:connector-curvature="0" />
+       id="g932"
+       transform="translate(0,-344.86681)">
+      <rect
+         rx="62.802799"
+         style="fill:url(#linearGradient5480);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5478"
+         width="1431.1006"
+         height="219.8098"
+         x="-665.51721"
+         y="666.47284"
+         ry="62.802795" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         x="48.079956"
+         y="798.44891"
+         id="text5365"><tspan
+           sodipodi:role="line"
+           id="tspan5367"
+           x="48.079956"
+           y="798.44891"
+           style="font-size:80px;line-height:1.25">Differential Expression Analysis</tspan></text>
+      <rect
+         rx="62.802799"
+         ry="62.802795"
+         y="1014.9656"
+         x="-665.51721"
+         height="219.8098"
+         width="1431.1006"
+         id="rect5474"
+         style="fill:url(#linearGradient5476);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text5375"
+         y="1146.9592"
+         x="51.224487"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-size:80px;line-height:1.25"
+           y="1146.9592"
+           x="51.224487"
+           id="tspan5377"
+           sodipodi:role="line">Gene Annotation</tspan></text>
+      <rect
+         rx="62.802799"
+         style="fill:url(#linearGradient5466);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect5381"
+         width="1431.1006"
+         height="219.8098"
+         x="-665.51721"
+         y="1363.4583"
+         ry="62.802795" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         x="49.5448"
+         y="1495.4669"
+         id="text5383"><tspan
+           sodipodi:role="line"
+           id="tspan5385"
+           x="49.5448"
+           y="1495.4669"
+           style="font-size:80px;line-height:1.25">Data Visualisation</tspan></text>
+      <rect
+         rx="62.802799"
+         ry="62.802795"
+         y="1711.951"
+         x="-665.51721"
+         height="219.8098"
+         width="1431.1006"
+         id="rect5470"
+         style="fill:url(#linearGradient5472);fill-opacity:1;stroke:#555555;stroke-width:7.23594809;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text5391"
+         y="1843.9771"
+         x="51.4198"
+         style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           style="font-size:80px;line-height:1.25"
+           y="1843.9771"
+           x="51.4198"
+           id="tspan5393"
+           sodipodi:role="line">Gene Set testing</tspan></text>
+      <g
+         id="g5641"
+         transform="matrix(0.98603936,0,0,0.49998511,1775.5837,762.70829)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5643"
+           d="m -1749.9815,-443.83408 v 193.17977"
+           style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5645"
+           d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
+      <g
+         transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1111.201)"
+         id="g5647">
+        <path
+           style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m -1749.9815,-443.83408 v 193.17977"
+           id="path5649"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
+           id="path5651"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1459.6938)"
+         id="g5653">
+        <path
+           style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m -1749.9815,-443.83408 v 193.17977"
+           id="path5655"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
+           id="path5657"
+           inkscape:connector-curvature="0" />
+      </g>
+      <g
+         id="g5659"
+         transform="matrix(0.98603936,0,0,0.49998511,1775.5837,1808.1866)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5661"
+           d="m -1749.9815,-443.83408 v 193.17977"
+           style="fill:none;stroke:#000000;stroke-width:11.39999962;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path5663"
+           d="m -1786.6585,-294.8047 18.3385,45.0936 18.3385,45.0928 18.3384,-45.0928 18.3386,-45.0936 h -3.2714 l -14.5219,11.1965 -18.8837,14.56042 -18.8838,-14.56042 -14.5224,-11.1965 z"
+           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.87374902;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
     </g>
     <g
        id="g5707"

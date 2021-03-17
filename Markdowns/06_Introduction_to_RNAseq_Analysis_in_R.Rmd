@@ -57,7 +57,7 @@ output:
 
 <div style="line-height: 50%;"><br></div>
 
-<img src="images/workflow_3Day.svg" class="centerimg" style="width: 60%; margin-top: 60px;">
+<img src="images/workflow_3Day.svg" class="centerimg" style="width: 80%; margin-top: 60px;">
 
 ## Sources of Noise
 
