@@ -8,34 +8,30 @@ output: html_document
 
 ### Exercise 1
 
-> 1. Check your current working directory and if necessary navigate to 
->    the `Course_Materials/` directory using the command `cd` (change
->    directory).
->
-> `pwd` - to check **p**resent **w**working **d**irectory
-> 
-> `cd ~/Course_Materials`  - if necessary
->
-> 2. Use the `samtools flagstat` command to generate alignment metrics for
+> 1. Use the `samtools flagstat` command to generate alignment metrics for
 >    the sorted bam file you created in the previous practical.  
-> ` samtools flagstat bam/SRR7657883.sorted.bam`
-> ```
-> 64434897 + 0 in total (QC-passed reads + QC-failed reads)
-> 4193507 + 0 secondary
-> 0 + 0 supplementary
-> 0 + 0 duplicates
-> 61244035 + 0 mapped (95.05% : N/A)
-> 60241390 + 0 paired in sequencing
-> 30120695 + 0 read1
-> 30120695 + 0 read2
-> 54707584 + 0 properly paired (90.81% : N/A)
-> 55067498 + 0 with itself and mate mapped
-> 1983030 + 0 singletons (3.29% : N/A)
-> 161370 + 0 with mate mapped to a different chr
-> 139571 + 0 with mate mapped to a different chr (mapQ>=5)
-> ```
-> Q) What percentage of the reads have aligned to the genome? - 95.05% of reads
-> have been mapped to the reference genome.
+```{bash eval=FALSE}
+samtools flagstat bam/SRR7657883.sorted.bam
+```
+>>```
+>> 64434897 + 0 in total (QC-passed reads + QC-failed reads)
+>> 4193507 + 0 secondary
+>> 0 + 0 supplementary
+>> 0 + 0 duplicates
+>> 61244035 + 0 mapped (95.05% : N/A)
+>> 60241390 + 0 paired in sequencing
+>> 30120695 + 0 read1
+>> 30120695 + 0 read2
+>> 54707584 + 0 properly paired (90.81% : N/A)
+>> 55067498 + 0 with itself and mate mapped
+>> 1983030 + 0 singletons (3.29% : N/A)
+>> 161370 + 0 with mate mapped to a different chr
+>> 139571 + 0 with mate mapped to a different chr (mapQ>=5)
+>>```
+>
+> Q) What percentage of the reads have aligned to the genome? 
+
+95.05% of reads have been mapped to the reference genome.
 
 
 ## 2. More detailed metrics with Picard Tools
@@ -46,39 +42,56 @@ output: html_document
 
 > 1. Run Picard's MarkDuplicates tool on the sorted bam file using the
 >    following command:
-```
-java -jar picard/picard.jar MarkDuplicates \
-     INPUT=bam/SRR7657883.sorted.chr1.bam \
-     OUTPUT=bam/SRR7657883.mkdup.chr1.bam \
-     METRICS_FILE=bam/SRR7657883.mkdup_metrics.chr1.txt \
-     CREATE_INDEX=true
-```
+> ```{bash eval=FALSE}
+> java -jar picard/picard.jar MarkDuplicates \
+>          INPUT=bam/SRR7657883.chr14.sorted.bam \
+>          OUTPUT=bam/SRR7657883.chr14.mkdup.bam \
+>          METRICS_FILE=bam/SRR7657883.chr14.mkdup_metrics.txt \
+>          CREATE_INDEX=true
+> ```
+>> $\Rightarrow$ *bam/SRR7657883.chr14.mkdup.bam*  - The new bam file with 
+>> duplicated marked  
+>> $\Rightarrow$ *bam/SRR7657883.chr14.mkdup.bai* - The index for the new bam
+>> file  
+>> $\Rightarrow$ *bam/SRR7657883.chr14.mkdup_metrics.txt* - The duplication 
+>> metrics  
+>
 > **Note**: The `\` at the end of each line tells the terminal that when you press 
 > `Enter`, you have not yet finished typing the command. You can if you wish, type
 > the whole command on a single line, omitting the `\` - The command is written across
 > multiple lines here just to make it easier to read.
 >
-> Q. What is the duplication rate for this bam file? 
-> ~55%. 
-> Note that although the column headers for Picard say "PERCENT" or "PCT" the 
-> number is in fact the decimal fraction and need to be multiplied by 100 for 
-> percent. Just an odd quirk of Picard.
+> Q. What is the duplication rate for this bam file? You'll need to look at the
+> metrics file. The easiest way is to open in a spreadsheet. On the course 
+> machines we have LibreOffice Calc. You can find this in the launcher bar at 
+> the bottom of the desktop.
+
+![](images/Launcher_bar_cacl.png){width=50%}
+
+![](images/MarkDuplicates_results.png)
+
+~19%. 
+Note that although the column headers for Picard say "PERCENT" or "PCT" the
+number is in fact the decimal fraction and need to be multiplied by 100 for
+percent. Just an odd quirk of Picard.
 
 ### 2.2 Alignment metrics
 
 ### Exercise 2.2
 
-> 1. Run Picard's `CollectAlignmentSummaryMetrics` tool on the chr1 sorted bam  
+> 1. Run Picard's `CollectAlignmentSummaryMetrics` tool on the chr14 sorted bam 
 >    providing the following options.
->     * INPUT - The sorted bam file
->     * OUTPUT - "bam/SRR7657883.chr1.alignment_metrics.txt"
->     * REFERENCE_SEQUENCE - "references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa"
-```
+>     * INPUT - The sorted chr 14 only bam file
+>     * OUTPUT - `bam/SRR7657883.chr14.alignment_metrics.txt`
+>     * REFERENCE_SEQUENCE - `references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa`
+```{bash eval=FALSE}
 java -jar picard/picard.jar CollectAlignmentSummaryMetrics \
-     INPUT=bam/SRR7657883.chr1.sorted.bam \
-     OUTPUT=bam/SRR7657883.chr1.alignment_metrics.txt \
+     INPUT=bam/SRR7657883.chr14.sorted.bam \
+     OUTPUT=bam/SRR7657883.chr14.alignment_metrics.txt \
      REFERENCE_SEQUENCE=references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa
 ```
+>> $\Rightarrow$ *bam/SRR7657883.chr14.alignment_metrics.txt* - The alignment
+>> metrics  
 
 ### 2.3 Insert Size metrics
 
@@ -90,12 +103,32 @@ java -jar picard/picard.jar CollectAlignmentSummaryMetrics \
 >     * OUTPUT - bam/SRR7657883.chr1.insert_size.txt
 >     * HISTOGRAM_FILE - bam/SRR7657883.chr1.insert_size.pdf
 >
-```
+```{bash eval=FALSE}
 java -jar picard/picard.jar CollectInsertSizeMetrics \
-     INPUT=bam/SRR7657883.chr1.sorted.bam \
-     OUTPUT=bam/SRR7657883.chr1.insert_size.txt \
-     HISTOGRAM_FILE=bam/SRR7657883.chr1.insert_size.pdf
+     INPUT=bam/SRR7657883.chr14.sorted.bam \
+     OUTPUT=bam/SRR7657883.chr14.insert_size.txt \
+     HISTOGRAM_FILE=bam/SRR7657883.chr14.insert_size.pdf
 ```
+>> $\Rightarrow$ *bam/SRR7657883.chr14.insert_size.txt* - The insert size 
+>> metrics  
+>> $\Rightarrow$ *bam/SRR7657883.chr14.insert_size.pdf* - The PDF with a plot
+>> showing the insert size distribution
+>
+> Open the PDF and look at the distribution fragment lengths (insert sizes) 
+> in the library.
+![](images/SRR7657883.chr14.insert_size.png){width=75%}  
+> 
+> Q. Considering this data is from paired 150 base reads, what are the 
+> implications of the fragment length distributions.
+
+As we have PE 150 reads, the total amount of sequencing from each fragment is
+300 bases. Looking at the distribution only ~25% of the fragments have lengths
+greater than 300 bases. This means that for about 80% of the fragments the reads
+are overlapping. From the perspective of our gene expression analysis, this
+doesn't matter, however, from a design perspective it means that we have
+unnecessarily sequenced a lot of bases twice and he more sequencing we carry
+out, the more expensive the study is. It would have been optimal to use a
+shorter read length.
 
 ### 2.4 RNA alignment metrics
 
@@ -104,16 +137,17 @@ java -jar picard/picard.jar CollectInsertSizeMetrics \
 > 1. Run Picard's `CollectRnaSeqMetrics` tool on the sorted bam file providing
 >    the following options:
 >       * INPUT - The sorted bam file
->       * OUTPUT - "bam/SRR7657883.chr1.RNA_metrics.txt"
+>       * OUTPUT - `bam/SRR7657883.chr14.RNA_metrics.txt`
 >       * REF_FLAT - the RefFlat reference file
->       * STRAND - "NONE"
-```
+>       * STRAND - `NONE`
+```{bash eval=FALSE}
 java -jar picard/picard.jar CollectRnaSeqMetrics \
-     INPUT=bam/SRR7657883.chr1.sorted.bam \
+     INPUT=bam/SRR7657883.chr14.sorted.bam \
      REF_FLAT=references/Mus_musculus.GRCm38.102.txt \
-     OUTPUT=bam/SRR7657883.chr1.RNA_metrics.txt \
+     OUTPUT=bam/SRR7657883.chr14.RNA_metrics.txt \
      STRAND=NONE
 ```
+>> $\Rightarrow$ *bam/SRR7657883.chr14.RNA_metrics.txt* - The RNAseq metrics  
 >
 > The results of this analysis are best viewed graphically, we will do this in
 > the next exercise.
@@ -123,7 +157,7 @@ java -jar picard/picard.jar CollectRnaSeqMetrics \
 ### Exercise 3.1
 
 > 1. Run multiqc on the bam directory: 
-> ```
+> ```{bash eval=FALSE}
 > multiqc -n Alignment_QC_Report.html -o bam bam
 > ```   
 >
@@ -141,17 +175,16 @@ java -jar picard/picard.jar CollectRnaSeqMetrics \
 >
 > 1. Run multiqc on the contents of the metrics directory.  
 >
-```
+```{bash eval=FALSE}
 multiqc -z -n Alignment_QC_Report.html -o metrics metrics
 ```
-\>\>\> [Alignment_QC_Report.html](../additional_scripts/Alignment_QC_Report.html)   
-
+>> $\Rightarrow$ [metrics/Alignment_QC_Report.html](../additional_scripts/Alignment_QC_Report.html)   
 >  
 > 2. Open the html report that was generated by multiqc and inspect the QC plots   
 >
 > Q. Are there any bam files that look problematic?  
 
-SRR7657893 has low alignment rate, an inset size profile that is squewed to 
+SRR7657893 has low alignment rate, an insert size profile that is skewed to 
 left with a median at ~180 bp and a transcript coverage profile that shows
 a strong 3' bias. This suggests that the RNA in the this sample has been 
 degraded.
