@@ -1,0 +1,67 @@
+---
+title: "RNA-seq Analysis in R"
+subtitle: "Annotation and Visualisation of RNA-seq results - Solutions"
+author: "Stephane Ballereau, Dominique-Laurent Couturier, Mark Dunning, Abbi Edwards, Ashley Sawle"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+minutes: 300
+layout: page
+---
+
+```{r setup, include=FALSE}
+library(biomaRt)
+library(GenomicFeatures)
+library(DESeq2)
+library(tidyverse)
+```
+
+```{r prepareData, echo=FALSE, message=FALSE, warning=FALSE}
+# load data
+load("../Robjects/DE.RData")
+## set up connection to ensembl database
+ensembl <- useMart("ENSEMBL_MART_ENSEMBL")
+# list the available datasets (species)
+listDatasets(ensembl) %>% 
+    filter(str_detect(description, "Mouse"))
+# specify a data set to use
+ensembl <- useDataset("mmusculus_gene_ensembl", mart=ensembl)
+# annotations
+load("../Robjects/Ensembl_annotations.RData")
+load("../Robjects/Full_annotation.RData")
+
+annotLvV <- as.data.frame(resLvV) %>% 
+    rownames_to_column("GeneID") %>% 
+    left_join(ensemblAnnot, "GeneID") %>% 
+    rename(logFC=log2FoldChange, FDR=padj)
+ddsShrink <- lfcShrink(ddsObj, coef="Status_lactate_vs_virgin")
+shrinkLvV <- as.data.frame(ddsShrink) %>%
+    rownames_to_column("GeneID") %>% 
+    left_join(ensemblAnnot, "GeneID") %>% 
+    rename(logFC=log2FoldChange, FDR=padj)
+```
+
+```{r prepareData3, echo=FALSE, message=FALSE, warning=FALSE}
+# txdb object
+txMm <- makeTxDbFromGFF("../Course_Materials/data/counts/Mus_musculus.GRCm38.97.gtf.gz")
+```
+
+### Challenge 3 - In Supplementary Materials
+
+Use the txMm to retrieve the exon coordinates for the genes: 
+
+> * `ENSMUSG00000021604`  
+> * `ENSMUSG00000022146`  
+> * `ENSMUSG00000040118`   
+
+
+```{r solutionChallenge3, warning=FALSE, message=FALSE}
+keyList <- c("ENSMUSG00000021604", "ENSMUSG00000022146", "ENSMUSG00000040118")
+AnnotationDbi::select(txMm, 
+       keys=keyList,
+       keytype = "GENEID",
+       columns=c("TXNAME", "TXCHROM", "TXSTART", "TXEND", "TXSTRAND", "TXTYPE")
+      )
+```
