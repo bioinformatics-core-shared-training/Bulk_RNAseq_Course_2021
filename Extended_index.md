@@ -25,8 +25,7 @@ during the taught course.
     - [Annotation with biomaRt](Markdowns/S6_Annotation_With_BioMart.html)  
         - [practical solutions](Markdowns/S6_Annotation_With_BioMart.Solution.html)
     - [Creating the annotation used in the course](additional_scripts/Making_the_annotation_table.html)
-    - [Additional annotation and plotting]()
-
+    - [Additional Visualisations](Markdowns/S7_Additional_Visualisation.html)
 
 ### Supplementary lessons
 
