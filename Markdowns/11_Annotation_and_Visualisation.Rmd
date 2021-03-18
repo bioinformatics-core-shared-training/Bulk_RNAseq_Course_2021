@@ -295,7 +295,8 @@ volcanoTab.11 <- shrinkTab.11 %>%
     mutate(`-log10(pvalue)` = -log10(pvalue))
 
 ggplot(volcanoTab.11, aes(x = logFC, y=`-log10(pvalue)`)) + 
-    geom_point(aes(colour=pvalue < 0.05), size=1)
+    geom_point(aes(colour=pvalue < 0.05), size=1) +
+    geom_text(data=~top_n(.x, 1, wt=-FDR), aes(label=Symbol))
 ```
 
 > ## Exercise 2 - Volcano plot for 33 days
@@ -327,7 +328,7 @@ shrinkTab.33 <- as.data.frame(ddsShrink.33) %>%
 ```
 
 > (b) 
-> Create a new column of -log10(pvalue) values in shrinkTab.11
+> Create a new column of -log10(pvalue) values in your shrinkTab for 33 days.
 >
 > (c) 
 > Create a plot with points coloured by P-value < 0.05 similar to how we did in 
@@ -361,12 +362,12 @@ First we have to prepare the data with a column for each set we want in the Venn
 
 ```{r, fig.align="center", fig.width=10, fig.height=8}
 vennDat <- tibble(Geneid=rownames(results.interaction.11)) %>% 
-  mutate(Acute_upregulated = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange > 0) %>% 
-  mutate(Acute_downregulated = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange < 0) %>%
-  mutate(Chronic_upregulated = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange > 0) %>%
-  mutate(Chronic_downregulated = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange < 0) 
+  mutate(Upregulated_11 = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange > 0) %>% 
+  mutate(Downregulated_11 = results.interaction.11$padj < 0.05 & !is.na(results.interaction.11$padj) & results.interaction.11$log2FoldChange < 0) %>%
+  mutate(Upregulated_33 = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange > 0) %>%
+  mutate(Downregulated_33 = results.interaction.33$padj < 0.05 & !is.na(results.interaction.33$padj) & results.interaction.33$log2FoldChange < 0) 
 
-ggvenn(vennDat)
+ggvenn(vennDat, set_name_size = 4)
 
 ```
 
@@ -424,7 +425,7 @@ Heatmap(z.mat, name = "z-score",
 
 we can also split the heat map into clusters and add some annotation.
 
-```{r splitHeatmap, fig.width=5, fig.height=8}
+```{r ColouredsplitHeatmap, fig.width=5, fig.height=8}
 ha1 = HeatmapAnnotation(df = colData(ddsObj.interaction)[,c("Status", "TimePoint")])
 
 Heatmap(z.mat, name = "z-score",
@@ -435,7 +436,18 @@ Heatmap(z.mat, name = "z-score",
         top_annotation = ha1)
 ```
 
+Whenever we teach this session several student always ask how to set the colours of the bars at the top of the heatmap. This is shown below.
 
+```{r ColouredsplitHeatmap, fig.width=5, fig.height=8}
+ha1 = HeatmapAnnotation(df = colData(ddsObj.interaction)[,c("Status", "TimePoint")], col = list(Status = c("Uninfected" = "hotpink", "Infected" = "purple"), TimePoint = c("d11" = "lightblue", "d33" = "darkblue")))
+
+Heatmap(z.mat, name = "z-score",
+        col = myRamp,            
+        show_row_name = FALSE,
+        split=3,
+        rect_gp = gpar(col = "lightgrey", lwd=0.3),
+        top_annotation = ha1)
+```
 
 
 
