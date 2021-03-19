@@ -46,12 +46,23 @@ as we go.
 
 ## Shared Google Document
 
-This [Google Document](https://docs.google.com/document/d/1IVA-m22xtWxYusdG-giIFAk0AzC9F2E6k8I-YfBRoVM) contains useful information and links.
+This 
+<a href="https://docs.google.com/document/d/1IVA-m22xtWxYusdG-giIFAk0AzC9F2E6k8I-YfBRoVM" target="_blank">Google Document</a> contains useful information and links.. 
 
 Please use it to post any questions you have during the course.
 
 The trainers will be monitoring the document and will answer questions as quickly
 as they can.
+
+## Introduce Yourself
+
+There is another Google Doc 
+<a href="https://docs.google.com/document/d/13HGBzBK_5ePGVEpo6oMD-p2kTuUIb832ZQlp0tieluU/edit#" target="_blank">here</a>. 
+Please write a couple sentences here to introduce yourself to the class, tell
+us a bit about your background and what you hope to get out of this course.  If
+you are a student or staff at the University of Cambridge, tell us which
+Department you are in.
+
 
 ## Course etiquette
 
