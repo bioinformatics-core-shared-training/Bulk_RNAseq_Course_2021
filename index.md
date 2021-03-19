@@ -185,3 +185,21 @@ available; Maria Doyle, Belinda Phipson, Matt Ritchie, Anna Trigos, Harriet
 Dashnow, Charity Law.
 
 ![](images/combine_banner_small.png)
+
+The materials have been rewritten/modified/corrected/updated by various
+contributors over the past 5 years including:
+
+Abigail Edwards
+Ashley D Sawle
+Chandra Chilamakuri
+Dominique-Laurent Couturier
+Guillermo Parada González
+Jon Price
+Mark Dunning
+Mark Fernandes
+Oscar Rueda
+Sankari Nagarajan
+Stephane Ballereau
+Zeynep Kalender Atak
+
+Apologies if we have missed anyone!
