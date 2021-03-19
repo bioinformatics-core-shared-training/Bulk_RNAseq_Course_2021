@@ -15,17 +15,16 @@ annotation from Ensembl. The list of Ensembl IDs to retrieve annotation for is
 extracted from an rds object containing the DESeq2 differential expression 
 results, which was already created.
 
-
 ```{r include=FALSE}
 library(DESeq2)
 library(tidyverse)
 ```
 
-This document is **not** intended as a tutorial, for a detailed explanation of how
+<p style="color:red">**This document is not intended as a tutorial, for a detailed explanation of how
 to use `biomaRt` please see 
 [supplementary materials Annotation with biomaRt](../Markdowns/S6_Annotation_With_BioMart.html).
 Nor is this document intended to be a guide for creating your own annotations, 
-some totally arbitrary decisions are made in order to save effort.
+some totally arbitrary decisions were made in order to save effort.**</p>
 
 ```{r eval=FALSE}
 library(DESeq2)
