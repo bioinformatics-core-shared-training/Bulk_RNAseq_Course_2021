@@ -7,7 +7,7 @@
 
 ## Instructors
 
-* Abbi Edwards - Bioinformatics Core, Cancer Research UK Cambridge Institute
+* Abigail Edwards - Bioinformatics Core, Cancer Research UK Cambridge Institute
 * Ashley D Sawle - Bioinformatics Core, Cancer Research UK Cambridge Institute
 * Chandra Chilamakuri - Bioinformatics Core, Cancer Research UK Cambridge Institute
 * Dominique-Laurent Couturier - Bioinformatics Core, Cancer Research UK Cambridge Institute 
@@ -86,36 +86,36 @@ regarded as aspirations**
 9:30 - 9:45 - Welcome! 
 
 9:45 - 10:15 - [Introduction to RNAseq 
-Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - XXXXXXXXXXXXX
+Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - Jon Price
 
 10:15 - 11:15 [Raw read file format and 
-QC](Markdowns/02_FastQC_introduction.html)  - XXXXXXXXXXXXX    
+QC](Markdowns/02_FastQC_introduction.html)  - Jon Price
     - [Practical](Markdowns/02_FastQC_practical.html)  
-    - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html)
+    <!-- - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html) -->
 
 11:15 - 12:45 [Short read alignment with 
-HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - XXXXXXXXXXXXX    
+HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - Zeynep Kalender Atak
     - [Practical](Markdowns/03_Alignment_with_HISAT2_practical.html)  
-    - [Practical solutions](Markdowns/03_Alignment_with_HISAT2_practical.Solutions.html)
+   <!-- - [Practical solutions](Markdowns/03_Alignment_with_HISAT2_practical.Solutions.html)  -->
 
 12:45 - 13:45 Lunch
 
-13:45 - 15:30 [QC of alignment]() - XXXXXXXXX  
+13:45 - 15:30 [QC of alignment]() - Zeynep Kalender Atak
     - [Practical](Markdowns/04_QC_of_aligned_reads_practical.html)  
     - [Practical solutions](Markdowns/04_QC_of_aligned_reads_practical.Solutions.html)
 
-15:30 - 17:00 [Quantification of Gene Expression with Salmon]() - XXXXXXXXXXX  
+15:30 - 17:00 [Quantification of Gene Expression with Salmon]() - Ashley Sawle
     - [Practical](Markdowns/05_Quantification_with_Salmon_practical.html)  
-    - [Practical solutions](Markdowns/05_Quantification_with_Salmon_practical.Solutions.html)
+   <!-- - [Practical solutions](Markdowns/05_Quantification_with_Salmon_practical.Solutions.html) -->
 
 ### Day 2
 
 9:30 - 10:15  [Introduction to RNAseq Analysis in 
-R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - XXXXXXXX  
+R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - Jon Price
 
 10:15 - 12:30 - [RNA-seq 
-Pre-processing](Markdowns/07_Data_Exploration.html) - XXXXXXXXXXXX  
-    - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html)
+Pre-processing](Markdowns/07_Data_Exploration.html) - Chandra Chilamakuri
+   <!-- - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html) -->
 
 12:30 - 13:30 Lunch
 
@@ -123,24 +123,24 @@ Pre-processing](Markdowns/07_Data_Exploration.html) - XXXXXXXXXXXX
 Couturier     
     - [Practical (html)]() [(rmd)]()  
 
-15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]() - XXXXXXX    
+15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]() - Abigail Edwards
     - [Practical]()    
 
 ### Day 3
 
 9:30 - 12:15 - [Differential Expression for
-RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - XXXXXXXXXXXXXXXXXXX   
-    - [practical solutions](Markdowns/10_DE_analysis_with_DESeq2.Solutions.html)  
+RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - Ashley Sawle
+   <!-- - [practical solutions](Markdowns/10_DE_analysis_with_DESeq2.Solutions.html)   -->
 
 12:15 - 13:15 Lunch
 
 13:15 - 15:30 [Annotation and Visualisation of RNA-seq
-results]() - XXXXXXXXXXXXXXXXXXXXx   
-    - [practical solutions]()
+results]() - Abigail Edwards
+   <!-- - [practical solutions]() -->
 
-15:30 - 17:00 [Gene-set testing]() - XXXXXXXXXXXXXXXXX      
+15:30 - 17:00 [Gene-set testing]() - Stephane Ballereau
     - [slides](Markdowns/12_Gene_set_testing_introduction.html)
-    - [practical solutions]()
+   <!-- - [practical solutions]() -->
 
 <!-- Goodbye: Ash -->
 
@@ -148,7 +148,7 @@ results]() - XXXXXXXXXXXXXXXXXXXXx
 
 The lecture slides and other source materials, including R code and 
 practical solutions, can be found in the course's [Github 
-repository](https://github.com/bioinformatics-core-shared-training/RNAseq_November_2020_remote)
+repository](https://github.com/bioinformatics-core-shared-training/Bulk_RNAseq_Course_2021)
 
 ## Extended materials
 
