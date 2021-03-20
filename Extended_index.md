@@ -15,6 +15,10 @@ during the taught course.
 2. Raw read file format and QC
     - [Using Trimmomatic to remove adapter contamination from reads](Markdowns/S3_Trimming_Reads.html)
 
+3. Gene expression quantification
+    - [Using Subread to count aligned reads](Markdowns/S8_Read_Counts_with_SubRead.html)
+            - [practical solutions](Markdowns/S8_Read_Counts_with_SubRead.Solutions.html)
+
 3. Data exploration - extended 
     - [A brief intro to the tidyverse](Markdowns/S4_A_brief_intro_to_dplyr.html)  
     - A more extended tidyverse course can be found here: 
