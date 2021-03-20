@@ -87,7 +87,7 @@ ego <- enrichGO(gene          = sigGenes,
                 universe      = universe,
                 OrgDb         = org.Mm.eg.db,
                 keyType       = "ENSEMBL",
-                ont           = "MF",
+                ont           = "BP",
                 pvalueCutoff  = 0.01,
                 readable      = TRUE)
 dotplot(ego)

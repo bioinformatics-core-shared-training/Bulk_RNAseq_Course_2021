@@ -232,7 +232,7 @@ using the command `enrichGO`. Check:
 >  it using `library` before running the analysis.    
 >     - As we are using Ensembl IDs, you'll need to set the `keyType` 
 > parameter in the `enrichGO` command to indicate this.
->     - Only test terms in the "Molecular Function" ontology 
+>     - Only test terms in the "Biological Pathway" ontology 
 > 2. Use the `dotplot` function to visualise the results.
 
 
