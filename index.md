@@ -111,7 +111,7 @@ HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - Zeynep Kalender 
 
 12:45 - 13:45 Lunch
 
-13:45 - 15:30 [QC of alignment]() - Zeynep Kalender Atak  
+13:45 - 15:30 [QC of alignment](Markdowns/04_QC_of_aligned_reads_introduction.html) - Zeynep Kalender Atak  
     - [Practical](Markdowns/04_QC_of_aligned_reads_practical.html)  
    <!-- - [Practical solutions](Markdowns/04_QC_of_aligned_reads_practical.Solutions.html) -->
 
