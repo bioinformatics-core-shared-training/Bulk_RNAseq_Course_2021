@@ -1,9 +1,7 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: QC of Aligned Reads
-output:
-  pdf_document: default
-  html_document: default
+subtitle: "QC of Aligned Reads"
+output: html_document
 ---
 
 # Checking the quality of the aligned data
@@ -87,7 +85,7 @@ that contains information about the duplication rate.
 For the purposes of this training session we will work with a bam files that
 only contains reads aligned to chromosome 14. Running each tool on the full bam
 file would take too long for the practical. You should find afile called
-`SRR7657883.chr1.sorted.bam` under the directory `bam`, please use this rather
+`SRR7657883.chr14.sorted.bam` under the directory `bam`, please use this rather
 than the bam file you created in the previous session.
 
 ### Exercise 2.1
@@ -140,9 +138,9 @@ contain an plot showing the distribution of insert sizes in our library.
 
 > 1. Run Picard's `CollectInsertSizeMetrics` tool on the chr1 sorted bam 
 >    providing the following options.
->     * INPUT - The sorted chr 1 only bam file
->     * OUTPUT - `bam/SRR7657883.chr1.insert_size.txt`
->     * HISTOGRAM - `bam/SRR7657883.chr1.insert_size.pdf`
+>     * INPUT - The sorted chr 14 only bam file
+>     * OUTPUT - `bam/SRR7657883.chr14.insert_size.txt`
+>     * HISTOGRAM_FILE - `bam/SRR7657883.chr14.insert_size.pdf`
 >     * REFERENCE_SEQUENCE - `references/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa`  
 >
 > Open the PDF and look at the distribution fragment lengths (insert sizes) 
@@ -163,7 +161,7 @@ The `CollectRnaSeqMetrics` requires four pieces of information to run:
 3. A file containing gene annotations in a format called RefFlat that is defined
    [here](http://genome.ucsc.edu/goldenPath/gbdDescriptionsOld.html#RefFlat).
    This format can be generated from a gtf file. We've already generated this
-   file for you at `references/Mus_musculus.GRCm38.97.txt`  
+   file for you at `references/Mus_musculus.GRCm38.102.txt`  
 4. A parameter for strand specificity. Strand specificity is factor of the
    library prep chemistry. There are three possible options:  
         a) Forward stranded library prep, i.e. the reads are on the
