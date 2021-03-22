@@ -102,7 +102,7 @@ Methods](Markdowns/01_Introduction_to_RNAseq_Methods.html) - Jon Price
 10:15 - 11:15 [Raw read file format and 
 QC](Markdowns/02_FastQC_introduction.html)  - Jon Price  
     - [Practical](Markdowns/02_FastQC_practical.html) ([pdf](Markdowns/02_FastQC_practical.pdf))   
-    <!-- - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html) ([pdf](Markdowns/02_FastQC_practical.Solutions.pdf))   -->
+    - [Practical solutions](Markdowns/02_FastQC_practical.Solutions.html) ([pdf](Markdowns/02_FastQC_practical.Solutions.pdf))
 
 11:15 - 12:45 [Short read alignment with 
 HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - Zeynep Kalender Atak  
