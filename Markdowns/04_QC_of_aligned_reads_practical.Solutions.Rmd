@@ -1,7 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "QC of Aligned Reads - exercise solutions"
-output: html_document
+subtitle: QC of Aligned Reads - exercise solutions
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ## 1. A quick look at the alignment metrics with `samtools`
@@ -116,7 +118,7 @@ java -jar picard/picard.jar CollectInsertSizeMetrics \
 >
 > Open the PDF and look at the distribution fragment lengths (insert sizes) 
 > in the library.
-![](images/SRR7657883.chr14.insert_size.png){width=75%}  
+![](images/SRR7657883_chr14_insert_size.png){width=75%}  
 > 
 > Q. Considering this data is from paired 150 base reads, what are the 
 > implications of the fragment length distributions.

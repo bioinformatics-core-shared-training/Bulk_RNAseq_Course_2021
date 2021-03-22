@@ -1,6 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
 subtitle: QC of raw reads with FastQC
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 In our intial QC of the raw fastq file we will be interested in gathering

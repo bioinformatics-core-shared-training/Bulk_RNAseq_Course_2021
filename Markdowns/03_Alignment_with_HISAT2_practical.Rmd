@@ -1,7 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Read alignment with HISAT2"
-output: html_document
+subtitle: Read alignment with HISAT2
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # Mapping reads to a reference genome

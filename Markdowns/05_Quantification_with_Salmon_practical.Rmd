@@ -1,7 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Quantification of Gene Expression with Salmon"
-output: html_document
+subtitle: Quantification of Gene Expression with Salmon
+output:
+  pdf_document: default
+  html_document: default
 bibliography: ref.bib
 ---
 

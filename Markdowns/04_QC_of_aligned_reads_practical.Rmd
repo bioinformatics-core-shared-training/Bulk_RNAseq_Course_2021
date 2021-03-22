@@ -1,7 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "QC of Aligned Reads"
-output: html_document
+subtitle: QC of Aligned Reads
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 # Checking the quality of the aligned data

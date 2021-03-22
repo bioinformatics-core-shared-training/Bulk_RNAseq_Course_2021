@@ -1,7 +1,9 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Read alignment with HISAT2 - exercise solutions"
-output: html_document
+subtitle: Read alignment with HISAT2 - exercise solutions
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ## 1 Indexing the genome for Hisat2
