@@ -146,8 +146,8 @@ RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - Ashley Sawle
 12:15 - 13:15 Lunch
 
 13:15 - 15:30 [Annotation and Visualisation of RNA-seq
-results]() - Abigail Edwards    
-   <!-- - [practical solutions]() -->
+results](Markdowns/11_Annotation_and_Visualisation.html) - Abigail Edwards    
+   <!-- - [practical solutions](Markdowns/11_Annotation_and_Visualisation_Solutions.html) -->
 
 15:30 - 17:00 [Gene-set testing]() - Stephane Ballereau    
     - [slides](Markdowns/12_Gene_set_testing_introduction.html)
