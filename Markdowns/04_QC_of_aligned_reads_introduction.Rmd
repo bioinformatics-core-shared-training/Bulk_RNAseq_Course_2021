@@ -56,3 +56,11 @@ derived
 <div style="line-height: 50%;"><br></div>
 
 <img src="images/TranscriptCoverage.svg" class="centerimg" style="width: 80%">
+
+## QC Goals 
+ 
+ * Ensure the experiment generated the expected data
+ * Check is the sequencing depth and alignment rates are similar across samples 
+ * Identify poor alignment parameters (sample quality, library prep ?)
+ * Discover contamination from another organism or from DNA 
+ * Identify biases present in the data 
