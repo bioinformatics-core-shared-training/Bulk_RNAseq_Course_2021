@@ -134,8 +134,9 @@ Pre-processing](Markdowns/07_Data_Exploration.html) - Chandra Chilamakuri
 Couturier        
     - [Practical (html)]() [(rmd)]()  
 
-15:30 - 17:00 [Experimental Design of Bulk RNAseq studies]() - Abigail Edwards    
-    - [Practical]()    
+15:30 - 17:00 [Experimental Design of Bulk RNAseq studies](additional_scripts/ExperimentalDesignCourse_Edwards_19-11-2020.pptx) - Abigail Edwards    
+    - [Practical](additional_scripts/RNAseq_ExperimentalDesignPractical.pdf)    
+    <!-- - [Answers](additional_scripts/RNAseq_ExperimentalDesignPractical_Answers.pdf) -->
 
 ### Day 3
 
