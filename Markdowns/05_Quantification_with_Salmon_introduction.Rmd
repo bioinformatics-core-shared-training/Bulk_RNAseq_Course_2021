@@ -56,7 +56,7 @@ e.g. featureCounts or HTSeq
 * Traditional alignment is (relatively) slow and computationally intensive
 * Read sampling is not uniform, there are biases
 
-More sophisticates approaches:
+More sophisticated approaches:
 
 * CuffLinks - Trapnell *et al.* (2010) Nature Biotechnology doi:10.1038/nbt.1621
 * RSEM - Li and Dewey (2011) BMC Bioinformatics doi:10.1186/1471-2105-12-323
