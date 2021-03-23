@@ -284,13 +284,13 @@ pre code {
 <p style="color:red">
 You do not need to run this code
 </p>
-<pre class="bash"><code>echo -e &quot;TxID\tGeneID&quot; &gt; tx2gene.tsv
+<pre class="bash"><code>echo -e &quot;TxID\tGeneID&quot; &gt; salmon_outputs/tx2gene.tsv
 zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz |
   grep &quot;^&gt;&quot; | 
   cut -f 1,4 | 
   sed -e &#39;s/^&gt;//&#39; -e &#39;s/gene://&#39; -e &#39;s/\.[0-9]*$//&#39; |
   tr &#39; &#39; &#39;\t&#39; \ 
-  &gt;&gt; tx2gene.tsv</code></pre>
+  &gt;&gt; salmon_outputs/tx2gene.tsv</code></pre>
 <ol style="list-style-type: decimal">
 <li><code>zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz</code> - read the zipped fasta<br />
 </li>
