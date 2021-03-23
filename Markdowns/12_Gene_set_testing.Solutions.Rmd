@@ -70,7 +70,7 @@ mmu04659.pathview.png:
 >  it using `library` before running the analysis.    
 >     - As we are using Ensembl IDs, you'll need to set the `keyType` 
 > parameter in the `enrichGO` command to indicate this.
->     - Only test terms in the "Molecular Function" ontology 
+>     - Only test terms in the "Biological Pathway" ontology 
 > 2. Use the `dotplot` function to visualise the results.
 
 ```{r solution2}
@@ -90,7 +90,42 @@ ego <- enrichGO(gene          = sigGenes,
                 ont           = "BP",
                 pvalueCutoff  = 0.01,
                 readable      = TRUE)
-dotplot(ego)
+
+dotplot(ego,
+        font.size = 8,
+        label_format=20
+        )
+```
+
+```{r}
+barplot(ego, 
+        drop = TRUE, 
+        showCategory = 10,
+        label_format = 20,
+        title = "GO Biological Pathways",
+        font.size = 8)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# attempt at reproducing Fig3
+# by sorting terms by strength of evidence
+# (for a single contrast for now)
+dd <- data.frame(ego) %>%
+  dplyr::select(Description, p.adjust) %>%
+  head(n=10) %>%
+  remove_rownames() %>%
+  mutate(sig=-log10(p.adjust)) %>%
+  dplyr::select(-p.adjust) %>%
+  arrange(sig) %>%
+  rownames_to_column("rank") %>%
+  mutate(rank=as.numeric(rank)) %>%
+  mutate(Description=ifelse(nchar(Description)<30,
+                            Description,
+                            sprintf("%s ...", strtrim(Description,30))))
+dd$Term <- factor(dd$Description, levels = dd$Description)
+dd %>% ggplot(aes(x=Term, y=sig)) +
+	geom_bar(stat="identity") +
+	coord_flip()
 ```
 
 ## Exercise 3
@@ -101,24 +136,31 @@ dotplot(ego)
 > 
 > 1. Rank the genes by statisical significance - you will need to create
 > a new ranking value using `-log10({p value}) * sign({Fold Change})`  
-> 2. Load the "C2" pathways from the msigdbr  
-> 3. Run `fgsea` using the new ranked genes and the C2 pathways  
+> 2. Run `fgsea` using the new ranked genes and the H pathways  
+> 3. Conduct the same analysis for the d33 vs control contrast.
 
-### Exercise 3.1
+### Exercise 3 - d11 new rank
 
 ```{r solution3_GSEA_1}
 # 1. Rank the genes by statistical significance - you will need to create
 # a new ranking value using `-log10({p value}) * sign({Fold Change})`  
 
+# obtain the H(allmarks) catalog for mouse:
 m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>% 
   dplyr::select(gs_name, entrez_gene, gene_symbol)
 
+# rank genes
 rankedGenes.e1 <- shrink.d11 %>%
   drop_na(Entrez, pvalue, logFC) %>%
+  # rank genes by strength of significance,
+  # keeping the direction of the fold change 
   mutate(rank = -log10(pvalue) * sign(logFC)) %>%
+  # sort genes by decreasing rank.
   arrange(-rank) %>%
+  # keep ranks and Entrez IDs
   pull(rank,Entrez)
 
+# conduct analysis:
 gseaRes.e1 <- GSEA(rankedGenes.e1,
                 TERM2GENE = m_H_t2g[,c("gs_name", "entrez_gene")],
                 #pvalueCutoff = 0.05,
@@ -157,107 +199,7 @@ gseaRes.e1 %>%
   DT::datatable(options = list(dom = 't'))
 ```
 
-Compare to previous results, i.e. where genes are ranked by logFC only:
-
-```{r}
-rankedGenes <- shrink.d11 %>%
-  drop_na(Entrez, pvalue, logFC) %>%
-  mutate(rank = logFC) %>%
-  arrange(-rank) %>%
-  pull(rank,Entrez)
-gseaRes <- GSEA(rankedGenes,
-                TERM2GENE = m_H_t2g[,1:2],
-                #pvalueCutoff = 0.05,
-                pvalueCutoff = 1.00, # to retrieve whole output
-                minGSSize = 15,
-                maxGSSize = 500)
-```
-Combine the two sets of results:
-
-```{r}
-# store combined data in new data.frame res.df
-# only keep "ID", "NES" and "p.adjust"
-res.df <- gseaRes %>%
-  data.frame() %>%
-  # rename NES 
-  dplyr::rename(NES.1=NES, padj.1=p.adjust) %>%
-  dplyr::select(ID, NES.1, padj.1) %>%
-  left_join(gseaRes.e1[,c("ID", "NES", "p.adjust")]) %>%
-  dplyr::rename(NES.2=NES, padj.2=p.adjust) %>%
-  mutate(l10.padj.1 = -log10(padj.1),
-         l10.padj.2 = -log10(padj.2))
-```
-
-Plot NES:
-
-```{r}
-res.df %>%
-  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
-  ggplot(aes(x=NES.1,
-             y=NES.2)) +
-  geom_point() +
-  geom_abline(intercept = 0, slope = 1) +
-  xlab("NES for d11_lfcRank") +
-  ylab("NES for d11_sigRank") +
-  ggtitle("GSEA NES for H catalog, d11_sigRank vs d11_lfcRank")
-```
-
-Plot -log10(p.adjust):
-
-```{r}
-res.df %>%
-  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
-  ggplot(aes(x=l10.padj.1,
-             y=l10.padj.2)) +
-  geom_point() +
-  geom_abline(intercept = 0, slope = 1) +
-  geom_hline(yintercept = -log10(0.05), linetype = 2) +
-  geom_vline(xintercept = -log10(0.05), linetype = 2) +
-  xlab("-log(p.adjust) for d11_lfcRank") +
-  ylab("-log(p.adjust) for d11_sigRank") +
-  ggtitle("-log(p.adjust) for H catalog, d11_sigRank vs d11_lfcRank")
-```
-
-### Exercise 3.2
-
-```{r solution3_GSEA_2}
-# 2. Load the "C2" pathways from the msigdbr
-# 3. Run `GSEA` using the new ranked genes and the C2 pathways  
-
-m_c2_t2g <- msigdbr(species = "Mus musculus", category = "C2") %>% 
-  dplyr::select(gs_name, entrez_gene, gene_symbol)
-
-gseaRes.e2 <- GSEA(rankedGenes,
-                TERM2GENE = m_c2_t2g[,1:2],
-                #pvalueCutoff = 0.05,
-                pvalueCutoff = 1.00, # to retrieve whole output
-                minGSSize = 15,
-                maxGSSize = 500)
-```
-
-```{r}
-gseaRes.e2 %>%
-  arrange(desc(abs(NES))) %>%
-  top_n(10, -p.adjust) %>%
-  #as_tibble()
-  dplyr::select(-core_enrichment) %>%
-  dplyr::select(-Description) %>%
-  data.frame() %>%
-  remove_rownames() %>%
-  # format score
-  mutate(NES=formatC(NES, digits = 3)) %>%
-  mutate(ES=formatC(enrichmentScore, digits = 3)) %>%
-  relocate(ES, .before=NES) %>%
-  dplyr::select(-enrichmentScore) %>%
-  # format p-values
-  modify_at(
-    c("pvalue", "p.adjust", "qvalues"),
-    format.e1
-  ) %>%
-  DT::datatable(options = list(dom = 't'))
-```
-
-### Exercise 3.3
+### Exercise 3 - d33
 
 With d33 and H catalog:
 
@@ -285,6 +227,7 @@ gseaRes.e3 <- GSEA(rankedGenes.e3,
                 minGSSize = 15,
                 maxGSSize = 500)
 ```
+
 Check outcome:
 
 ```{r}
@@ -308,9 +251,164 @@ gseaRes.e3 %>%
   DT::datatable(options = list(dom = 't'))
 ```
 
-Compare results with those obtained for d11:
+### Extended challenge 3 - compare outcomes for two ranking schemes
 
-First get run analysis for d11 with genes ranked by significance and LFC sign:
+Compare to putcomes obtained with the two ranking schemes:
+
+* by logFC only
+* by significance strength and direction of change
+
+```{r}
+# d11 + logFC-only ranking scheme
+rankedGenes <- shrink.d11 %>%
+  drop_na(Entrez, pvalue, logFC) %>%
+  mutate(rank = logFC) %>%
+  arrange(-rank) %>%
+  pull(rank, Entrez)
+gseaRes <- GSEA(rankedGenes,
+                TERM2GENE = m_H_t2g[,1:2],
+                #pvalueCutoff = 0.05,
+                pvalueCutoff = 1.00, # to retrieve whole output
+                minGSSize = 15,
+                maxGSSize = 500)
+```
+
+Combine the two sets of results:
+
+```{r}
+# store combined data in new data.frame res.df
+# only keep "ID", "NES" and "p.adjust"
+res.df <- gseaRes %>%
+  data.frame() %>%
+  # rename NES and p.adjust
+  dplyr::rename(NES.1=NES, padj.1=p.adjust) %>%
+  # keep "ID", "NES" and "p.adjust"
+  dplyr::select(ID, NES.1, padj.1) %>%
+  # merge with the d11 + significance strength
+  left_join(gseaRes.e1[,c("ID", "NES", "p.adjust")]) %>%
+  # rename NES and p.adjust
+  dplyr::rename(NES.2=NES, padj.2=p.adjust) %>%
+  # compute -log10(p.adjust)
+  mutate(l10.padj.1 = -log10(padj.1),
+         l10.padj.2 = -log10(padj.2))
+```
+
+Plot NES:
+
+```{r}
+p <- res.df %>%
+  # skip terms where NES is NA is any data set
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  # plot NES of 2nd set vs NES of 1st set
+  ggplot(aes(x=NES.1,
+             y=NES.2,
+             # color by sig in 1st set
+             col=l10.padj.1>-log10(0.05),
+             # shape by sig in 2nd set
+             shape=l10.padj.2>-log10(0.05))
+         ) +
+  # show points
+  geom_point() +
+  # add 'identity' line
+  geom_abline(intercept = 0, slope = 1) +
+  # add axes labels and title
+  xlab("NES for d11_lfcRank") +
+  ylab("NES for d11_sigRank") +
+  ggtitle("GSEA NES for H catalog, d11_sigRank vs d11_lfcRank")
+p
+```
+
+List terms with NES.1 > 0 and NES.2 < 0:
+
+```{r}
+res.df %>%
+  filter(NES.1 > 0 & NES.2 < 0) %>%
+  # format score
+  mutate(NES.1=formatC(NES.1, digits = 3)) %>%
+  mutate(NES.2=formatC(NES.2, digits = 3)) %>%
+  mutate(l10.padj.1=formatC(l10.padj.1, digits = 3)) %>%
+  mutate(l10.padj.2=formatC(l10.padj.2, digits = 3)) %>%
+  # format p-values
+  # format p-values
+  modify_at(
+    c("padj.1", "padj.2"),
+    format.e1
+  ) %>%
+  DT::datatable(options = list(dom = 't'))
+```
+
+
+
+Plot -log10(p.adjust):
+
+```{r}
+p <- res.df %>%
+  # skip terms where NES is NA is any data set
+  dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
+  # plot significance strength of 2nd set vs that of 1st set
+  ggplot(aes(x=l10.padj.1,
+             y=l10.padj.2,
+             # color by sig in 1st set
+             col=l10.padj.1>-log10(0.05),
+             # shape by sig in 2nd set
+             shape=l10.padj.2>-log10(0.05))
+         ) +
+  # show points
+  geom_point() +
+  # add 'identity' line
+  geom_abline(intercept = 0, slope = 1) +
+  # add 5% significance line for set 1
+  geom_vline(xintercept = -log10(0.05), linetype = 2) +
+  # add 5% significance line for set 2
+  geom_hline(yintercept = -log10(0.05), linetype = 2) +
+  # add axes labels and title
+  xlab("-log(p.adjust) for d11_lfcRank") +
+  ylab("-log(p.adjust) for d11_sigRank") +
+  ggtitle("-log(p.adjust) for H catalog, d11_sigRank vs d11_lfcRank")
+p
+```
+  
+  
+List terms with whose significance differs between ranking schemes:
+
+```{r}
+diffSig <- res.df %>%
+  mutate(sig005.1 = padj.1 < 0.05) %>%
+  mutate(sig005.2 = padj.2 < 0.05) %>%
+  mutate(sigIsDiff = (sig005.1 | sig005.2) & sig005.1 != sig005.2) %>%
+  filter(sigIsDiff)
+diffSig %>%
+  # format score
+  mutate(NES.1=formatC(NES.1, digits = 3)) %>%
+  mutate(NES.2=formatC(NES.2, digits = 3)) %>%
+  mutate(l10.padj.1=formatC(l10.padj.1, digits = 3)) %>%
+  mutate(l10.padj.2=formatC(l10.padj.2, digits = 3)) %>%
+  # format p-values
+  # format p-values
+  modify_at(
+    c("padj.1", "padj.2"),
+    format.e1
+  ) %>%
+  DT::datatable(options = list(dom = 't'))
+```
+
+
+```{r}
+require(ggrepel)
+p + geom_text_repel(data=diffSig,
+                    aes(x=l10.padj.1,
+                        y=l10.padj.2,
+                        label=ID),
+                    box.padding = 0.8,
+                    show.legend = FALSE)
+
+```
+
+### Extended challenge 3 - compare outcomes for d11 and d33
+
+Compare results obtained for d11 and d33, with genes ranked by significance and fold change direction:
+
+First get run analysis for d11 with genes ranked by significance and logFC sign:
 
 ```{r}
 # run analysis for d11 with genes ranked by signinficance and LFC sign
@@ -332,10 +430,15 @@ Combine outcomes:
 ```{r}
 res.df <- gseaRes %>%
   data.frame() %>%
+  # rename NES and p.adjust
   dplyr::rename(NES.1=NES, padj.1=p.adjust) %>%
+  # keep "ID", "NES" and "p.adjust"
   dplyr::select(ID, NES.1, padj.1) %>%
+  # merge with the d11 + significance strength
   left_join(gseaRes.e3[,c("ID", "NES", "p.adjust")]) %>%
+  # rename NES and p.adjust
   dplyr::rename(NES.2=NES, padj.2=p.adjust) %>%
+  # compute -log10(p.adjust)
   mutate(l10.padj.1 = -log10(padj.1),
          l10.padj.2 = -log10(padj.2))
 ```
@@ -346,7 +449,10 @@ Plot NES:
 res.df %>%
   dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
   ggplot(aes(x=NES.1,
-             y=NES.2)) +
+             y=NES.2,
+             col=l10.padj.1>-log10(0.05),
+             shape=l10.padj.2>-log10(0.05))
+         ) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1) +
   xlab("NES for d11_sigRank") +
@@ -360,7 +466,10 @@ Plot -log10(p.adjust):
 res.df %>%
   dplyr::filter(!is.na(NES.1) & !is.na(NES.2)) %>%
   ggplot(aes(x=l10.padj.1,
-             y=l10.padj.2)) +
+             y=l10.padj.2,
+             col=l10.padj.1>-log10(0.05),
+             shape=l10.padj.2>-log10(0.05))
+         ) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1) +
   geom_hline(yintercept = -log10(0.05), linetype = 2) +
