@@ -1,9 +1,11 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Differential Expression of RNA-seq data"
+subtitle: Differential Expression of RNA-seq data
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 bibliography: ref.bib
 ---
@@ -23,8 +25,8 @@ the sample meta data sheet
 First load the packages we need.
 
 ```{r message = FALSE}
-library(tidyverse)
 library(DESeq2)
+library(tidyverse)
 ```
 
 Now load the data from the earlier session.

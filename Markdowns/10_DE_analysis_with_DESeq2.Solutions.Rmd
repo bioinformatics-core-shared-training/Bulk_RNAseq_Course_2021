@@ -1,8 +1,10 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Differential Expression of RNA-seq data"
-date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
-output:  html_document
+subtitle: Differential Expression of RNA-seq data
+date: "`r format(Sys.time(), "Last modified: %d %b %Y")`"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -69,8 +71,8 @@ ddsObj <- DESeq(ddsObj.filt)
 > called `results.additive`
 >
 ```{r}
-results.simple <- results(ddsObj, alpha=0.05)
-results.simple
+results.additive <- results(ddsObj, alpha=0.05)
+results.additive
 ```
 >
 > a) What contrast are these results for? If you have constructed the model 
@@ -78,7 +80,7 @@ results.simple
 Again this results table is for the contrast Infected v Uninfected.
 > b) How many genes have an adjusted p-value of less than 0.05
 ```{r}
-sum(results.simple$padj < 0.05, na.rm = TRUE)
+sum(results.additive$padj < 0.05, na.rm = TRUE)
 ```
 
 
