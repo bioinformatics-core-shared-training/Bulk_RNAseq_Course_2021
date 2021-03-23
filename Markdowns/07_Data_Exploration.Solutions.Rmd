@@ -1,8 +1,10 @@
 ---
 title: "RNA-seq analysis in R"
-subtitle: "Initial exploration of RNA-seq data - solutions"
+subtitle: Initial exploration of RNA-seq data - solutions
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
     toc_float: yes
