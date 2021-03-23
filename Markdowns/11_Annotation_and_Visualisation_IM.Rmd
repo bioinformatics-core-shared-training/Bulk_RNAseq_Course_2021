@@ -484,7 +484,7 @@ Heatmap(z.mat, name = "z-score",
         top_annotation = ha1)
 ```
 
-
+Additional plots in extended materials
 
 ```{r saveEnvironment, eval=FALSE}
 saveRDS(annot.interaction.11, file="results/Annotated_Results.d11.rds")
