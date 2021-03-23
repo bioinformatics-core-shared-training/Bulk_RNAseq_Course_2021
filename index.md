@@ -127,6 +127,7 @@ R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - Jon Price
 10:15 - 12:30 - [RNA-seq 
 Pre-processing](Markdowns/07_Data_Exploration.html) ([pdf](Markdowns/07_Data_Exploration.pdf)) - Chandra Chilamakuri   
     - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html) ([pdf](Markdowns/07_Data_Exploration.Solutions.pdf))
+    - [Data processing live script]( additional_scripts/data_exploration_live_script.R)
 
 12:30 - 13:30 Lunch
 
