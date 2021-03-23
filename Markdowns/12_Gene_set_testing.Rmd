@@ -296,14 +296,11 @@ We must exclude genes with no Entrez ID.
 Also, we should use the shrunk LFC values.
 
 ```{r preparedata}
-# for GSEA
-
 rankedGenes <- shrink.d11 %>%
   drop_na(Entrez) %>%
   mutate(rank = logFC) %>%
   arrange(-rank) %>%
   pull(rank,Entrez)
-#length(rankedGenes)
 ```
 
 ## Load pathways
@@ -317,7 +314,7 @@ m_H_t2g <- msigdbr(species = "Mus musculus", category = "H") %>%
 
 ## Conduct analysis
 
-We use `GSEA` fed with:
+Arguments passed to `GSEA` include:
 
 * ranked genes
 * pathways
@@ -336,14 +333,24 @@ gseaRes <- GSEA(rankedGenes,
 Let's look at the top 10 results.
 
 ```{r top10GseaPrint, echo=!FALSE}
+# have function to format in scientific notation
+format.e1 <- function(x) (sprintf("%.1e", x))
+# show table
 gseaRes %>%
   arrange(desc(abs(NES))) %>%
   top_n(10, -p.adjust) %>%
-  #as_tibble()
   dplyr::select(-core_enrichment) %>%
   dplyr::select(-Description) %>%
   data.frame() %>%
   remove_rownames() %>%
+  # format
+  mutate(enrichmentScore=formatC(NES, digits = 3)) %>%
+  mutate(NES=formatC(NES, digits = 3)) %>%
+  # format p-values
+  modify_at(
+    c("pvalue", "p.adjust", "qvalues"),
+    format.e1
+  ) %>%
   DT::datatable(options = list(dom = 't'))
 ```
 
@@ -356,15 +363,24 @@ pathway (no tick for genes not in the pathway)
 * the enrichment score: the green curve shows the difference between the observed
 rankings and that which would be expected assuming a random rank distribution.
 
-```{r gseaEnrichmentPlot_preranked}
-topx <- 1
+```{r }
 # HALLMARK_INFLAMMATORY_RESPONSE is 4th
+topx <- match("HALLMARK_INFLAMMATORY_RESPONSE", data.frame(gseaRes)$ID)
+```
+
+Gene log(fold change):
+
+```{r gseaEnrichmentPlot_preranked}
 gseaplot(gseaRes, geneSetID = topx, by = "preranked", title = gseaRes$Description[topx])
 ```
+
+Running score:
 
 ```{r gseaEnrichmentPlot_runningScore}
 gseaplot(gseaRes, geneSetID = topx, by = "runningScore", title = gseaRes$Description[topx])
 ```
+
+Both the log(fold change) and running score:
 
 ```{r gseaEnrichmentPlot_both}
 gseaplot(gseaRes, geneSetID = topx, title = gseaRes$Description[topx])
@@ -380,12 +396,12 @@ explanation.
 > so that upregulated genes are at the start and downregulated at the end.
 > You can do this combining the sign of the fold change and the pvalue. 
 > 
-> 1. Rank the genes by statisical significance - you will need to create
-> a new ranking value using `-log10({p value}) * sign({Fold Change})`  
-> 2. Load the "C2" pathways from the the `Robjects/mouse_c2_v5.RData` file   
-> 3. Run `fgsea` using the new ranked genes and the C2 pathways  
-> 4. Run `fgsea` using the new ranked genes and the H pathways. How do these 
-> results differ from the ones we got when ranking by the fold change alone?  
+> 1. Rank the genes by statistical significance - you will need to create
+> a new ranking value using `-log10({p value}) * sign({Fold Change})`.
+> 2. Run `fgsea` using the new ranked genes and the H pathways.
+> 3. Conduct the same analysis for the d33 vs control contrast.
+> Extended: Do results differ between ranking scheme?  
+> Extended: Do results differ between d11 and d33, with the significance-based ranking scheme?  
 
 ```{r solution3}
 
