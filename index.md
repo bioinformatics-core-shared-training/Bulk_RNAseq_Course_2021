@@ -151,7 +151,7 @@ RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) - Ashley Sawle
 results](Markdowns/11_Annotation_and_Visualisation.html) - Abigail Edwards    
    <!-- - [practical solutions](Markdowns/11_Annotation_and_Visualisation_Solutions.html) -->
 
-15:30 - 17:00 [Gene-set testing]() - Stephane Ballereau    
+15:30 - 17:00 [Gene-set testing](Markdowns/12_Gene_set_testing.html) - Stephane Ballereau    
     - [slides](Markdowns/12_Gene_set_testing_introduction.html)
    <!-- - [practical solutions]() -->
 
