@@ -130,9 +130,9 @@ Pre-processing](Markdowns/07_Data_Exploration.html) - Chandra Chilamakuri
 
 12:30 - 13:30 Lunch
 
-13:30 - 15:30 [Statistical Analysis of Bulk RNAseq Data]() - Dominique-Laurent  
+13:30 - 15:30 [Statistical Analysis of Bulk RNAseq Data](Markdowns/StatsRNAseq_Couturier.pdf) - Dominique-Laurent  
 Couturier        
-    - [Practical (html)]() [(rmd)]()  
+    - [Practical (html)](Markdowns/StatsRNAseq_Couturier.html) [(rmd)](Markdowns/StatsRNAseq_Couturier.Rmd)  
 
 15:30 - 17:00 [Experimental Design of Bulk RNAseq studies](additional_scripts/ExperimentalDesignCourse_Edwards_19-11-2020.pptx) - Abigail Edwards    
     - [Practical](additional_scripts/RNAseq_ExperimentalDesignPractical.pdf)    
