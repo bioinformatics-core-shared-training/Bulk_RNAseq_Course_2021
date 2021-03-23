@@ -152,7 +152,7 @@ results](Markdowns/11_Annotation_and_Visualisation.html) - Abigail Edwards
    <!-- - [practical solutions](Markdowns/11_Annotation_and_Visualisation_Solutions.html) -->
 
 15:30 - 17:00 [Gene-set testing](Markdowns/12_Gene_set_introduction.html) - Stephane Ballereau    
-    - [Practical (html)](Markdowns/12_Gene_set_testing.html) [(rmd)](Markdowns/12_Gene_set_testing.Rmd)
+   <!-- - [Practical (html)](Markdowns/12_Gene_set_testing.html) [(rmd)](Markdowns/12_Gene_set_testing.Rmd) -->
    <!-- - [practical solutions (html)](12_Gene_set_testing.Solutions.html) [(rmd)](Markdowns/12_Gene_set_testing.Solutions.Rmd) -->
 
 <!-- Goodbye: Ash -->
