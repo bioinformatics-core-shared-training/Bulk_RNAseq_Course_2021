@@ -15,21 +15,6 @@ output:
 ---
 
 
-<!--- rmarkdown::render("/Volumes/Files/courses/cruk/RNAseqWithR/202103/git/Markdowns/StatsRNAseq_Couturier.Rmd") --->
-<!--- rmarkdown::render("~/courses/cruk/RNAseqWithR/202103/tex/sc/StatsRNAseq_Couturier.Rmd") --->
-
-```{r message = FALSE, warning = FALSE, echo = FALSE} 
-# IGNORE THIS: START
-if(exists(".id")){
-#setwd("/Volumes/Files/courses/cruk/RNAseqWithR/202103/git/Markdowns/")
-#setOutputColors(normal = 17, number = 130, negnum = 21, date = 200,
-#                   string = 0, const = 13, stderror=154, 
-#                   warn = c(1, 0, 1), error = c(1,15), true = 2, false = 196, 
-#                   infinite = c(1,0,196), zero = c(230,230,16), verbose = TRUE,
-#                   zero.limit = 1e-12)
-}
-# IGNORE THIS: START
-```
 
 # Section 1: Contrast matrices
 
@@ -38,7 +23,7 @@ if(exists(".id")){
 import the information file related to each sample of the Toxoplasma Gondii Oocysts' dataset and check the class of each column
 
 ```{r message = FALSE, warning = FALSE, echo = TRUE}
-inf <- read.csv(file="../Course_Materials/data/samplesheet_corrected.tsv",
+inf <- read.csv(file="../data/samplesheet_corrected.tsv",
                 sep="\t",row.names=1)
 sapply(inf,class)
 ```
