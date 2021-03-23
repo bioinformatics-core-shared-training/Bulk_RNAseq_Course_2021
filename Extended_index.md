@@ -10,7 +10,7 @@ These files contain some additional information and exercises not included
 during the taught course.
 
 1. Obtaining public data
-    - [Downloading files from SRA and aligning](Markdowns/S1_Getting_raw_reads_from_SRA.html)
+    - [Downloading files from SRA](Markdowns/S1_Getting_raw_reads_from_SRA.html)
 
 2. Raw read file format and QC
     - [Using Trimmomatic to remove adapter contamination from reads](Markdowns/S3_Trimming_Reads.html)
