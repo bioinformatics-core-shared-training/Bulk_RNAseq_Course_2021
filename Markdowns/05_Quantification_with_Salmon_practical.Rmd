@@ -175,7 +175,7 @@ transcriptome reference file.
 
 <p style="color:red">You do not need to run this code</p>
 ```{bash eval=FALSE}
-echo -e "TxID\tGeneID" > references/tx2gene.tsv
+echo -e "TxID\tGeneID" > tx2gene.tsv
 zcat references/Mus_musculus.GRCm38.cdna.all.fa.gz |
   grep "^>" | 
   cut -f 1,4 | 
