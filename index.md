@@ -125,8 +125,9 @@ HISAT2](Markdowns/03_Alignment_with_HISAT2_introduction.html) - Zeynep Kalender 
 R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - Jon Price  
 
 10:15 - 12:30 - [RNA-seq 
-Pre-processing](Markdowns/07_Data_Exploration.html) - Chandra Chilamakuri   
-   <!-- - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html) -->
+Pre-processing](Markdowns/07_Data_Exploration.html) ([pdf](Markdowns/07_Data_Exploration.pdf):x
+ - Chandra Chilamakuri   
+   <!-- - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html) ([pdf](Markdowns/07_Data_Exploration.Solutions.pdf)) -->
 
 12:30 - 13:30 Lunch
 
