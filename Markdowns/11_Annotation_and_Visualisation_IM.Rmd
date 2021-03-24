@@ -8,6 +8,10 @@ output:
 bibliography: ref.bib
 ---
 
+REMEMBER TO COMMENT AS YOU GO!!!!!!!!
+SETWD WITH GUI
+
+
 ```{r setup, message=FALSE}
 library(EnsDb.Mmusculus.v79)
 library(DESeq2)
@@ -30,29 +34,28 @@ results.interaction.33 <- readRDS("RObjects/DESeqResults.interaction_d33.rds")
 
 # Adding annotation to the DESeq2 results
 
-We have a list of significantly differentially expressed genes, but the only
-annotation we can see is the Ensembl Gene ID, which is not very informative. 
+VIEW results
 
-There are a number of ways to add annotation. One method is to do this using a 
-Bioconductor annotation package. These packages which are re-built every 
-periodically with the latest annotations. These packages are listed on the 
-[annotation section](http://bioconductor.org/packages/release/BiocViews.html#___AnnotationData) 
-of the Bioconductor, and are installed in the same way as regular Bioconductor 
-packages. 
+only see the Ensembl Gene ID, which is not very informative. 
 
-An alternative approach is to use `biomaRt`, an interface to the 
-[BioMart](http://www.biomart.org/) resource. Using BioMart ensures that you are 
-able to get the latest annotations for the GeneIDs, and can match the version of
-the gene annotation that was used for read counting.
+There are a number of ways to add annotation. 
 
-Using an annotation packages means that you may not have the exact same version
-of the gene annotations as was used to do the counting. 
+Bioconductor annotation 
+re-built periodically 
 
-Today we will use the annotation package method. A workflow for annotation with biomaRt is included in the extended materials section acessible on the course website.
+An alternative approach is to use `biomaRt`, ensures latest annotations 
+
+
+Today we will use the annotation package method. 
+
+A workflow for annotation with biomaRt is included in the extended materials section acessible on the course website.
 
 ## Query the database
 
-We use the select function to query the database. Now we need to set up a query.
+We use the select function to query the database. 
+
+Now we need to set up a query.
+
 This requires us to tell it what we want and what we have. For this we need to 
 specify three things: 
 
@@ -99,31 +102,21 @@ annot %>%
     dplyr::filter(n>1)
 ```
 
-There are quite a few Ensembl IDs with no EntrezID. These gene ids have no 
-corresponding Entrez ID in the `EnsDb.Mmusculus.v79` database package. The 
-Ensembl and Entrez databases don't match on a 1:1 level although they have 
-started taking steps towards consolidating
-[in recent years](https://m.ensembl.org/info/genome/genebuild/mane.html).
+There are quite a few Ensembl IDs with no EntrezID. 
 
-There are some genes that have multiple entries in the retrieved 
-annotation. This is because there are multiple Entrez IDs for a single Ensembl 
-gene. These one-to-many relationships come up frequently in genomic databases, 
+These gene ids have no Entrez ID in the `EnsDb.Mmusculus.v79` database package.
+
+Ensembl and Entrez databases don't match on a 1:1 level 
+
+There are some genes that have multiple entries 
+
+This is because there are multiple Entrez IDs for a single Ensembl 
+gene. 
+
+These one-to-many relationships come up frequently in genomic databases, 
 it is important to be aware of them and check when necessary. 
 
-We will need to do a little work to account for these one-to-many relationships
-before adding the annotation to our results table. We could decide that the 
-mappings are ambiguous and elect to discard both of the Entrez ID mappings. We 
-could concatenate the Entrez IDs so that we don't lose information. 
-Alternatively, we could spend some time manually comparing the details of the 
-genes on the Ensembl and NCBI websites and make a decision as to which Entrez
-ID to keep, e.g. Rpl13:
-
-* Ensembl: [ENSMUSG00000000740](https://www.ensembl.org/Mus_musculus/Gene/Summary?db=core;g=ENSMUSG00000000374;r=10:78022559-78080475)
-* Entrez ID: [270106](https://www.ncbi.nlm.nih.gov/gene/?term=270106)
-* Entrez ID: [100040416](https://www.ncbi.nlm.nih.gov/gene/?term=100040416)
-
-In this case it would perhaps makes most sense to discard the Entrez ID  
-**100040416**, which is for a pseudogene.
+this illustrates how/why annotation is complicated and difficult
 
 ## Exercise 1 - Retrieve the full annotation
 
@@ -182,11 +175,10 @@ In this case many of the problems with the annotation are due to the versions. A
 
 ## A curated annotation - one we prepared earlier
 
-Dealing with all the one-to-many annotation mappings requires some manual 
-curation of your annotation table. 
-
-To save time we have created an annotation table in which we have modified the 
-column names and dealt with the one-to-many/missing issues for Entrez IDs.
+* we have created an annotation table:
+    * modified the column names
+    * added median transcript length
+    * dealt with the one-to-many issues for Entrez IDs.
 
 The code we used for doing this is available in the extended materials section.
 
@@ -210,24 +202,25 @@ write_tsv(annot.interaction.11, "results/Interaction.11_Results_Annotated.txt")
 ## P-value histogram
 
 A quick and easy "sanity check" for our DE results is to generate a p-value 
-histogram. What we should see is a high bar at `0 - 0.05` and then a roughly
-uniform tail to the right of this. There is a nice explanation of other possible
-patterns in the histogram and what to do when you see them in [this 
-post](http://varianceexplained.org/statistics/interpreting-pvalue-histogram/).
+histogram. Dom's lecture.
+
+Menti quiz
 
 ```{r pvalHist, fig.align="center"}
 hist(annot.interaction.11$pvalue)
 ```
 
+What we should see is a high bar in the `0 - 0.05` and then a roughly uniform tail to the right of this.
+
 ## Shrinking the log2FoldChange
 
-`DESeq2` provides a functon called `lfcShrink` that shrinks log-Fold Change 
-(LFC) estimates towards zero using and empirical Bayes procedure. The reason for
-doing this is that there is high variance in the LFC estimates when counts are 
-low and this results in lowly expressed genes appearing to show greater
-differences between groups than highly expressed genes. The `lfcShrink` method
-compensates for this and allows better visualisation and ranking of genes. We 
-will use it for our visualisation of the data.
+Standard is to shrink lfc values for visualisation. 
+
+High variance in lfc when expression is low. 
+
+Meaning genes with low counts can look more significant that they are.
+
+DESeq2 has lfcShrink function to shrink lfc estimates towards zero.
 
 ```{r shrinkLFC}
 ddsShrink.11 <- lfcShrink(ddsObj.interaction, 
@@ -243,20 +236,27 @@ shrinkTab.11 <- as.data.frame(ddsShrink.11) %>%
 ## MA plots
 
 MA plots are a common way to visualize the results of a differential analysis. 
-We met them briefly towards the end of [Session 
-2](02_Preprocessing_Data.nb.html). This plot shows the log-Fold Change for each 
+
+This plot shows the log-Fold Change for each 
 gene against its average expression across all samples in the two conditions
 being contrasted.  
-`DESeq2` has a handy function for plotting this. Let's use it too compare the 
+
+`DESeq2` has a handy function for plotting this. 
+
+Let's use it too compare the 
 shrunk and un-shrunk fold changes.
 
 ```{r maPlotDESeq2, fig.align="center", fig.width=10, fig.height=5}
-par(mfrow=c(1,2))
+
 plotMA(results.interaction.11, alpha=0.05)
+
 plotMA(ddsShrink.11, alpha=0.05)
+
 ```
 
-The DESeq2 in `plotMA` function is fine for a quick look, but these inbuilt functions aren't easy to customise, make changes to the way it looks or add things such as gene labels. For this we would recommend using the ggplot package.
+The DESeq2 in `plotMA` function is fine for a quick look, but these inbuilt functions aren't easy to customise, make changes to the way it looks or add things such as gene labels. 
+
+For this we would recommend using the ggplot package.
 
 Another common visualisation is the 
 [*volcano plot*](https://en.wikipedia.org/wiki/Volcano_plot_(statistics)) which 
@@ -284,10 +284,11 @@ plot)
     for other plot types
 
 The real advantage of `ggplot2` is the ability to change the appearance of our 
-plot by mapping other variables to aspects of the plot. For example, we could 
-colour the points based on the sample group. To do this we can add metadata from
-the `sampleinfo` table to the data. The colours are automatically chosen by
-`ggplot2`, but we can specifiy particular values. For the volcano plot we will colour according whether the gene has a pvalue below 0.05. We use a `-log10` transformation for the y-axis; it's commonly used for p-values as it means that more significant genes have a higher scale.
+plot by mapping other variables to aspects of the plot. 
+
+For the volcano plot we will colour according whether the gene has a pvalue below 0.05. 
+
+We use a `-log10` transformation for the y-axis; it's commonly used for p-values as it means that more significant genes have a higher scale.
 
 
 ```{r volcano11Plot, fig.align="center", fig.width=5, fig.height=5}
@@ -352,13 +353,17 @@ In the paper you may notice they have presented a Venn diagram of the results.
 
 ![](../images/Venn.png)
 
-We will recreate it with our analysis. To do this we are using the package `ggvenn` which is an extension to `ggplot` from Linlin Yan.
+We will recreate it with our analysis. 
+
+To do this we are using the package `ggvenn` 
 
 ```{r}
 library(ggvenn)
 ```
 
 First we have to prepare the data with a column for each set we want in the Venn.
+
+We want 4 sets for the 2 infections, and genes going up and down so we can see all the overlaps.
 
 ```{r, fig.align="center", fig.width=10, fig.height=8}
 vennDat <- tibble(Geneid=rownames(results.interaction.11)) %>% 
@@ -381,8 +386,13 @@ library(ComplexHeatmap)
 library(circlize)
 ```
 
-We can't plot the entire data set, let's just select the top 300 by FDR. We'll
-want to use normalised expression values, so we'll use the `vst` function.
+We can't plot the entire data set, let's just select the top 300 by FDR. 
+
+wt means weight, - for reverse order
+
+We'll want to use normalised expression values, so we'll use the `vst` function.
+
+assay pulls out the counts.
 
 ```{r selectGenes}
 # get the top genes
@@ -395,27 +405,42 @@ plotDat <- vst(ddsObj.interaction)[sigGenes,] %>%
   assay()
 ```
 
-The range expression values for different genes can vary widely. Some genes will
-have very high expression. Our heatmap is going to be coloured according to gene
-expression. If we used a colour scale from 0 (no expression) to the maximum 
+The range expression values for different genes can vary widely. 
+
+Our heatmap is going to be coloured according to gene
+expression. 
+
+If we used a colour scale from 0 (no expression) to the maximum 
 expression, the scale will be dominated by our most extreme genes and it will be
 difficult to discern any difference between most of the genes.
 
-To overcome this we will z-scale the counts. This scaling method results in 
-values for each that show the number of standard deviations the gene expression
-is from the mean for that gene across all the sample - the mean will be '0', '1'
-means 1 standard deviation higher than the mean, '-1' means 1 standard deviation
-lower than the mean.
+To overcome this we will z-scale the counts. 
+
+This scaling method results in values for each gene that show the number of standard deviations the gene expression is from the mean for that gene across all the sample
+
+The mean will be '0' 
+'1' means 1 standard deviation higher than the mean 
+'-1' means 1 standard deviation lower than the mean.
+
+the funtion 'scale' creates the z score for us but it expects data in the opposite orientation so we have to do a couple of transformations to make it work.
 
 ```{r z-scale}
 z.mat <- t(scale(t(plotDat), center=TRUE, scale=TRUE))
 ```
+
+Want heatmap classic red to blue
+
+Problem that the extreme value are going to be the colours at the far end of the scal and so the small numbers int he middle just disappear in to the white in the middle. 
+
+colorRamp fixes this, limits everything outside ramp to the end colour.
 
 ```{r colourScale}
 # colour palette
 myPalette <- c("royalblue3", "ivory", "orangered3")
 myRamp <- colorRamp2(c(-2, 0, 2), myPalette)
 ```
+
+
 
 ```{r heatmap, fig.width=5, fig.height=8}
 Heatmap(z.mat, name = "z-score",
@@ -424,6 +449,16 @@ Heatmap(z.mat, name = "z-score",
 ```
 
 we can also split the heat map into clusters and add some annotation.
+
+hclust generates the same tree we see on the left of our heatmap.
+
+we have to decide at which level we want to cut the tree, 1 is lowest level
+
+ha1 where we get annotation from
+
+rect_gp is grey rectangle around each block
+
+lwd is line weight
 
 ```{r splitHeatmap, fig.width=5, fig.height=8}
 ha1 = HeatmapAnnotation(df = colData(ddsObj.interaction)[,c("Status", "TimePoint")])
@@ -449,7 +484,7 @@ Heatmap(z.mat, name = "z-score",
         top_annotation = ha1)
 ```
 
-
+Additional plots in extended materials
 
 ```{r saveEnvironment, eval=FALSE}
 saveRDS(annot.interaction.11, file="results/Annotated_Results.d11.rds")
