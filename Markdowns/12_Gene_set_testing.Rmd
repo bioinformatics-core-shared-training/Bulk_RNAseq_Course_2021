@@ -3,8 +3,11 @@ title: "RNA-seq analysis in R"
 subtitle: "Gene Set Testing for RNA-seq"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
+always_allow_html: true
 bibliography: ref.bib
 ---
 
