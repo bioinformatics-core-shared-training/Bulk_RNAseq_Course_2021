@@ -156,7 +156,7 @@ of the independent filtering by DESeq2.
 For this tool we need to use Entrez IDs, so we will also need to eliminate genes
 with a missing Entrez ID (NA values in the 'Entrez' column).
 
-```{r enrichKEGGprint, echo=FALSE}
+```{r enrichKEGGprint}
 sigGenes <- shrink.d11 %>% 
     drop_na(Entrez, FDR) %>% 
     filter(FDR < 0.05 & abs(logFC) > 1) %>% 
