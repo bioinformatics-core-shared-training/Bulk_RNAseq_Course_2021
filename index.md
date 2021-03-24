@@ -127,7 +127,7 @@ R](Markdowns/06_Introduction_to_RNAseq_Analysis_in_R.html) - Jon Price
 10:15 - 12:30 - [RNA-seq 
 Pre-processing](Markdowns/07_Data_Exploration.html) ([pdf](Markdowns/07_Data_Exploration.pdf)) - Chandra Chilamakuri   
     - [Practical solutions](Markdowns/07_Data_Exploration.Solutions.html) ([pdf](Markdowns/07_Data_Exploration.Solutions.pdf))  
-    - [Data processing live script]( additional_scripts/data_exploration_live_script.R)
+    - [Data processing live script](live_scripts/data_exploration_live_script.R)
 
 12:30 - 13:30 Lunch
 
@@ -137,13 +137,14 @@ Couturier
 
 15:30 - 17:00 [Experimental Design of Bulk RNAseq studies](additional_scripts/ExperimentalDesignCourse_Edwards_23-03-2021.pptx) - Abigail Edwards    
     - [Practical](additional_scripts/RNAseq_ExperimentalDesignPractical.pdf)    
-    <!-- - [Answers](additional_scripts/RNAseq_ExperimentalDesignPractical_Answers.pdf) -->
+    - [Answers](additional_scripts/RNAseq_ExperimentalDesignPractical_Answers.pdf)
 
 ### Day 3
 
 9:30 - 12:15 - [Differential Expression for RNA-seq](Markdowns/10_DE_analysis_with_DESeq2.html) ([pdf](Markdowns/10_DE_analysis_with_DESeq2.pdf)) - Ashley Sawle   
    - [practical solutions](Markdowns/10_DE_analysis_with_DESeq2.Solutions.html) ([pdf](Markdowns/10_DE_analysis_with_DESeq2.Solutions.html))
-
+   - [Live script](live_scripts/DESeq2_session_script.R)
+ 
 12:15 - 13:15 Lunch
 
 13:15 - 15:30 [Annotation and Visualisation of RNA-seq
