@@ -1,12 +1,14 @@
 ---
 title: "RNA-seq analysis in R"
 subtitle: "Gene Set Testing for RNA-seq - Solutions"
-date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
+  pdf_document:
+    toc: yes  
   html_document:
     toc: yes
     toc_float: yes
 layout: page
+always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +33,7 @@ sigGenes <-  shrink.d11 %>%
 kk <- enrichKEGG(gene = sigGenes, organism = 'mmu')
 ```
 
-## Exercise 1
+## Exercise 1 - pathview
 
 > 1. Use `pathview` to export a figure for "mmu04659", but this time only
 > use genes that are statistically significant at FDR < 0.01
@@ -128,7 +130,7 @@ dd %>% ggplot(aes(x=Term, y=sig)) +
 	coord_flip()
 ```
 
-## Exercise 3
+## Exercise 3 - GSEA
 
 > Another common way to rank the genes is to order by pvalue, but also, sorting
 > so that upregulated genes are at the start and downregulated at the end - 
