@@ -1,7 +1,7 @@
 ---
 title: "RNA-seq analysis in R"
 subtitle: Differential Expression of RNA-seq data
-date: "`r format(Sys.time(), "Last modified: %d %b %Y")`"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
   pdf_document: default
   html_document: default
@@ -147,12 +147,13 @@ table(results.Interaction_v_Additive$padj < 0.05)
 >
 > Let's investigate the uninfected mice
 >  
-> 1. Extract the results for d33 v d11 for uninfected mice  
+> 1. Extract the results for d33 v d11 for Uninfected mice. 
 The the intercept is Uninfected mice at 11 days post infection, so the main 
 effect `TimePoint_d33_vs_d11` is the result that we want.
 ```{r}
 results.d33_v_d11_uninfected <- results(ddsObj.interaction, 
-                                        name="TimePoint_d33_vs_d11")
+                                        name="TimePoint_d33_vs_d11",
+                                        alpha = 0.05)
 ```
 > How many genes have an adjusted p-value less than 0.05?  
 ```{r}
@@ -165,6 +166,21 @@ there could have been confounding factors, such as changes in enviromental
 conditions such as temperature or feeding regime, that may have effected gene
 expression. In which case it was important to set the experiment up with 
 control for both time points.
-> Does this suggest another approach to analysing this data set?   
-Could we possibly treat the six uninfected samples as a single group with
-six replicates? This is really a biological question and not a statistical one.
+>
+> 2. Extract the results for d33 v d11 for Infected mice. 
+The the intercept is Uninfected mice at 11 days post infection, so the main 
+effect `TimePoint_d33_vs_d11` is the result that we want.
+```{r}
+results.d33_v_d11_infected <- results(ddsObj.interaction, 
+      contrast = list(c("TimePoint_d33_vs_d11", "TimePointd33.StatusInfected")),
+                                        alpha = 0.05)
+```
+> How many genes have an adjusted p-value less than 0.05?  
+```{r}
+table(results.d33_v_d11_infected$padj < 0.05)
+```
+>
+> Do these results suggest another approach to analysing this data set?   
+Could we possibly treat the six uninfected samples as a single group with six
+replicates and then just have 1 factor with 3 levels: Control, d11.Infected,
+d33.Infected? This is really a biological question and not a statistical one.

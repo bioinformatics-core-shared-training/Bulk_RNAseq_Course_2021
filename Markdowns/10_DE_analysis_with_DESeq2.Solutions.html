@@ -165,7 +165,7 @@ pre code {
 
 <h1 class="title toc-ignore">RNA-seq analysis in R</h1>
 <h3 class="subtitle">Differential Expression of RNA-seq data</h3>
-<h4 class="date">Last modified: 23 Mar 2021</h4>
+<h4 class="date">Last modified: 24 Mar 2021</h4>
 
 </div>
 
@@ -328,12 +328,12 @@ ddsObj.filt &lt;- ddsObj.raw[keep,]</code></pre>
 <blockquote>
 <p>Let’s investigate the uninfected mice</p>
 <ol style="list-style-type: decimal">
-<li>Extract the results for d33 v d11 for uninfected mice<br />
-The the intercept is Uninfected mice at 11 days post infection, so the main effect <code>TimePoint_d33_vs_d11</code> is the result that we want.</li>
+<li>Extract the results for d33 v d11 for Uninfected mice. The the intercept is Uninfected mice at 11 days post infection, so the main effect <code>TimePoint_d33_vs_d11</code> is the result that we want.</li>
 </ol>
 </blockquote>
 <pre class="r"><code>results.d33_v_d11_uninfected &lt;- results(ddsObj.interaction, 
-                                        name=&quot;TimePoint_d33_vs_d11&quot;)</code></pre>
+                                        name=&quot;TimePoint_d33_vs_d11&quot;,
+                                        alpha = 0.05)</code></pre>
 <blockquote>
 <p>How many genes have an adjusted p-value less than 0.05?</p>
 </blockquote>
@@ -343,8 +343,24 @@ The the intercept is Uninfected mice at 11 days post infection, so the main effe
 ## 20043     1</code></pre>
 <blockquote>
 <p>Is this remarkable?<br />
-Maybe not. Do we really expect vast gene expression differences between the brains of mice that are slightly older than one another? It is possible that there could have been confounding factors, such as changes in enviromental conditions such as temperature or feeding regime, that may have effected gene expression. In which case it was important to set the experiment up with control for both time points. Does this suggest another approach to analysing this data set?<br />
-Could we possibly treat the six uninfected samples as a single group with six replicates? This is really a biological question and not a statistical one.</p>
+Maybe not. Do we really expect vast gene expression differences between the brains of mice that are slightly older than one another? It is possible that there could have been confounding factors, such as changes in enviromental conditions such as temperature or feeding regime, that may have effected gene expression. In which case it was important to set the experiment up with control for both time points.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Extract the results for d33 v d11 for Infected mice. The the intercept is Uninfected mice at 11 days post infection, so the main effect <code>TimePoint_d33_vs_d11</code> is the result that we want.</li>
+</ol>
+</blockquote>
+<pre class="r"><code>results.d33_v_d11_infected &lt;- results(ddsObj.interaction, 
+      contrast = list(c(&quot;TimePoint_d33_vs_d11&quot;, &quot;TimePointd33.StatusInfected&quot;)),
+                                        alpha = 0.05)</code></pre>
+<blockquote>
+<p>How many genes have an adjusted p-value less than 0.05?</p>
+</blockquote>
+<pre class="r"><code>table(results.d33_v_d11_infected$padj &lt; 0.05)</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+## 16573  1134</code></pre>
+<blockquote>
+<p>Do these results suggest another approach to analysing this data set?<br />
+Could we possibly treat the six uninfected samples as a single group with six replicates and then just have 1 factor with 3 levels: Control, d11.Infected, d33.Infected? This is really a biological question and not a statistical one.</p>
 </blockquote>
 </div>
 
