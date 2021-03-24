@@ -255,6 +255,18 @@ How many genes have an adjusted p-value of less than 0.05?
 sum(results.simple$padj < 0.05, na.rm = TRUE)
 ```
 
+How many genes are up-regulated?
+
+```{r countSigUpGenes2}
+sum(results.simple$padj < 0.05 & results.simple$log2FoldChange > 0, na.rm = TRUE)
+```
+
+How many genes are down-regulated?
+
+```{r countSigDownGenes2}
+sum(results.simple$padj < 0.05 & results.simple$log2FoldChange < 0, na.rm = TRUE)
+```
+
 ### Exercise 1
 
 > So far we have fitted a simple model considering just "Status", but in reality 
@@ -527,10 +539,13 @@ gene expression between days 11 and 33.
 >
 > Let's investigate the uninfected mice
 >  
-> 1. Extract the results for d33 v d11 for uninfected mice
+> 1. Extract the results for d33 v d11 for Uninfected mice.  
 > How many genes have an adjusted p-value less than 0.05?  
-> Is this remarkable?
-> Does this suggest another approach to analysing this data set?
+> Is this remarkable?  
+> 2. Extract the results for d33 v d11 for Infected mice.  
+> How many genes have an adjusted p-value less than 0.05?  
+>
+> Do these results suggest another approach to analysing this data set?
 
 ## Save the results
 
