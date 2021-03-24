@@ -1,8 +1,10 @@
 ---
 title: "RNA-seq Analysis in R"
-subtitle: "Annotation and Visualisation of Differential Expression Results"
+subtitle: Annotation and Visualisation of Differential Expression Results
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
 bibliography: ref.bib
@@ -242,13 +244,12 @@ shrinkTab.11 <- as.data.frame(ddsShrink.11) %>%
 
 ## MA plots
 
-MA plots are a common way to visualize the results of a differential analysis. 
-We met them briefly towards the end of [Session 
-2](02_Preprocessing_Data.nb.html). This plot shows the log-Fold Change for each 
-gene against its average expression across all samples in the two conditions
-being contrasted.  
-`DESeq2` has a handy function for plotting this. Let's use it too compare the 
-shrunk and un-shrunk fold changes.
+MA plots are a common way to visualize the results of a differential analysis.
+We met them briefly towards the end of [the DESeq2
+session](10_DE_analysis_with_DESeq2.html). This plot shows the log-Fold Change
+for each gene against its average expression across all samples in the two
+conditions being contrasted. `DESeq2` has a handy function for plotting this.
+Let's use it too compare the shrunk and un-shrunk fold changes.
 
 ```{r maPlotDESeq2, fig.align="center", fig.width=10, fig.height=5}
 par(mfrow=c(1,2))
