@@ -2,11 +2,11 @@
 title: "RNA-seq analysis in R"
 subtitle: "Gene Set Testing for RNA-seq - Solutions"
 output:
-  pdf_document:
-    toc: yes  
   html_document:
     toc: yes
     toc_float: yes
+  pdf_document:
+    toc: yes  
 layout: page
 always_allow_html: true
 ---
@@ -72,7 +72,7 @@ mmu04659.pathview.png:
 >  it using `library` before running the analysis.    
 >     - As we are using Ensembl IDs, you'll need to set the `keyType` 
 > parameter in the `enrichGO` command to indicate this.
->     - Only test terms in the "Biological Pathway" ontology 
+>     - Only test terms in the "Biological Processes" ontology 
 > 2. Use the `dotplot` function to visualise the results.
 
 ```{r solution2}
